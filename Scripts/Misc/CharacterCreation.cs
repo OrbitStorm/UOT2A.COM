@@ -696,9 +696,9 @@ namespace Server.Misc
 				newChar.BankBox.DropItem( ticket );
 			}
 
-			CityInfo city = GetStartLocation( args, young );
+			CityInfo city = args.City;  // new CityInfo( "New Haven", "The Bountiful Harvest Inn", 3503, 2574, 14, Map.Felucca );
 
-			newChar.MoveToWorld( city.Location, city.Map );
+            newChar.MoveToWorld( city.Location, city.Map );
 
 			Console.WriteLine( "Login: {0}: New character being created (account={1})", state, args.Account.Username );
 			Console.WriteLine( " - Character: {0} (serial={1})", newChar.Name, newChar.Serial );
@@ -736,103 +736,6 @@ namespace Server.Misc
 			{
 				m_Mobile.SendLocalizedMessage( m_Message );
 			}
-		}
-
-		private static readonly CityInfo m_NewHavenInfo = new CityInfo( "New Haven", "The Bountiful Harvest Inn", 3503, 2574, 14, Map.Trammel );
-
-		private static CityInfo GetStartLocation( CharacterCreatedEventArgs args, bool isYoung )
-		{
-			if( Core.ML )
-			{
-				//if( args.State != null && args.State.NewHaven )
-				return m_NewHavenInfo;	//We don't get the client Version until AFTER Character creation
-
-				//return args.City;  TODO: Uncomment when the old quest system is actually phased out
-			}
-
-			bool useHaven = isYoung;
-
-			ClientFlags flags = args.State == null ? ClientFlags.None : args.State.Flags;
-			Mobile m = args.Mobile;
-
-			switch ( args.Profession )
-			{
-				case 4: //Necro
-				{
-					if ( (flags & ClientFlags.Malas) != 0 )
-					{
-						return new CityInfo( "Umbra", "Mardoth's Tower", 2114, 1301, -50, Map.Malas );
-					}
-					else
-					{
-						useHaven = true; 
-
-						new BadStartMessage( m, 1062205 );
-						/*
-						 * Unfortunately you are playing on a *NON-Age-Of-Shadows* game 
-						 * installation and cannot be transported to Malas.  
-						 * You will not be able to take your new player quest in Malas 
-						 * without an AOS client.  You are now being taken to the city of 
-						 * Haven on the Trammel facet.
-						 * */
-					}
-
-					break;
-				}
-				case 5:	//Paladin
-				{
-					return m_NewHavenInfo;
-				}
-				case 6:	//Samurai
-				{
-					if ( (flags & ClientFlags.Tokuno) != 0 )
-					{
-						return new CityInfo( "Samurai DE", "Haoti's Grounds", 368, 780, -1, Map.Malas );
-					}
-					else
-					{
-						useHaven = true;
-
-						new BadStartMessage( m, 1063487 );
-						/*
-						 * Unfortunately you are playing on a *NON-Samurai-Empire* game 
-						 * installation and cannot be transported to Tokuno. 
-						 * You will not be able to take your new player quest in Tokuno 
-						 * without an SE client. You are now being taken to the city of 
-						 * Haven on the Trammel facet.
-						 * */
-					}
-
-					break;
-				}
-				case 7:	//Ninja
-				{
-					if ( (flags & ClientFlags.Tokuno) != 0 )
-					{
-						return new CityInfo( "Ninja DE", "Enimo's Residence", 414,	823, -1, Map.Malas );
-					}
-					else
-					{
-						useHaven = true;
-
-						new BadStartMessage( m, 1063487 );
-						/*
-						 * Unfortunately you are playing on a *NON-Samurai-Empire* game 
-						 * installation and cannot be transported to Tokuno. 
-						 * You will not be able to take your new player quest in Tokuno 
-						 * without an SE client. You are now being taken to the city of 
-						 * Haven on the Trammel facet.
-						 * */
-					}
-
-					break;
-				}
-			}
-
-			if( useHaven )
-				return m_NewHavenInfo;
-			else
-				return args.City;
 		}
 
 		private static void FixStats( ref int str, ref int dex, ref int intel, int max )

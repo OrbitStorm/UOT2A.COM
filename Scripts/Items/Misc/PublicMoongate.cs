@@ -111,11 +111,11 @@ namespace Server.Items
 
 			int count = 0;
 
-			count += MoonGen( PMList.Trammel );
+//			count += MoonGen( PMList.Trammel );
 			count += MoonGen( PMList.Felucca );
-			count += MoonGen( PMList.Ilshenar );
-			count += MoonGen( PMList.Malas );
-			count += MoonGen( PMList.Tokuno );
+//			count += MoonGen( PMList.Ilshenar );
+//			count += MoonGen( PMList.Malas );
+//			count += MoonGen( PMList.Tokuno );
 
 			World.Broadcast( 0x35, true, "{0} moongates generated.", count );
 		}
@@ -309,8 +309,8 @@ namespace Server.Items
 			m_Mobile = mobile;
 			m_Moongate = moongate;
 
-			PMList[] checkLists;
-
+			PMList[] checkLists = PMList.RedLists;
+            /*
 			if ( mobile.Player )
 			{
 				if ( Factions.Sigil.ExistsOn( mobile ) )
@@ -340,7 +340,7 @@ namespace Server.Items
 			{
 				checkLists = PMList.SELists;
 			}
-
+            */
 			m_Lists = new PMList[checkLists.Length];
 
 			for ( int i = 0; i < m_Lists.Length; ++i )

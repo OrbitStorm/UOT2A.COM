@@ -20,9 +20,9 @@ namespace Server.Misc
 
 	public class AccountHandler
 	{
-		private static int MaxAccountsPerIP = 1;
+		private static int MaxAccountsPerIP = 3;
 		private static bool AutoAccountCreation = true;
-		private static bool RestrictDeletion = !TestCenter.Enabled;
+	    private static bool RestrictDeletion = !TestCenter.Enabled;
 		private static TimeSpan DeleteDelay = TimeSpan.FromDays( 7.0 );
 
 		public static PasswordProtection ProtectPasswords = PasswordProtection.NewCrypt;
@@ -37,33 +37,16 @@ namespace Server.Misc
 
 		private static CityInfo[] StartingCities = new CityInfo[]
 			{
-				new CityInfo( "New Haven",	"New Haven Bank",	1150168, 3667,	2625,	0  ),
-				new CityInfo( "Yew",		"The Empath Abbey",	1075072, 633,	858,	0  ),
-				new CityInfo( "Minoc",		"The Barnacle",		1075073, 2476,	413,	15 ),
-				new CityInfo( "Britain",	"The Wayfarer's Inn",	1075074, 1602,	1591,	20 ),
-				new CityInfo( "Moonglow",	"The Scholars Inn",	1075075, 4408,	1168,	0  ),
-				new CityInfo( "Trinsic",	"The Traveler's Inn",	1075076, 1845,	2745,	0  ),
-				new CityInfo( "Jhelom",		"The Mercenary Inn",	1075078, 1374,	3826,	0  ),
-				new CityInfo( "Skara Brae",	"The Falconer's Inn",	1075079, 618,	2234,	0  ),
-				new CityInfo( "Vesper",		"The Ironwood Inn",	1075080, 2771,	976,	0  )
-			};
-
-		/* Old Haven/Magincia Locations
-			new CityInfo( "Britain", "Sweet Dreams Inn", 1496, 1628, 10 );
-			// ..
-			// Trinsic
-			new CityInfo( "Magincia", "The Great Horns Tavern", 3734, 2222, 20 ),
-			// Jhelom
-			// ..
-			new CityInfo( "Haven", "Buckler's Hideaway", 3667, 2625, 0 )
-
-			if ( Core.AOS )
-			{
-				//CityInfo haven = new CityInfo( "Haven", "Uzeraan's Mansion", 3618, 2591, 0 );
-				CityInfo haven = new CityInfo( "Haven", "Uzeraan's Mansion", 3503, 2574, 14 );
-				StartingCities[StartingCities.Length - 1] = haven;
-			}
-		*/
+				new CityInfo( "Yew",		"The Empath Abbey",	          633,	 858,	 0, Map.Felucca ),
+				new CityInfo( "Minoc",		"The Barnacle",		         2476,	 413,	15, Map.Felucca ),
+                new CityInfo( "Britain",    "Sweet Dreams Inn",           1496, 1628,   10, Map.Felucca ),
+                new CityInfo( "Moonglow",	"The Scholars Inn",	         4408,	1168,	 0, Map.Felucca ),
+				new CityInfo( "Trinsic",	"The Traveler's Inn",	     1845,	2745,	 0, Map.Felucca ),
+				new CityInfo( "Jhelom",		"The Mercenary Inn",	     1374,	3826,	 0, Map.Felucca ),
+				new CityInfo( "Skara Brae",	"The Falconer's Inn",	      618,	2234,	 0, Map.Felucca ),
+				new CityInfo( "Vesper",		"The Ironwood Inn",	         2771,	 976,	 0, Map.Felucca ),
+                new CityInfo( "Occlo",      "The Bountiful Harvest Inn", 3503,  2574,   14, Map.Felucca )
+    };
 
 		private static bool PasswordCommandEnabled = false;
 
