@@ -1,0 +1,14 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Backups/Automatic/Most Recent (12-11-2016 5-35-32)
+/Logs/Commands
+/Saves
+/Scripts/bin/Debug
+/Scripts/obj/Debug
+/Scripts/Output
+/Server/obj/Debug
+/RunUO.pdb
+/RunUO.exe.config
+/RunUO.exe
