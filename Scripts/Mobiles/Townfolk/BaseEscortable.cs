@@ -1,15 +1,13 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using Server;
 using Server.Items;
-using Server.Network;
 using Server.ContextMenus;
 using EDI = Server.Mobiles.EscortDestinationInfo;
 
 namespace Server.Mobiles
 {
-	public class BaseEscortable : BaseCreature
+    public class BaseEscortable : BaseCreature
 	{
 		public static readonly TimeSpan EscortDelay = TimeSpan.FromMinutes( 5.0 );
 		public static readonly TimeSpan AbandonDelay = TimeSpan.FromMinutes( 2.0 );

@@ -1,5 +1,3 @@
-using System;
-using Server;
 using Server.Targeting;
 using Server.Items;
 using Server.Engines.Harvest;
@@ -7,7 +5,7 @@ using Server.Mobiles;
 
 namespace Server.Targets
 {
-	public class BladedItemTarget : Target
+    public class BladedItemTarget : Target
 	{
 		private Item m_Item;
 

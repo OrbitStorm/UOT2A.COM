@@ -1,11 +1,10 @@
 using System;
-using System.Text;
 using Server.Items;
 using Server.Mobiles;
 
 namespace Server.Spells.Spellweaving
 {
-	public abstract class ArcanistSpell : Spell
+    public abstract class ArcanistSpell : Spell
 	{
 		public abstract double RequiredSkill { get; }
 		public abstract int RequiredMana { get; }

@@ -1,9 +1,6 @@
-using System;
-using Server.Items;
-
 namespace Server.Items
 {
-	public class BoneMachete : ElvenMachete
+    public class BoneMachete : ElvenMachete
 	{
 		public override WeaponAbility PrimaryAbility { get { return null; } }
 		public override WeaponAbility SecondaryAbility { get { return null; } }

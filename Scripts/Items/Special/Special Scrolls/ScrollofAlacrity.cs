@@ -19,16 +19,12 @@
 ***************************************************************************/
 
 using System;
-using Server;
-using Server.Gumps;
-using Server.Network;
 using Server.Mobiles;
 using System.Collections;
-using System.Collections.Generic;
 
 namespace Server.Items
 {
-	public class ScrollofAlacrity : SpecialScroll
+    public class ScrollofAlacrity : SpecialScroll
 	{
 		public override int LabelNumber { get { return 1078604; } } // Scroll of Alacrity
 		

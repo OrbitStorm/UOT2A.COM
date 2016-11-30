@@ -1,9 +1,8 @@
-﻿using System;
-using Server.Items;
+﻿using Server.Items;
 
 namespace Server.Mobiles.Townfolk
 {
-	public class Prisoner : BaseEscortable
+    public class Prisoner : BaseEscortable
 	{
 		[Constructable]
 		public Prisoner()

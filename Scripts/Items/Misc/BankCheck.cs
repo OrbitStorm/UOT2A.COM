@@ -1,13 +1,10 @@
 using System;
 using System.Globalization;
-using Server;
-using Server.Items;
-using Server.Mobiles;
 using Server.Network;
 
 namespace Server.Items
 {
-	public class BankCheck : Item
+    public class BankCheck : Item
 	{
 		private int m_Worth;
 

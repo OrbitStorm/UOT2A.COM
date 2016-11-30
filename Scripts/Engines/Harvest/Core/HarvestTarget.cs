@@ -1,13 +1,9 @@
-using System;
-using Server;
 using Server.Items;
 using Server.Targeting;
-using Server.Multis;
-using Server.Mobiles;
 
 namespace Server.Engines.Harvest
 {
-	public class HarvestTarget : Target
+    public class HarvestTarget : Target
 	{
 		private Item m_Tool;
 		private HarvestSystem m_System;
