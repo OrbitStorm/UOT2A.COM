@@ -3,7 +3,8 @@
 ################################################################################
 
 /Backups
-/Logs/Commands
+/docs
+/Logs
 /Saves
 /Scripts/bin/Debug
 /Scripts/obj/Debug
