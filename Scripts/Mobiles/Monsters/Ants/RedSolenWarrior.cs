@@ -83,15 +83,7 @@ namespace Server.Mobiles
 			AddLoot( LootPack.Gems, Utility.RandomMinMax( 1, 4 ) );
 		}
 
-		public override bool IsEnemy( Mobile m )
-		{
-			if ( SolenHelper.CheckRedFriendship( m ) )
-				return false;
-			else
-				return base.IsEnemy( m );
-		}
-
-		public override void OnDamage( int amount, Mobile from, bool willKill )
+        public override void OnDamage( int amount, Mobile from, bool willKill )
 		{
 			SolenHelper.OnRedDamage( from );
 

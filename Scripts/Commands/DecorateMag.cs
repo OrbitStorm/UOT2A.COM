@@ -4,8 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Server;
 using Server.Items;
-using Server.Engines.Quests.Haven;
-using Server.Engines.Quests.Necro;
 
 namespace Server.Commands
 {
@@ -387,22 +385,7 @@ namespace Server.Commands
 
 			if ( item is BaseAddon )
 			{
-				if ( item is MaabusCoffin )
-				{
-					MaabusCoffin coffin = (MaabusCoffin)item;
-
-					for ( int i = 0; i < m_Params.Length; ++i )
-					{
-						if ( m_Params[i].StartsWith( "SpawnLocation" ) )
-						{
-							int indexOf = m_Params[i].IndexOf( '=' );
-
-							if ( indexOf >= 0 )
-								coffin.SpawnLocation = Point3D.Parse( m_Params[i].Substring( ++indexOf ) );
-						}
-					}
-				}
-				else if ( m_ItemID > 0 )
+				if ( m_ItemID > 0 )
 				{
 					List<AddonComponent> comps = ((BaseAddon)item).Components;
 

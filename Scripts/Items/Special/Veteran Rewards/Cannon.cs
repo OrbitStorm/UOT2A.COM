@@ -4,12 +4,19 @@ using Server.Gumps;
 using Server.Targeting;
 using Server.Mobiles;
 using Server.Network;
-using Server.Engines.Quests.Haven;
 using Server.Engines.VeteranRewards;
 
 namespace Server.Items
 {
-	public class CannonAddonComponent : AddonComponent
+    public enum CannonDirection
+    {
+        North,
+        East,
+        South,
+        West
+    }
+
+    public class CannonAddonComponent : AddonComponent
 	{
 		public override int LabelNumber{ get{ return 1076157; } } // Decorative Cannon
 
@@ -26,12 +33,12 @@ namespace Server.Items
 		{
 			base.GetProperties( list );
 			
-			if ( Addon is CannonAddon )
+			if ( Addon is Cannon )
 			{
-				if ( ((CannonAddon) Addon).IsRewardItem )
+				if ( ((Cannon) Addon).IsRewardItem )
 					list.Add( 1076223 ); // 7th Year Veteran Reward
 					
-				list.Add( 1076207, ((CannonAddon) Addon).Charges.ToString() ); // Remaining Charges: ~1_val~
+				list.Add( 1076207, ((Cannon) Addon).Charges.ToString() ); // Remaining Charges: ~1_val~
 			}
 		}
 
@@ -50,7 +57,7 @@ namespace Server.Items
 		}
 	}
 
-	public class CannonAddon : BaseAddon
+	public class Cannon : BaseAddon
 	{	
 		public override BaseAddonDeed Deed
 		{
@@ -101,7 +108,7 @@ namespace Server.Items
 		}
 
 		[Constructable]
-		public CannonAddon( CannonDirection direction )
+		public Cannon( CannonDirection direction )
 		{
 			m_CannonDirection = direction;
 
@@ -142,7 +149,7 @@ namespace Server.Items
 			}
 		}
 
-		public CannonAddon( Serial serial ) : base( serial )
+		public Cannon( Serial serial ) : base( serial )
 		{
 		}
 		
@@ -248,9 +255,9 @@ namespace Server.Items
 		
 		private class InternalTarget : Target
 		{
-			private CannonAddon m_Cannon;
+			private Cannon m_Cannon;
 
-			public InternalTarget( CannonAddon cannon  ) : base( 12, true, TargetFlags.None )
+			public InternalTarget( Cannon cannon  ) : base( 12, true, TargetFlags.None )
 			{
 				m_Cannon = cannon;
 			}
@@ -318,7 +325,7 @@ namespace Server.Items
 		
 		private class InternalGump : Gump
 		{
-			private CannonAddon m_Cannon;
+			private Cannon m_Cannon;
 			private PotionKeg m_Keg;
 		
 			private enum Buttons
@@ -327,7 +334,7 @@ namespace Server.Items
 				Recharge
 			}			
 		
-			public InternalGump( CannonAddon cannon, PotionKeg keg ) : base( 50, 50 )
+			public InternalGump( Cannon cannon, PotionKeg keg ) : base( 50, 50 )
 			{
 				m_Cannon = cannon;
 				m_Keg = keg;
@@ -370,7 +377,7 @@ namespace Server.Items
 		{ 
 			get
 			{
-				CannonAddon addon = new CannonAddon( m_Direction );
+				Cannon addon = new Cannon( m_Direction );
 				addon.Charges = m_Charges;
 				addon.IsRewardItem = m_IsRewardItem;
 

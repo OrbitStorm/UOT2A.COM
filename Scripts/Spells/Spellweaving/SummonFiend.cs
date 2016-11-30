@@ -1,6 +1,5 @@
 using System;
 using Server.Mobiles;
-using Server.Engines.MLQuests;
 
 namespace Server.Spells.Spellweaving
 {
@@ -22,24 +21,5 @@ namespace Server.Spells.Spellweaving
 		}
 
 		public override int Sound { get { return 0x216; } }
-
-		public override bool CheckSequence()
-		{
-			Mobile caster = Caster;
-
-			// This is done after casting completes
-			if ( caster is PlayerMobile )
-			{
-				MLQuestContext context = MLQuestSystem.GetContext( (PlayerMobile)caster );
-
-				if ( context == null || !context.SummonFiend )
-				{
-					caster.SendLocalizedMessage( 1074564 ); // You haven't demonstrated mastery to summon a fiend.
-					return false;
-				}
-			}
-
-			return base.CheckSequence();
-		}
 	}
 }
