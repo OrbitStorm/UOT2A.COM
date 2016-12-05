@@ -100,7 +100,6 @@ namespace Server
 					typeof( Centaur ),
 					typeof( EtherealWarrior ),
 					typeof( Kirin ),
-					typeof( LordOaks ),
 					typeof( Pixie ),
 					typeof( Silvani ),
 					typeof( Unicorn ),
