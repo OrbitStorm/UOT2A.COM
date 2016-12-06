@@ -4726,7 +4726,6 @@ namespace Server.Mobiles
 					List<int> karma = new List<int>();
 
 					bool givenFactionKill = false;
-					bool givenToTKill = false;
 
 					for ( int i = 0; i < list.Count; ++i )
 					{
@@ -4777,14 +4776,6 @@ namespace Server.Mobiles
 						{
 							givenFactionKill = true;
 							Faction.HandleDeath( this, ds.m_Mobile );
-						}
-
-						Region region = ds.m_Mobile.Region;
-
-						if( !givenToTKill && ( Map == Map.Tokuno || region.IsPartOf( "Yomotsu Mines" ) || region.IsPartOf( "Fan Dancer's Dojo" ) ))
-						{
-							givenToTKill = true;
-							TreasuresOfTokuno.HandleKill( this, ds.m_Mobile );
 						}
 					}
 

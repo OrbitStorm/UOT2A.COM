@@ -270,24 +270,6 @@ namespace Server.Mobiles
 			set{ m_NpcGuildGameTime = value; }
 		}
 
-		private int m_ToTItemsTurnedIn;
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int ToTItemsTurnedIn
-		{
-			get { return m_ToTItemsTurnedIn; }
-			set { m_ToTItemsTurnedIn = value; }
-		}
-
-		private int m_ToTTotalMonsterFame;
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int ToTTotalMonsterFame
-		{
-			get { return m_ToTTotalMonsterFame; }
-			set { m_ToTTotalMonsterFame = value; }
-		}
-
 		public int ExecutesLightningStrike
 		{
 			get { return m_ExecutesLightningStrike; }
@@ -3178,8 +3160,6 @@ namespace Server.Mobiles
 				}
 				case 21:
 				{
-					m_ToTItemsTurnedIn = reader.ReadEncodedInt();
-					m_ToTTotalMonsterFame = reader.ReadInt();
 					goto case 20;
 				}
 				case 20:
@@ -3408,8 +3388,6 @@ namespace Server.Mobiles
 			writer.WriteDeltaTime( m_LastHonorLoss );
 
 			writer.Write( m_LastValorLoss );
-			writer.WriteEncodedInt( m_ToTItemsTurnedIn );
-			writer.Write( m_ToTTotalMonsterFame );	//This ain't going to be a small #.
 
 			writer.WriteEncodedInt( m_AllianceMessageHue );
 			writer.WriteEncodedInt( m_GuildMessageHue );
