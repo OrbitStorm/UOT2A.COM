@@ -52,43 +52,6 @@ namespace Server.Items
 
 		private static StealableEntry[] m_Entries = new StealableEntry[]
 			{
-				// Doom - Artifact rarity 1
-				new StealableEntry( Map.Malas, new Point3D( 317,  56, -1 ), 72, 108, typeof( RockArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 360,  31,  8 ), 72, 108, typeof( SkullCandleArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 369, 372, -1 ), 72, 108, typeof( BottleArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 378, 372,  0 ), 72, 108, typeof( DamagedBooksArtifact ) ),
-				// Doom - Artifact rarity 2
-				new StealableEntry( Map.Malas, new Point3D( 432,  16, -1 ), 144, 216, typeof( StretchedHideArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 489,   9,  0 ), 144, 216, typeof( BrazierArtifact ) ),
-				// Doom - Artifact rarity 3
-				new StealableEntry( Map.Malas, new Point3D( 471,  96, -1 ), 288, 432, typeof( LampPostArtifact ), GetLampPostHue() ),
-				new StealableEntry( Map.Malas, new Point3D( 421, 198,  2 ), 288, 432, typeof( BooksNorthArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 431, 189, -1 ), 288, 432, typeof( BooksWestArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 435, 196, -1 ), 288, 432, typeof( BooksFaceDownArtifact ) ),
-				// Doom - Artifact rarity 5
-				new StealableEntry( Map.Malas, new Point3D( 447,   9,  8 ), 1152, 1728, typeof( StuddedLeggingsArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 423,  28,  0 ), 1152, 1728, typeof( EggCaseArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 347,  44,  4 ), 1152, 1728, typeof( SkinnedGoatArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 497,  57, -1 ), 1152, 1728, typeof( GruesomeStandardArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 381, 375, 11 ), 1152, 1728, typeof( BloodyWaterArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 489, 369,  2 ), 1152, 1728, typeof( TarotCardsArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 497, 369,  5 ), 1152, 1728, typeof( BackpackArtifact ) ),
-				// Doom - Artifact rarity 7
-				new StealableEntry( Map.Malas, new Point3D( 475,  23,  4 ), 4608, 6912, typeof( StuddedTunicArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 423,  28,  0 ), 4608, 6912, typeof( CocoonArtifact ) ),
-				// Doom - Artifact rarity 8
-				new StealableEntry( Map.Malas, new Point3D( 354,  36, -1 ), 9216, 13824, typeof( SkinnedDeerArtifact ) ),
-				// Doom - Artifact rarity 9
-				new StealableEntry( Map.Malas, new Point3D( 433,  11, -1 ), 18432, 27648, typeof( SaddleArtifact ) ),
-				new StealableEntry( Map.Malas, new Point3D( 403,  31,  4 ), 18432, 27648, typeof( LeatherTunicArtifact ) ),
-				// Doom - Artifact rarity 10
-				new StealableEntry( Map.Malas, new Point3D( 257,  70, -2 ), 36864, 55296, typeof( ZyronicClaw ) ),
-				new StealableEntry( Map.Malas, new Point3D( 354, 176,  7 ), 36864, 55296, typeof( TitansHammer ) ),
-				new StealableEntry( Map.Malas, new Point3D( 369, 389, -1 ), 36864, 55296, typeof( BladeOfTheRighteous ) ),
-				new StealableEntry( Map.Malas, new Point3D( 467,  92,  4 ), 36864, 55296, typeof( InquisitorsResolution ) ),
-				// Doom - Artifact rarity 12
-				new StealableEntry( Map.Malas, new Point3D( 487, 364, -1 ), 147456, 221184, typeof( RuinedPaintingArtifact ) ),
-
 				// Yomotsu Mines - Artifact rarity 1
 				new StealableEntry( Map.Malas, new Point3D(  18, 110, -1 ), 72, 108, typeof( Basket1Artifact ) ),
 				new StealableEntry( Map.Malas, new Point3D(  66, 114, -1 ), 72, 108, typeof( Basket2Artifact ) ),

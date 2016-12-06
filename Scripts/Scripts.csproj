@@ -218,10 +218,6 @@
     <Compile Include=".\Engines\Craft\DefMasonry.cs" />
     <Compile Include=".\Engines\Craft\DefTailoring.cs" />
     <Compile Include=".\Engines\Craft\DefTinkering.cs" />
-    <Compile Include=".\Engines\Doom\GauntletSpawner.cs" />
-    <Compile Include=".\Engines\Doom\LeverPuzzle\LeverPuzzleController.cs" />
-    <Compile Include=".\Engines\Doom\LeverPuzzle\LeverPuzzleItems.cs" />
-    <Compile Include=".\Engines\Doom\LeverPuzzle\LeverPuzzleRegions.cs" />
     <Compile Include=".\Engines\Factions\Core\Election.cs" />
     <Compile Include=".\Engines\Factions\Core\Faction.cs" />
     <Compile Include=".\Engines\Factions\Core\FactionItem.cs" />
@@ -710,7 +706,6 @@
     <Compile Include=".\Items\Armor\Artifacts\GauntletsOfNobility.cs" />
     <Compile Include=".\Items\Armor\Artifacts\HelmOfInsight.cs" />
     <Compile Include=".\Items\Armor\Artifacts\HolyKnightsBreastplate.cs" />
-    <Compile Include=".\Items\Armor\Artifacts\InquisitorsResolution.cs" />
     <Compile Include=".\Items\Armor\Artifacts\JackalsCollar.cs" />
     <Compile Include=".\Items\Armor\Artifacts\LeggingsOfBane.cs" />
     <Compile Include=".\Items\Armor\Artifacts\MidnightBracers.cs" />
@@ -965,7 +960,6 @@
     <Compile Include=".\Items\Containers\TreasureChest.cs" />
     <Compile Include=".\Items\Containers\TreasureMapChest.cs" />
     <Compile Include=".\Items\Decoration Artifacts\BaseDecorationArtifact.cs" />
-    <Compile Include=".\Items\Decoration Artifacts\DoomDecorationArtifacts.cs" />
     <Compile Include=".\Items\Decoration Artifacts\SEDecorationArtifacts.cs" />
     <Compile Include=".\Items\Decoration Artifacts\StealableArtifactsSpawner.cs" />
     <Compile Include=".\Items\Deeds\BarkeepContract.cs" />
@@ -1888,7 +1882,6 @@
     <Compile Include=".\Items\Weapons\Abilities\WhirlwindAttack.cs" />
     <Compile Include=".\Items\Weapons\Artifacts\AxeOfTheHeavens.cs" />
     <Compile Include=".\Items\Weapons\Artifacts\BladeOfInsanity.cs" />
-    <Compile Include=".\Items\Weapons\Artifacts\BladeOfTheRighteous.cs" />
     <Compile Include=".\Items\Weapons\Artifacts\BoneCrusher.cs" />
     <Compile Include=".\Items\Weapons\Artifacts\BreathOfTheDead.cs" />
     <Compile Include=".\Items\Weapons\Artifacts\Frostbringer.cs" />
@@ -1899,8 +1892,6 @@
     <Compile Include=".\Items\Weapons\Artifacts\TheDragonSlayer.cs" />
     <Compile Include=".\Items\Weapons\Artifacts\TheDryadBow.cs" />
     <Compile Include=".\Items\Weapons\Artifacts\TheTaskmaster.cs" />
-    <Compile Include=".\Items\Weapons\Artifacts\TitansHammer.cs" />
-    <Compile Include=".\Items\Weapons\Artifacts\ZyronicClaw.cs" />
     <Compile Include=".\Items\Weapons\Axes\Axe.cs" />
     <Compile Include=".\Items\Weapons\Axes\BaseAxe.cs" />
     <Compile Include=".\Items\Weapons\Axes\BattleAxe.cs" />

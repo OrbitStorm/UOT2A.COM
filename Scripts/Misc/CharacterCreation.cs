@@ -260,21 +260,6 @@ namespace Server.Misc
 			PlaceItemIn( bank, 38, 124, cont );
 			// End bag of ethereals
 
-
-			// Begin first bag of artifacts
-			cont = new Backpack();
-			cont.Hue = 0x48F;
-			cont.Name = "Bag of Artifacts";
-
-			PlaceItemIn( cont, 45, 66, new TitansHammer() );
-			PlaceItemIn( cont, 69, 82, new InquisitorsResolution() );
-			PlaceItemIn( cont, 93, 99, new BladeOfTheRighteous() );
-			PlaceItemIn( cont, 117, 115, new ZyronicClaw() );
-
-			PlaceItemIn( bank, 58, 124, cont );
-			// End first bag of artifacts
-
-
 			// Begin second bag of artifacts
 			cont = new Backpack();
 			cont.Hue = 0x48F;

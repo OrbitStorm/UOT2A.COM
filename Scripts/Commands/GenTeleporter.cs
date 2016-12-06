@@ -931,23 +931,6 @@ namespace Server.Commands
 
 			public void CreateTeleportersMap3( Map map )
 			{
-				// CreateTeleporter( 408, 254, 2, 428, 319, 2, map, false ); // for doom quest; use blockers to avoid players teleporting into the ship! 
-				// CreateTeleporter( 428, 321, 2, 422, 328, -1, map, false ); // for doom quest; use blockers to avoid players teleporting into the ship!
-
-				// Doom Dungeon
-				CreateTeleporter( 2317, 1269, -110, 381, 132, 33, map, false );
-				CreateTeleporter( 2317, 1268, -110, 381, 132, 33, map, false );
-				CreateTeleporter( 2317, 1267, -110, 381, 132, 33, map, false );
-				CreateTeleporter( 2317, 1266, -110, 381, 132, 33, map, false );
-				CreateTeleporter( 2316, 1269, -110, 381, 132, 33, map, false );
-				CreateTeleporter( 2315, 1269, -110, 381, 132, 33, map, false );
-				CreateTeleporter( 2315, 1268, -110, 381, 132, 33, map, false );
-				CreateTeleporter( 2315, 1267, -109, 381, 132, 33, map, false );
-				CreateTeleporter( 2316, 1267, -110, 381, 132, 33, map, false );
-				CreateTeleporter( 496, 49, 6, 2350, 1270, -85, map, false );
-				DestroyTeleporter( 433, 326, 4, map );
-				DestroyTeleporter( 365, 15, -1, map );
-
 				//Yomotsu Mines Exit
 				CreateTeleporter( 3, 128, -1, 259, 785, 64, map, Map.Tokuno, false );
 				CreateTeleporter( 4, 128, -1, 259, 785, 64, map, Map.Tokuno, false );
