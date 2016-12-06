@@ -48,9 +48,6 @@ namespace Server.Engines.Craft
 				try
 				{
 
-					if ( Ethics.Ethic.IsImbued( item ) )
-						return SmeltResult.Invalid;
-
 					if ( CraftResources.GetType( resource ) != CraftResourceType.Metal )
 						return SmeltResult.Invalid;
 
