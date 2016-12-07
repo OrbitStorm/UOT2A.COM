@@ -130,8 +130,6 @@ namespace Server.Misc
 				list = m_Trammel;
 			else if( map == Map.Ilshenar )
 				list = m_Ilshenar;
-			else if( map == Map.Tokuno )
-				list = m_Tokuno;
 			else
 				return;
 

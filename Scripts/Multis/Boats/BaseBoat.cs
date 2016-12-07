@@ -16,7 +16,6 @@ namespace Server.Multis
 	{
 		private static Rectangle2D[] m_BritWrap = new Rectangle2D[]{ new Rectangle2D( 16, 16, 5120 - 32, 4096 - 32 ), new Rectangle2D( 5136, 2320, 992, 1760 ) };
 		private static Rectangle2D[] m_IlshWrap = new Rectangle2D[]{ new Rectangle2D( 16, 16, 2304 - 32, 1600 - 32 ) };
-		private static Rectangle2D[] m_TokunoWrap = new Rectangle2D[] { new Rectangle2D( 16, 16, 1448 - 32, 1448 - 32 ) };
 
 		private static TimeSpan BoatDecayDelay = TimeSpan.FromDays( 9.0 );
 
@@ -1298,8 +1297,6 @@ namespace Server.Multis
 		{
 			if( m == Map.Ilshenar )
 				return m_IlshWrap;
-			else if( m == Map.Tokuno )
-				return m_TokunoWrap;
 			else
 				return m_BritWrap;
 		}

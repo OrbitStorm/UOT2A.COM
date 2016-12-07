@@ -27,7 +27,6 @@ namespace Server.Commands
 			Generate( "Data/Decoration/Felucca", Map.Felucca );
 			Generate( "Data/Decoration/Ilshenar", Map.Ilshenar );
 			Generate( "Data/Decoration/Malas", Map.Malas );
-			Generate( "Data/Decoration/Tokuno", Map.Tokuno );
 
 			m_Mobile.SendMessage( "World generating complete. {0} items were generated.", m_Count );
 		}

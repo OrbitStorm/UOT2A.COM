@@ -563,17 +563,6 @@ namespace Server
 			set{ m_Items = value; }
 		}
 
-		private static bool IsInTokuno( Mobile m )
-		{
-			if ( m.Region.IsPartOf( "Fan Dancer's Dojo" ) )
-				return true;
-
-			if ( m.Region.IsPartOf( "Yomotsu Mines" ) )
-				return true;
-
-			return ( m.Map == Map.Tokuno );
-		}
-
 		#region Mondain's Legacy
 		private static bool IsMondain( Mobile m )
 		{
@@ -598,7 +587,7 @@ namespace Server
 				LootPackItem item = m_Items[i];
 
 				if ( rnd < item.Chance )
-					return Mutate( from, luckChance, item.Construct( IsInTokuno( from ), IsMondain( from ) ) );
+					return Mutate( from, luckChance, item.Construct( false, IsMondain( from ) ) );
 
 				rnd -= item.Chance;
 			}

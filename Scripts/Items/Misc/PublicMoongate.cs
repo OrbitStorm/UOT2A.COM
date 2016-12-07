@@ -277,22 +277,12 @@ namespace Server.Items
 					new PMEntry( new Point3D( 1997, 1386, -85 ), 1060642 )  // Umbra
 				} );
 
-		public static readonly PMList Tokuno =
-			new PMList( 1063258, 1063415, Map.Tokuno, new PMEntry[]
-				{
-					new PMEntry( new Point3D( 1169,  998, 41 ), 1063412 ), // Isamu-Jima
-					new PMEntry( new Point3D(  802, 1204, 25 ), 1063413 ), // Makoto-Jima
-					new PMEntry( new Point3D(  270,  628, 15 ), 1063414 )  // Homare-Jima
-				} );
-
 		public static readonly PMList[] UORLists		= new PMList[] { Trammel, Felucca };
 		public static readonly PMList[] UORListsYoung	= new PMList[] { Trammel };
 		public static readonly PMList[] LBRLists		= new PMList[] { Trammel, Felucca, Ilshenar };
 		public static readonly PMList[] LBRListsYoung	= new PMList[] { Trammel, Ilshenar };
 		public static readonly PMList[] AOSLists		= new PMList[] { Trammel, Felucca, Ilshenar, Malas };
 		public static readonly PMList[] AOSListsYoung	= new PMList[] { Trammel, Ilshenar, Malas };
-		public static readonly PMList[] SELists			= new PMList[] { Trammel, Felucca, Ilshenar, Malas, Tokuno };
-		public static readonly PMList[] SEListsYoung	= new PMList[] { Trammel, Ilshenar, Malas, Tokuno };
 		public static readonly PMList[] RedLists		= new PMList[] { Felucca };
 		public static readonly PMList[] SigilLists		= new PMList[] { Felucca };
 	}

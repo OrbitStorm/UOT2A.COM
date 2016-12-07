@@ -25,8 +25,6 @@ namespace Server.Gumps
 				return 1102;
 			else if ( map == Map.Malas )
 				return 1102;
-			else if ( map == Map.Tokuno )
-				return 1154;
 
 			return 0;
 		}

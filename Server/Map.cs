@@ -66,7 +66,6 @@ namespace Server
 		public static Map Trammel { get { return m_Maps[1]; } }
 		public static Map Ilshenar { get { return m_Maps[2]; } }
 		public static Map Malas { get { return m_Maps[3]; } }
-		public static Map Tokuno { get { return m_Maps[4]; } }
 		public static Map Internal { get { return m_Maps[0x7F]; } }
 
 		private static List<Map> m_AllMaps = new List<Map>();

@@ -931,20 +931,6 @@ namespace Server.Commands
 
 			public void CreateTeleportersMap3( Map map )
 			{
-				//Yomotsu Mines Exit
-				CreateTeleporter( 3, 128, -1, 259, 785, 64, map, Map.Tokuno, false );
-				CreateTeleporter( 4, 128, -1, 259, 785, 64, map, Map.Tokuno, false );
-				CreateTeleporter( 5, 128, -1, 259, 785, 64, map, Map.Tokuno, false  );
-				CreateTeleporter( 6, 128, -1, 259, 785, 64, map, Map.Tokuno, false );
-				CreateTeleporter( 7, 128, -1, 259, 785, 64, map, Map.Tokuno, false );
-				CreateTeleporter( 8, 128, -1, 259, 785, 64, map, Map.Tokuno, false );
-
-				//Fan Dancer Exit
-				CreateTeleporter( 64, 336, 11, 983, 195, 24, map, Map.Tokuno, false );
-				CreateTeleporter( 64, 337, 11, 983, 195, 24, map, Map.Tokuno, false );
-				CreateTeleporter( 64, 338, 11, 983, 195, 24, map, Map.Tokuno, false );
-				CreateTeleporter( 64, 339, 11, 983, 195, 24, map, Map.Tokuno, false );
-
 				//Fan Dancer Levels
 				CreateTeleporter( 66, 351, -7, 63, 524, -1, map, false );
 				CreateTeleporter( 66, 352, -7, 63, 524, -1, map, false );
@@ -991,21 +977,6 @@ namespace Server.Commands
 				CreateTeleporter( 157, 1609, 17,  87, 1673, 0, map, false );
 			}
 
-			public void CreateTeleportersMap4( Map map )
-			{
-				//Yomotso Mines Entrance
-				CreateTeleporter( 257, 783, 63, 5, 128, -1, map, Map.Malas, false );
-				CreateTeleporter( 258, 783, 63, 5, 128, -1, map, Map.Malas, false );
-				CreateTeleporter( 259, 783, 63, 5, 128, -1, map, Map.Malas, false );
-				CreateTeleporter( 260, 783, 63, 5, 128, -1, map, Map.Malas, false );
-
-				//Fan dancer Entrance
-				CreateTeleporter( 988, 194, 15, 67, 337, -1, map, Map.Malas, false );
-				CreateTeleporter( 988, 195, 15, 67, 337, -1, map, Map.Malas, false );
-				CreateTeleporter( 987, 196, 15, 67, 337, -1, map, Map.Malas, false );
-				CreateTeleporter( 988, 197, 18, 67, 337, -1, map, Map.Malas, false );
-
-			}
 			public void CreateTeleportersTrammel( Map map )
 			{
 				// Haven
@@ -1026,7 +997,6 @@ namespace Server.Commands
 				CreateTeleportersFelucca( Map.Felucca );
 				CreateTeleportersMap2( Map.Ilshenar );
 				CreateTeleportersMap3( Map.Malas );
-				CreateTeleportersMap4( Map.Tokuno );
 				return m_Count;
 			}
 		}

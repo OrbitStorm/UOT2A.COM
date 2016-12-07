@@ -150,8 +150,6 @@ namespace Server.Items
 				Hue = (House != null ? 0x55F : 1102);
 			else if ( m_TargetMap == Map.Malas )
 				Hue = (House != null ? 0x55F : 1102);
-			else if ( m_TargetMap == Map.Tokuno )
-				Hue = (House != null ? 0x47F : 1154);
 		}
 
 		public void Mark( Mobile m )
@@ -222,9 +220,7 @@ namespace Server.Items
 				if ( (desc = m_Description) == null || (desc = desc.Trim()).Length == 0 )
 					desc = "an unknown location";
 
-				if ( m_TargetMap == Map.Tokuno )
-					list.Add( (House != null ? 1063260 : 1063259), RuneFormat, desc ); // ~1_val~ (Tokuno Islands)[(House)]
-				else if ( m_TargetMap == Map.Malas )
+				if ( m_TargetMap == Map.Malas )
 					list.Add( (House != null ? 1062454 : 1060804), RuneFormat, desc ); // ~1_val~ (Malas)[(House)]
 				else if ( m_TargetMap == Map.Felucca )
 					list.Add( (House != null ? 1062452 : 1060805), RuneFormat, desc ); // ~1_val~ (Felucca)[(House)]
@@ -244,9 +240,7 @@ namespace Server.Items
 				if ( (desc = m_Description) == null || (desc = desc.Trim()).Length == 0 )
 					desc = "an unknown location";
 
-				if ( m_TargetMap == Map.Tokuno )
-					LabelTo( from, (House != null ? 1063260 : 1063259), String.Format( RuneFormat, desc ) ); // ~1_val~ (Tokuno Islands)[(House)]
-				else if ( m_TargetMap == Map.Malas )
+				if ( m_TargetMap == Map.Malas )
 					LabelTo( from, (House != null ? 1062454 : 1060804), String.Format( RuneFormat, desc ) ); // ~1_val~ (Malas)[(House)]
 				else if ( m_TargetMap == Map.Felucca )
 					LabelTo( from, (House != null ? 1062452 : 1060805), String.Format( RuneFormat, desc ) ); // ~1_val~ (Felucca)[(House)]

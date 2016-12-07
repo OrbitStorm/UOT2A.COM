@@ -2657,8 +2657,6 @@
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBRealEstateBroker.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBSamurai.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBScribe.cs" />
-    <Compile Include=".\Mobiles\Vendors\SBInfo\SBSECook.cs" />
-    <Compile Include=".\Mobiles\Vendors\SBInfo\SBSEHats.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBShipwright.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBSmithTools.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBStoneCrafter.cs" />
@@ -2673,12 +2671,6 @@
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBWaiter.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBWeaponSmith.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\SBWeaver.cs" />
-    <Compile Include=".\Mobiles\Vendors\SBInfo\SE\SBSEArmor.cs" />
-    <Compile Include=".\Mobiles\Vendors\SBInfo\SE\SBSEBowyer.cs" />
-    <Compile Include=".\Mobiles\Vendors\SBInfo\SE\SBSECarpenter.cs" />
-    <Compile Include=".\Mobiles\Vendors\SBInfo\SE\SBSEFood.cs" />
-    <Compile Include=".\Mobiles\Vendors\SBInfo\SE\SBSELeatherArmor.cs" />
-    <Compile Include=".\Mobiles\Vendors\SBInfo\SE\SBSEWeapons.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\Weapons\SBAxeWeapon.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\Weapons\SBKnifeWeapon.cs" />
     <Compile Include=".\Mobiles\Vendors\SBInfo\Weapons\SBMaceWeapon.cs" />

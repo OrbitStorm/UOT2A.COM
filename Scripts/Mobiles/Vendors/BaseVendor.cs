@@ -224,8 +224,6 @@ namespace Server.Mobiles
 
 		public abstract void InitSBInfo();
 
-		public virtual bool IsTokunoVendor { get { return ( Map == Map.Tokuno ); } }
-
 		protected void LoadSBInfo()
 		{
 			m_LastRestock = DateTime.Now;
@@ -310,34 +308,6 @@ namespace Server.Mobiles
 
 			if ( CheckNecromancer() )
 				return;
-
-			CheckTokuno();
-		}
-
-		public virtual bool CheckTokuno()
-		{
-			if ( this.Map != Map.Tokuno )
-				return false;
-
-			NameList n;
-
-			if ( Female )
-				n = NameList.GetNameList( "tokuno female" );
-			else
-				n = NameList.GetNameList( "tokuno male" );
-
-			if ( !n.ContainsName( this.Name ) )
-				TurnToTokuno();
-
-			return true;
-		}
-
-		public virtual void TurnToTokuno()
-		{
-			if ( Female )
-				this.Name = NameList.RandomName( "tokuno female" );
-			else
-				this.Name = NameList.RandomName( "tokuno male" );
 		}
 
 		public virtual bool CheckGargoyle()

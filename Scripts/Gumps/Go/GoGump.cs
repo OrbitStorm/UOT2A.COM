@@ -9,7 +9,6 @@ namespace Server.Gumps
 		public static readonly LocationTree Trammel = new LocationTree( "trammel.xml", Map.Trammel );
 		public static readonly LocationTree Ilshenar = new LocationTree( "ilshenar.xml", Map.Ilshenar );
 		public static readonly LocationTree Malas = new LocationTree( "malas.xml", Map.Malas );
-		public static readonly LocationTree Tokuno = new LocationTree( "tokuno.xml", Map.Tokuno );
 
 		public static bool OldStyle = PropsConfig.OldStyle;
 
@@ -68,14 +67,12 @@ namespace Server.Gumps
 
 			if ( from.Map == Map.Ilshenar )
 				tree = Ilshenar;
-			else if ( from.Map == Map.Felucca )
-				tree = Felucca;
 			else if ( from.Map == Map.Trammel )
 				tree = Trammel;
 			else if ( from.Map == Map.Malas )
 				tree = Malas;
 			else
-				tree = Tokuno;
+				tree = Felucca;
 
 			ParentNode branch = null;
 			tree.LastBranch.TryGetValue( from, out branch );

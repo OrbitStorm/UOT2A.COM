@@ -4201,8 +4201,6 @@ namespace Server.Mobiles
 				list = m_IlshenarDeathDestinations;
 			else if ( map == Map.Malas )
 				list = m_MalasDeathDestinations;
-			else if ( map == Map.Tokuno )
-				list = m_TokunoDeathDestinations;
 			else
 				return false;
 
