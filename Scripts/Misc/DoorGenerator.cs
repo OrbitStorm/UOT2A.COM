@@ -25,11 +25,6 @@ namespace Server
 				new Rectangle2D( new Point2D( 5120, 2300 ), new Point2D( 6143, 4095 ) )
 			};
 
-		private static Rectangle2D[] m_IlshRegions = new Rectangle2D[]
-			{
-				new Rectangle2D( new Point2D( 0, 0 ), new Point2D( 288*8, 200*8 ) )
-			};
-
 		private static int[] m_SouthFrames = new int[]
 			{
 				0x0006,
@@ -362,17 +357,9 @@ namespace Server
 
 			int feluccaCount = m_Count;
 
-			m_Map = Map.Ilshenar;
-			m_Count = 0;
-
-			for ( int i = 0; i < m_IlshRegions.Length; ++i )
-				Generate( m_IlshRegions[i] );
-
-			int ilshenarCount = m_Count;
-
 			Network.NetState.Resume();
 
-			World.Broadcast( 0x35, true, "Door generation complete. Trammel: {0}; Felucca: {1}; Ilshenar: {2};", trammelCount, feluccaCount, ilshenarCount );
+			World.Broadcast( 0x35, true, "Door generation complete. Trammel: {0}; Felucca: {1};", trammelCount, feluccaCount );
 		}
 
 		public static bool IsFrame( int id, int[] list )

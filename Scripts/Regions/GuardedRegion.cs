@@ -109,16 +109,7 @@ namespace Server.Regions
 			return ( from.Kills < 5 );
 		}
 
-		public virtual Type DefaultGuardType
-		{
-			get
-			{
-				if ( this.Map == Map.Ilshenar )
-					return typeof( ArcherGuard );
-				else
-					return typeof( WarriorGuard );
-			}
-		}
+		public virtual Type DefaultGuardType { get { return typeof( WarriorGuard ); } }
 
 		public GuardedRegion( string name, Map map, int priority, params Rectangle3D[] area ) : base( name, map, priority, area )
 		{

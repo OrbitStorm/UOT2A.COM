@@ -191,8 +191,6 @@ namespace Server.Items
 
 			if ( map == Map.Felucca || map == Map.Trammel )
 				regions = m_BritRegions;
-			else if ( map == Map.Ilshenar )
-				regions = m_IlshRegions;
 			else
 				regions = new Rectangle2D[]{ new Rectangle2D( 0, 0, map.Width, map.Height ) };
 

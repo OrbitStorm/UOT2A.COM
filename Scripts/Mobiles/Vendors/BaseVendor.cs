@@ -301,38 +301,9 @@ namespace Server.Mobiles
 			get { return VendorShoeType.Shoes; }
 		}
 
-		public virtual void CheckMorph()
-		{
-			if ( CheckGargoyle() )
-				return;
-		}
-
-		public virtual bool CheckGargoyle()
-		{
-			Map map = this.Map;
-
-			if ( map != Map.Ilshenar )
-				return false;
-
-			if ( !Region.IsPartOf( "Gargoyle City" ) )
-				return false;
-
-			if ( Body != 0x2F6 || ( Hue & 0x8000 ) == 0 )
-				TurnToGargoyle();
-
-			return true;
-		}
-
-		public override void OnAfterSpawn()
-		{
-			CheckMorph();
-		}
-
 		protected override void OnMapChange( Map oldMap )
 		{
 			base.OnMapChange( oldMap );
-
-			CheckMorph();
 
 			LoadSBInfo();
 		}
@@ -1333,8 +1304,6 @@ namespace Server.Mobiles
 
 			if ( IsParagon )
 				IsParagon = false;
-
-			Timer.DelayCall( TimeSpan.Zero, new TimerCallback( CheckMorph ) );
 		}
 
 		public override void AddCustomContextEntries( Mobile from, List<ContextMenuEntry> list )

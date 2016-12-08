@@ -263,9 +263,6 @@ namespace Server
 				case 2:
 					MakeSpawner( types, x, y, Map.Trammel );
 					break;
-				case 3:
-					MakeSpawner( types, x, y, Map.Ilshenar );
-					break;
 				default:
 					Console.WriteLine( "UOAM Vendor Parser: Warning, unknown map {0}", map );
 					break;

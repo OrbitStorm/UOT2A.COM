@@ -249,9 +249,6 @@ namespace Server.Network
 
 			m_Stream.Write( (int) Map.Trammel.Tiles.Patch.StaticBlocks );
 			m_Stream.Write( (int) Map.Trammel.Tiles.Patch.LandBlocks );
-
-			m_Stream.Write( (int) Map.Ilshenar.Tiles.Patch.StaticBlocks );
-			m_Stream.Write( (int) Map.Ilshenar.Tiles.Patch.LandBlocks );
 		}
 	}
 

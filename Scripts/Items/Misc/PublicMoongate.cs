@@ -112,9 +112,6 @@ namespace Server.Items
 
 //			count += MoonGen( PMList.Trammel );
 			count += MoonGen( PMList.Felucca );
-//			count += MoonGen( PMList.Ilshenar );
-//			count += MoonGen( PMList.Malas );
-//			count += MoonGen( PMList.Tokuno );
 
 			World.Broadcast( 0x35, true, "{0} moongates generated.", count );
 		}
@@ -256,24 +253,8 @@ namespace Server.Items
 					new PMEntry( new Point3D( 2711, 2234, 0 ), 1019001 )  // Buccaneer's Den
 				} );
 
-		public static readonly PMList Ilshenar =
-			new PMList( 1012002, 1012014, Map.Ilshenar, new PMEntry[]
-				{
-					new PMEntry( new Point3D( 1215,  467, -13 ), 1012015 ), // Compassion
-					new PMEntry( new Point3D(  722, 1366, -60 ), 1012016 ), // Honesty
-					new PMEntry( new Point3D(  744,  724, -28 ), 1012017 ), // Honor
-					new PMEntry( new Point3D(  281, 1016,   0 ), 1012018 ), // Humility
-					new PMEntry( new Point3D(  987, 1011, -32 ), 1012019 ), // Justice
-					new PMEntry( new Point3D( 1174, 1286, -30 ), 1012020 ), // Sacrifice
-					new PMEntry( new Point3D( 1532, 1340, - 3 ), 1012021 ), // Spirituality
-					new PMEntry( new Point3D(  528,  216, -45 ), 1012022 ), // Valor
-					new PMEntry( new Point3D( 1721,  218,  96 ), 1019000 )  // Chaos
-				} );
-
 		public static readonly PMList[] UORLists		= new PMList[] { Trammel, Felucca };
 		public static readonly PMList[] UORListsYoung	= new PMList[] { Trammel };
-		public static readonly PMList[] LBRLists		= new PMList[] { Trammel, Felucca, Ilshenar };
-		public static readonly PMList[] LBRListsYoung	= new PMList[] { Trammel, Ilshenar };
 		public static readonly PMList[] RedLists		= new PMList[] { Felucca };
 		public static readonly PMList[] SigilLists		= new PMList[] { Felucca };
 	}

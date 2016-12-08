@@ -1295,10 +1295,7 @@ namespace Server.Multis
 
 		public static Rectangle2D[] GetWrapFor( Map m )
 		{
-			if( m == Map.Ilshenar )
-				return m_IlshWrap;
-			else
-				return m_BritWrap;
+			return m_BritWrap;
 		}
 
 		public Direction GetMovementFor( int x, int y, out int maxSpeed )

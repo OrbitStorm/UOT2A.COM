@@ -146,9 +146,7 @@ namespace Server.Items
 				Hue = (House != null ? 0x47F : 50);
 			else if ( m_TargetMap == Map.Felucca )
 				Hue = (House != null ? 0x66D : 0);
-			else if ( m_TargetMap == Map.Ilshenar )
-				Hue = (House != null ? 0x55F : 1102);
-		}
+    	}
 
 		public void Mark( Mobile m )
 		{

@@ -128,8 +128,6 @@ namespace Server.Misc
 				list = m_Felucca;
 			else if( map == Map.Trammel )
 				list = m_Trammel;
-			else if( map == Map.Ilshenar )
-				list = m_Ilshenar;
 			else
 				return;
 
