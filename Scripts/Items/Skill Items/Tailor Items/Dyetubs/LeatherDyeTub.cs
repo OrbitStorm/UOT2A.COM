@@ -1,6 +1,6 @@
 namespace Server.Items
 {
-    public class LeatherDyeTub : DyeTub, Engines.VeteranRewards.IRewardItem
+    public class LeatherDyeTub : DyeTub
 	{
 		public override bool AllowDyables{ get{ return false; } }
 		public override bool AllowLeather{ get{ return true; } }
@@ -9,39 +9,14 @@ namespace Server.Items
 		public override int LabelNumber{ get{ return 1041284; } } // Leather Dye Tub
 		public override CustomHuePicker CustomHuePicker { get { return CustomHuePicker.LeatherDyeTub; } }
 
-		private bool m_IsRewardItem;
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool IsRewardItem
-		{
-			get{ return m_IsRewardItem; }
-			set{ m_IsRewardItem = value; }
-		}
-
 		[Constructable]
 		public LeatherDyeTub()
 		{
 			LootType = LootType.Blessed;
 		}
 
-		public override void OnDoubleClick( Mobile from )
-		{
-			if ( m_IsRewardItem && !Engines.VeteranRewards.RewardSystem.CheckIsUsableBy( from, this, null ) )
-				return;
-
-			base.OnDoubleClick( from );
-		}
-
 		public LeatherDyeTub( Serial serial ) : base( serial )
 		{
-		}
-
-		public override void GetProperties( ObjectPropertyList list )
-		{
-			base.GetProperties( list );
-
-			if ( Core.ML && m_IsRewardItem )
-				list.Add( 1076218 ); // 2nd Year Veteran Reward
 		}
 
 		public override void Serialize( GenericWriter writer )
@@ -49,8 +24,6 @@ namespace Server.Items
 			base.Serialize( writer );
 
 			writer.Write( (int) 1 ); // version
-
-			writer.Write( (bool) m_IsRewardItem );
 		}
 
 		public override void Deserialize( GenericReader reader )
@@ -58,15 +31,6 @@ namespace Server.Items
 			base.Deserialize( reader );
 
 			int version = reader.ReadInt();
-
-			switch ( version )
-			{
-				case 1:
-				{
-					m_IsRewardItem = reader.ReadBool();
-					break;
-				}
-			}
 		}
 	}
 }

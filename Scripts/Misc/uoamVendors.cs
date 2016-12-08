@@ -101,12 +101,6 @@ namespace Server
 							case "-fortuneteller:":
 								PlaceNPC( split[1], split[2], split[3], "FortuneTeller" );
 								break;
-							case "-holymage:":
-								PlaceNPC( split[1], split[2], split[3], "HolyMage" );
-								break;
-							case "-chivalrykeeper:":
-								PlaceNPC( split[1], split[2], split[3], "KeeperOfChivalry" );
-								break;
 							case "-mage:":
 								PlaceNPC( split[1], split[2], split[3], "Mage", "Alchemist", "MageGuildmaster" );
 								break;
@@ -126,7 +120,9 @@ namespace Server
 								PlaceNPC( split[1], split[2], split[3], "Blacksmith", "BlacksmithGuildmaster" );
 								break;
 							case "-bowyer:":
-							case "-fletcher:":
+                                PlaceNPC(split[1], split[2], split[3], "Bowyer");
+                                break;
+                            case "-fletcher:":
 								PlaceNPC( split[1], split[2], split[3], "Bowyer" );
 								break;
 							case "-carpenter:":
@@ -156,25 +152,15 @@ namespace Server
 							case "-docks:":
 								PlaceNPC( split[1], split[2], split[3], "Fisherman" );
 								break;
-
 							case "-beekeeper:":
 								PlaceNPC( split[1], split[2], split[3], "Beekeeper" );
 								break;
-							
-							
-								// Guilds & Misc
 							case "-tinkers guild:":
 								PlaceNPC( split[1], split[2], split[3], "TinkerGuildmaster" );
 								break;
 							case "-blacksmiths guild:":
 								PlaceNPC( split[1], split[2], split[3], "BlacksmithGuildmaster" );
 								break;
-							case "-sorcerors guild:":
-								PlaceNPC( split[1], split[2], split[3], "MageGuildmaster" );
-								break;
-							case "-customs:": break;
-							case "-painter:": break;
-							case "-theater:": break;
 							case "-warriors guild:":
 								PlaceNPC( split[1], split[2], split[3], "WarriorGuildmaster" );
 								break;
@@ -193,44 +179,15 @@ namespace Server
 							case "-merchants guild:":
 								PlaceNPC( split[1], split[2], split[3], "MerchantGuildmaster" );
 								break;
-							case "-illusionists guild:": break;
-							case "-armourers guild:": break;
-							case "-sorcerers guild:": break;
 							case "-mages guild:":
 								PlaceNPC( split[1], split[2], split[3], "MageGuildmaster" );
 								break;
-							case "-weapons guild:": break;
 							case "-bardic guild:":
 								PlaceNPC( split[1], split[2], split[3], "BardGuildmaster" );
 								break;
-							case "-rogues guild:":
-								break;
-
-								// Skip
-							case "+landmark:":
-							case "-point of interest:":
-							case "+shrine:":
-							case "+moongate:":
-							case "+dungeon:":
-							case "+scenic:":
-							case "-gate:":
-							case "+Body of Water:":
-							case "+ruins:":
-							case "+teleporter:":
-							case "+Terrain:":
-							case "-exit:":
-							case "-bridge:":
-							case "-other:":
-							case "+champion:":
-							case "-stairs:":
-							case "-guild:":
-							case "+graveyard:":
-							case "+Island:":
-							case "+town:":
-								break;
-							/*default:
+							default:
 								Console.WriteLine(split[0]);
-								break;*/
+								break;
 						}
 					}
 				}

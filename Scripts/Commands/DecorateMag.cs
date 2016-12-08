@@ -69,7 +69,6 @@ namespace Server.Commands
 		private static Type typeofLocalizedSign = typeof( LocalizedSign );
 		private static Type typeofWarningItem = typeof( WarningItem );
 		private static Type typeofHintItem = typeof( HintItem );
-		private static Type typeofCannon = typeof( Cannon );
 		private static Type typeofSerpentPillar = typeof( SerpentPillar );
 
 		public Item Construct()
@@ -245,23 +244,6 @@ namespace Server.Commands
 					wi.ResetDelay = resetDelay;
 
 					item = wi;
-				}
-				else if ( m_Type == typeofCannon )
-				{
-					CannonDirection direction = CannonDirection.North;
-
-					for ( int i = 0; i < m_Params.Length; ++i )
-					{
-						if ( m_Params[i].StartsWith( "CannonDirection" ) )
-						{
-							int indexOf = m_Params[i].IndexOf( '=' );
-
-							if ( indexOf >= 0 )
-								direction = (CannonDirection)Enum.Parse( typeof( CannonDirection ), m_Params[i].Substring( ++indexOf ), true );
-						}
-					}
-
-					item = new Cannon( direction );
 				}
 				else if ( m_Type == typeofSerpentPillar )
 				{

@@ -1,17 +1,8 @@
 namespace Server.Items
 {
-    public class RewardBlackDyeTub : DyeTub, Engines.VeteranRewards.IRewardItem
+    public class RewardBlackDyeTub : DyeTub
 	{
 		public override int LabelNumber{ get{ return 1006008; } } // Black Dye Tub
-
-		private bool m_IsRewardItem;
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool IsRewardItem
-		{
-			get{ return m_IsRewardItem; }
-			set{ m_IsRewardItem = value; }
-		}
 
 		[Constructable]
 		public RewardBlackDyeTub()
@@ -21,14 +12,6 @@ namespace Server.Items
 			LootType = LootType.Blessed;
 		}
 
-		public override void OnDoubleClick( Mobile from )
-		{
-			if ( m_IsRewardItem && !Engines.VeteranRewards.RewardSystem.CheckIsUsableBy( from, this, null ) )
-				return;
-
-			base.OnDoubleClick( from );
-		}
-
 		public RewardBlackDyeTub( Serial serial ) : base( serial )
 		{
 		}
@@ -36,9 +19,6 @@ namespace Server.Items
 		public override void GetProperties( ObjectPropertyList list )
 		{
 			base.GetProperties( list );
-
-			if ( Core.ML && m_IsRewardItem )
-				list.Add( 1076217 ); // 1st Year Veteran Reward
 		}
 
 		public override void Serialize( GenericWriter writer )
@@ -46,8 +26,6 @@ namespace Server.Items
 			base.Serialize( writer );
 
 			writer.Write( (int) 1 ); // version
-
-			writer.Write( (bool) m_IsRewardItem );
 		}
 
 		public override void Deserialize( GenericReader reader )
@@ -55,15 +33,6 @@ namespace Server.Items
 			base.Deserialize( reader );
 
 			int version = reader.ReadInt();
-
-			switch ( version )
-			{
-				case 1:
-				{
-					m_IsRewardItem = reader.ReadBool();
-					break;
-				}
-			}
 		}
 	}
 }
