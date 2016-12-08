@@ -8,7 +8,6 @@ namespace Server.Gumps
 		public static readonly LocationTree Felucca = new LocationTree( "felucca.xml", Map.Felucca );
 		public static readonly LocationTree Trammel = new LocationTree( "trammel.xml", Map.Trammel );
 		public static readonly LocationTree Ilshenar = new LocationTree( "ilshenar.xml", Map.Ilshenar );
-		public static readonly LocationTree Malas = new LocationTree( "malas.xml", Map.Malas );
 
 		public static bool OldStyle = PropsConfig.OldStyle;
 
@@ -69,8 +68,6 @@ namespace Server.Gumps
 				tree = Ilshenar;
 			else if ( from.Map == Map.Trammel )
 				tree = Trammel;
-			else if ( from.Map == Map.Malas )
-				tree = Malas;
 			else
 				tree = Felucca;
 

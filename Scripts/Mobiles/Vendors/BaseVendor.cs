@@ -305,9 +305,6 @@ namespace Server.Mobiles
 		{
 			if ( CheckGargoyle() )
 				return;
-
-			if ( CheckNecromancer() )
-				return;
 		}
 
 		public virtual bool CheckGargoyle()
@@ -322,22 +319,6 @@ namespace Server.Mobiles
 
 			if ( Body != 0x2F6 || ( Hue & 0x8000 ) == 0 )
 				TurnToGargoyle();
-
-			return true;
-		}
-
-		public virtual bool CheckNecromancer()
-		{
-			Map map = this.Map;
-
-			if ( map != Map.Malas )
-				return false;
-
-			if ( !Region.IsPartOf( "Umbra" ) )
-				return false;
-
-			if ( Hue != 0x83E8 )
-				TurnToNecromancer();
 
 			return true;
 		}

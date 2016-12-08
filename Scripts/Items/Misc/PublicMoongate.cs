@@ -270,19 +270,10 @@ namespace Server.Items
 					new PMEntry( new Point3D( 1721,  218,  96 ), 1019000 )  // Chaos
 				} );
 
-		public static readonly PMList Malas =
-			new PMList( 1060643, 1062039, Map.Malas, new PMEntry[]
-				{
-					new PMEntry( new Point3D( 1015,  527, -65 ), 1060641 ), // Luna
-					new PMEntry( new Point3D( 1997, 1386, -85 ), 1060642 )  // Umbra
-				} );
-
 		public static readonly PMList[] UORLists		= new PMList[] { Trammel, Felucca };
 		public static readonly PMList[] UORListsYoung	= new PMList[] { Trammel };
 		public static readonly PMList[] LBRLists		= new PMList[] { Trammel, Felucca, Ilshenar };
 		public static readonly PMList[] LBRListsYoung	= new PMList[] { Trammel, Ilshenar };
-		public static readonly PMList[] AOSLists		= new PMList[] { Trammel, Felucca, Ilshenar, Malas };
-		public static readonly PMList[] AOSListsYoung	= new PMList[] { Trammel, Ilshenar, Malas };
 		public static readonly PMList[] RedLists		= new PMList[] { Felucca };
 		public static readonly PMList[] SigilLists		= new PMList[] { Felucca };
 	}
@@ -299,37 +290,7 @@ namespace Server.Items
 			m_Moongate = moongate;
 
 			PMList[] checkLists = PMList.RedLists;
-            /*
-			if ( mobile.Player )
-			{
-				if ( Factions.Sigil.ExistsOn( mobile ) )
-				{
-					checkLists = PMList.SigilLists;
-				}
-				else if ( mobile.Kills >= 5 )
-				{
-					checkLists = PMList.RedLists;
-				}
-				else
-				{
-					ClientFlags flags = mobile.NetState == null ? ClientFlags.None : mobile.NetState.Flags;
-					bool young = mobile is PlayerMobile ? ((PlayerMobile)mobile).Young : false;
 
-					if ( Core.SE && (flags & ClientFlags.Tokuno) != 0 )
-						checkLists = young ? PMList.SEListsYoung : PMList.SELists;
-					else if ( Core.AOS && (flags & ClientFlags.Malas) != 0 )
-						checkLists = young ? PMList.AOSListsYoung : PMList.AOSLists;
-					else if ( (flags & ClientFlags.Ilshenar) != 0 )
-						checkLists = young ? PMList.LBRListsYoung : PMList.LBRLists;
-					else
-						checkLists = young ? PMList.UORListsYoung : PMList.UORLists;
-				}
-			}
-			else
-			{
-				checkLists = PMList.SELists;
-			}
-            */
 			m_Lists = new PMList[checkLists.Length];
 
 			for ( int i = 0; i < m_Lists.Length; ++i )

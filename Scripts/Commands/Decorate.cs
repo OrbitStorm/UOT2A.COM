@@ -26,7 +26,6 @@ namespace Server.Commands
 			Generate( "Data/Decoration/Trammel", Map.Trammel );
 			Generate( "Data/Decoration/Felucca", Map.Felucca );
 			Generate( "Data/Decoration/Ilshenar", Map.Ilshenar );
-			Generate( "Data/Decoration/Malas", Map.Malas );
 
 			m_Mobile.SendMessage( "World generating complete. {0} items were generated.", m_Count );
 		}
@@ -69,7 +68,6 @@ namespace Server.Commands
 		private static Type typeofAnkhNorth = typeof( AnkhNorth );
 		private static Type typeofBeverage = typeof( BaseBeverage );
 		private static Type typeofLocalizedSign = typeof( LocalizedSign );
-		private static Type typeofMarkContainer = typeof( MarkContainer );
 		private static Type typeofWarningItem = typeof( WarningItem );
 		private static Type typeofHintItem = typeof( HintItem );
 		private static Type typeofCannon = typeof( Cannon );
@@ -139,38 +137,6 @@ namespace Server.Commands
 						item = new AnkhWest( bloodied );
 					else
 						item = new AnkhNorth( bloodied );
-				}
-				else if ( m_Type == typeofMarkContainer )
-				{
-					bool bone = false;
-					bool locked = false;
-					Map map = Map.Malas;
-
-					for ( int i = 0; i < m_Params.Length; ++i )
-					{
-						if ( m_Params[i] == "Bone" )
-						{
-							bone = true;
-						}
-						else if ( m_Params[i] == "Locked" )
-						{
-							locked = true;
-						}
-						else if ( m_Params[i].StartsWith( "TargetMap" ) )
-						{
-							int indexOf = m_Params[i].IndexOf( '=' );
-
-							if ( indexOf >= 0 )
-								map = Map.Parse( m_Params[i].Substring( ++indexOf ) );
-						}
-					}
-
-					MarkContainer mc = new MarkContainer( bone, locked );
-
-					mc.TargetMap = map;
-					mc.Description = "strange location";
-
-					item = mc;
 				}
 				else if ( m_Type == typeofHintItem )
 				{
@@ -994,11 +960,6 @@ namespace Server.Commands
 							}
 
 							eable.Free();
-						}
-						else if ( item is MarkContainer )
-						{
-							try{ ((MarkContainer)item).Target = Point3D.Parse( extra ); }
-							catch{}
 						}
 
 						item = null;

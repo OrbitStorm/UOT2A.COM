@@ -23,8 +23,6 @@ namespace Server.Gumps
 				return 81;
 			else if ( map == Map.Ilshenar )
 				return 1102;
-			else if ( map == Map.Malas )
-				return 1102;
 
 			return 0;
 		}

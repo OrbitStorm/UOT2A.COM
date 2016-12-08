@@ -64,7 +64,6 @@ namespace Server.Commands
 				Map[] fel = new Map[]{ Map.Felucca };
 				Map[] tram = new Map[]{ Map.Trammel };
 				Map[] ilsh = new Map[]{ Map.Ilshenar };
-				Map[] malas = new Map[]{ Map.Malas };
 
 				for ( int i = 0; i < list.Count; ++i )
 				{
@@ -77,7 +76,6 @@ namespace Server.Commands
 						case 1: maps = fel; break;  // Felucca
 						case 2: maps = tram; break; // Trammel
 						case 3: maps = ilsh; break; // Ilshenar
-						case 4: maps = malas; break; // Malas
 					}
 
 					for ( int j = 0; maps != null && j < maps.Length; ++j )
@@ -119,14 +117,6 @@ namespace Server.Commands
 			{
 				sign = new Sign( itemID );
 				sign.Name = name;
-			}
-
-			if ( map == Map.Malas )
-			{
-				if ( location.X >= 965 && location.Y >= 502 && location.X <= 1012 && location.Y <= 537 )
-					sign.Hue = 0x47E;
-				else if ( location.X >= 1960 && location.Y >= 1278 && location.X < 2106 && location.Y < 1413 )
-					sign.Hue = 0x44E;
 			}
 
 			sign.MoveToWorld( location, map );

@@ -929,54 +929,6 @@ namespace Server.Commands
 				CreateTeleporter( 1981, 117, -28, 835, 778, -80, map, false );
 			}
 
-			public void CreateTeleportersMap3( Map map )
-			{
-				//Fan Dancer Levels
-				CreateTeleporter( 66, 351, -7, 63, 524, -1, map, false );
-				CreateTeleporter( 66, 352, -7, 63, 524, -1, map, false );
-				CreateTeleporter( 66, 353, -7, 63, 524, -1, map, false );
-				CreateTeleporter( 66, 354, -7, 63, 524, -1, map, false );
-
-				CreateTeleporter( 61, 523,  6, 63, 352, -3, map, false );
-				CreateTeleporter( 61, 524,  6, 63, 352, -3, map, false );
-				CreateTeleporter( 61, 525,  6, 63, 352, -3, map, false );
-				CreateTeleporter( 61, 526,  6, 63, 352, -3, map, false );
-
-				CreateTeleporter( 103, 555, -6, 76, 691, -1, map, false );
-				CreateTeleporter( 103, 556, -6, 76, 691, -1, map, false );
-				CreateTeleporter( 103, 557, -6, 76, 691, -1, map, false );
-				CreateTeleporter( 103, 558, -6, 76, 691, -1, map, false );
-
-				CreateTeleporter( 73,  688,  6, 100, 556, -2, map, false );
-				CreateTeleporter( 73,  689,  6, 100, 556, -2, map, false );
-				CreateTeleporter( 73,  690,  6, 100, 556, -2, map, false );
-				CreateTeleporter( 73,  691,  6, 100, 556, -2, map, false );
-				CreateTeleporter( 73,  692,  6, 100, 556, -2, map, false );
-				CreateTeleporter( 73,  693,  6, 100, 556, -2, map, false );
-				CreateTeleporter( 73,  694,  6, 100, 556, -2, map, false );
-
-				//Ninja cave
-				CreateTeleporter( 384,  810, -1, 403, 1167,  0, map, false );
-
-				CreateTeleporter( 403, 1169,  0, 385,  811, -1, map, false );
-				CreateTeleporter( 404, 1169,  0, 385,  808, -1, map, false );
-				CreateTeleporter( 405, 1169,  0, 385,  808, -1, map, false );
-				
-				// Dungeon Labyrinth
-				CreateTeleporter( 328, 1972, 5, 1731, 978, -80, map, false ); // Door exit
-				CreateTeleporter( 328, 1973, 5, 1731, 978, -80, map, false );
-				CreateTeleporter( 328, 1974, 5, 1731, 978, -80, map, false );
-				CreateTeleporter( 328, 1975, 5, 1731, 978, -80, map, false );
-
-				// Dungeon Bedlam
-				CreateTeleporter( 119, 1684, 0, 2068, 1372, -75, map, false );
-				CreateTeleporter( 120, 1684, 0, 2068, 1372, -75, map, false );
-				CreateTeleporter( 121, 1684, 0, 2068, 1372, -75, map, false );
-				CreateTeleporter(  84, 1673, -2, 156, 1613, 0, map, false );
-				CreateTeleporter( 156, 1609, 17,  87, 1673, 0, map, false );
-				CreateTeleporter( 157, 1609, 17,  87, 1673, 0, map, false );
-			}
-
 			public void CreateTeleportersTrammel( Map map )
 			{
 				// Haven
@@ -996,7 +948,6 @@ namespace Server.Commands
 				CreateTeleportersTrammel( Map.Trammel );
 				CreateTeleportersFelucca( Map.Felucca );
 				CreateTeleportersMap2( Map.Ilshenar );
-				CreateTeleportersMap3( Map.Malas );
 				return m_Count;
 			}
 		}

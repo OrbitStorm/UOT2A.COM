@@ -946,16 +946,12 @@
     <Compile Include=".\Items\Containers\FillableContainers.cs" />
     <Compile Include=".\Items\Containers\FurnitureContainer.cs" />
     <Compile Include=".\Items\Containers\LockableContainer.cs" />
-    <Compile Include=".\Items\Containers\MarkContainer.cs" />
     <Compile Include=".\Items\Containers\ParagonChest.cs" />
     <Compile Include=".\Items\Containers\SalvageBag.cs" />
     <Compile Include=".\Items\Containers\Strongbox.cs" />
     <Compile Include=".\Items\Containers\TrapableContainer.cs" />
     <Compile Include=".\Items\Containers\TreasureChest.cs" />
     <Compile Include=".\Items\Containers\TreasureMapChest.cs" />
-    <Compile Include=".\Items\Decoration Artifacts\BaseDecorationArtifact.cs" />
-    <Compile Include=".\Items\Decoration Artifacts\SEDecorationArtifacts.cs" />
-    <Compile Include=".\Items\Decoration Artifacts\StealableArtifactsSpawner.cs" />
     <Compile Include=".\Items\Deeds\BarkeepContract.cs" />
     <Compile Include=".\Items\Deeds\ClothingBlessDeed.cs" />
     <Compile Include=".\Items\Deeds\CommodityDeed.cs" />

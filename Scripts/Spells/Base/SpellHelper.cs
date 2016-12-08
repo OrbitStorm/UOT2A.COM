@@ -573,28 +573,22 @@ namespace Server.Spells
 				new TravelValidator( IsFeluccaDungeon ),
 				new TravelValidator( IsTrammelSolenHive ),
 				new TravelValidator( IsFeluccaSolenHive ),
-				new TravelValidator( IsCrystalCave ),
-				new TravelValidator( IsDoomGauntlet ),
-				new TravelValidator( IsDoomFerry ),
 				new TravelValidator( IsSafeZone ),
 				new TravelValidator( IsFactionStronghold ),
-				new TravelValidator( IsTokunoDungeon ),
-				new TravelValidator( IsLampRoom ),
-				new TravelValidator( IsGuardianRoom ),
 				new TravelValidator( IsHeartwood ),
 				new TravelValidator( IsMLDungeon )
 			};
 
 		private static bool[,] m_Rules = new bool[,]
 			{
-					/*T2A(Fel),	Khaldun,	Ilshenar,	Wind(Tram),	Wind(Fel),	Dungeons(Fel),	Solen(Tram),	Solen(Fel),	CrystalCave(Malas),	Gauntlet(Malas),	Gauntlet(Ferry),	SafeZone,	Stronghold,	Dungeons(Tokuno[Malas]),	LampRoom(Doom),	GuardianRoom(Doom),	Heartwood,	MLDungeons */
-/* Recall From */	{ false,	false,		true,		true,		false,		false,			true,			false,		false,				false,				false,				true,		true,		true,						false,			false,				false,		false },
-/* Recall To */		{ false,	false,		false,		false,		false,		false,			false,			false,		false,				false,				false,				false,		false,		false,						false,			false,				false,		false },
-/* Gate From */		{ false,	false,		false,		false,		false,		false,			false,			false,		false,				false,				false,				false,		false,		false,						false,			false,				false,		false },
-/* Gate To */		{ false,	false,		false,		false,		false,		false,			false,			false,		false,				false,				false,				false,		false,		false,						false,			false,				false,		false },
-/* Mark In */		{ false,	false,		false,		false,		false,		false,			false,			false,		false,				false,				false,				false,		false,		false,						false,			false,				false,		false },
-/* Tele From */		{ true,		true,		true,		true,		true,		true,			true,			true,		false,				true,				true,				true,		false,		true,						true,			true,				false,		true },
-/* Tele To */		{ true,		true,		true,		true,		true,		true,			true,			true,		false,				true,				false,				false,		false, 		true,						true,			true,				false,		false },
+					/*T2A(Fel),	Khaldun,	Ilshenar,	Wind(Tram),	Wind(Fel),	Dungeons(Fel),	Solen(Tram),	Solen(Fel),	SafeZone,	Stronghold,	Heartwood,	MLDungeons */
+/* Recall From */	{ false,	false,		true,		true,		false,		false,			true,			false,		true,		true,		false,		false },
+/* Recall To */		{ false,	false,		false,		false,		false,		false,			false,			false,		false,		false,		false,		false },
+/* Gate From */		{ false,	false,		false,		false,		false,		false,			false,			false,		false,		false,		false,		false },
+/* Gate To */		{ false,	false,		false,		false,		false,		false,			false,			false,		false,		false,		false,		false },
+/* Mark In */		{ false,	false,		false,		false,		false,		false,			false,			false,		false,		false,		false,		false },
+/* Tele From */		{ true,		true,		true,		true,		true,		true,			true,			true,		true,		false,		false,		true },
+/* Tele To */		{ true,		true,		true,		true,		true,		true,			true,			true,		false,		false, 		false,		false },
 			};
 
 		public static void SendInvalidMessage( Mobile caster, TravelCheckType type )
@@ -724,19 +718,6 @@ namespace Server.Spells
 			return ( Region.Find( loc, map ).Name == "Khaldun" );
 		}
 
-		public static bool IsCrystalCave( Map map, Point3D loc )
-		{
-			if( map != Map.Malas || loc.Z >= -80 )
-				return false;
-
-			int x = loc.X, y = loc.Y;
-
-			return ( x >= 1182 && y >= 437 && x < 1211 && y < 470 )
-				|| ( x >= 1156 && y >= 470 && x < 1211 && y < 503 )
-				|| ( x >= 1176 && y >= 503 && x < 1208 && y < 509 )
-				|| ( x >= 1188 && y >= 509 && x < 1201 && y < 513 );
-		}
-
 		public static bool IsSafeZone( Map map, Point3D loc )
 		{
 			#region Duels
@@ -767,66 +748,6 @@ namespace Server.Spells
 			}*/
 
 			return (Region.Find( loc, map ).IsPartOf( typeof( Factions.StrongholdRegion ) ));
-		}
-
-		public static bool IsDoomFerry( Map map, Point3D loc )
-		{
-			if( map != Map.Malas )
-				return false;
-
-			int x = loc.X, y = loc.Y;
-
-			if( x >= 426 && y >= 314 && x <= 430 && y <= 331 )
-				return true;
-
-			if( x >= 406 && y >= 247 && x <= 410 && y <= 264 )
-				return true;
-
-			return false;
-		}
-
-		public static bool IsTokunoDungeon( Map map, Point3D loc )
-		{
-			//The tokuno dungeons are really inside malas
-			if( map != Map.Malas )
-				return false;
-
-			int x = loc.X, y = loc.Y, z = loc.Z;
-
-			bool r1 = (x >= 0 && y >= 0 && x <= 128 && y <= 128);
-			bool r2 = (x >= 45 && y >= 320 && x < 195 && y < 710);
-
-			return (r1 || r2);
-		}
-
-		public static bool IsDoomGauntlet( Map map, Point3D loc )
-		{
-			if( map != Map.Malas )
-				return false;
-
-			int x = loc.X - 256, y = loc.Y - 304;
-
-			return (x >= 0 && y >= 0 && x < 256 && y < 256);
-		}
-
-		public static bool IsLampRoom( Map map, Point3D loc )
-		{
-			if ( map != Map.Malas )
-				return false;
-
-			int x = loc.X, y = loc.Y;
-
-			return ( x >= 465 && y >= 92 && x < 474 && y < 102 );
-		}
-
-		public static bool IsGuardianRoom( Map map, Point3D loc )
-		{
-			if ( map != Map.Malas )
-				return false;
-
-			int x = loc.X, y = loc.Y;
-
-			return ( x >= 356 && y >= 5 && x < 375 && y < 25 );
 		}
 
 		public static bool IsHeartwood( Map map, Point3D loc )

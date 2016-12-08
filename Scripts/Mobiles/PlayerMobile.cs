@@ -4157,19 +4157,6 @@ namespace Server.Mobiles
 				new Point3D( 1722,  219,  96 )
 			};
 
-		private static Point3D[] m_MalasDeathDestinations = new Point3D[]
-			{
-				new Point3D( 2079, 1376, -70 ),
-				new Point3D(  944,  519, -71 )
-			};
-
-		private static Point3D[] m_TokunoDeathDestinations = new Point3D[]
-			{
-				new Point3D( 1166,  801, 27 ),
-				new Point3D(  782, 1228, 25 ),
-				new Point3D(  268,  624, 15 )
-			};
-
 		public bool YoungDeathTeleport()
 		{
 			if ( this.Region.IsPartOf( typeof( Jail ) )
@@ -4199,8 +4186,6 @@ namespace Server.Mobiles
 				list = m_TrammelDeathDestinations;
 			else if ( map == Map.Ilshenar )
 				list = m_IlshenarDeathDestinations;
-			else if ( map == Map.Malas )
-				list = m_MalasDeathDestinations;
 			else
 				return false;
 

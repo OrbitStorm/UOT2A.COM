@@ -53,9 +53,6 @@ namespace Server.Multis
 			if ( map == Map.Ilshenar || SpellHelper.IsFeluccaT2A( map, center ) )
 				return HousePlacementResult.BadRegion; // No houses in Ilshenar/T2A
 
-			if ( map == Map.Malas && ( multiID == 0x007C || multiID == 0x007E ) )
-				return HousePlacementResult.InvalidCastleKeep;
-
 			NoHousingRegion noHousingRegion = (NoHousingRegion) Region.Find( center, map ).GetRegion( typeof( NoHousingRegion ) );
 
 			if ( noHousingRegion != null )

@@ -239,14 +239,6 @@ namespace Server.Items
 
 								bool isclear = true;
 
-								foreach( Item item in Map.Malas.GetItemsInRange( p3d, 0 ) )
-								{
-									if( item is Fireflies )
-									{
-										isclear = false;
-									}
-								}
-
 								if( ( ( m_ItemID == 0x2336 && north ) || ( m_ItemID == 0x2332 && west ) ) && isclear )
 								{
 									Fireflies flies = new Fireflies( m_ItemID );
