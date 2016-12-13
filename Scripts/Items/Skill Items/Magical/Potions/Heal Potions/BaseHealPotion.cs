@@ -54,9 +54,7 @@ namespace Server.Items
 						DoHeal( from );
 
 						BasePotion.PlayDrinkEffect( from );
-
-						if ( !Engines.ConPVP.DuelContext.IsFreeConsume( from ) )
-							this.Consume();
+						this.Consume();
 
 						Timer.DelayCall( TimeSpan.FromSeconds( Delay ), new TimerStateCallback( ReleaseHealLock ), from );
 					}

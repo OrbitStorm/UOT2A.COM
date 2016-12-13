@@ -39,9 +39,7 @@ namespace Server.Items
 			DoPoison( from );
 
 			BasePotion.PlayDrinkEffect( from );
-
-			if ( !Engines.ConPVP.DuelContext.IsFreeConsume( from ) )
-				this.Consume();
+			this.Consume();
 		}
 	}
 }

@@ -237,9 +237,6 @@ namespace Server.Spells
 			if ( AosAttributes.GetValue( m_Caster, AosAttribute.LowerRegCost ) > Utility.Random( 100 ) )
 				return true;
 
-			if ( Engines.ConPVP.DuelContext.IsFreeConsume( m_Caster ) )
-				return true;
-
 			Container pack = m_Caster.Backpack;
 
 			if ( pack == null )
@@ -515,11 +512,6 @@ namespace Server.Spells
 			{
 				m_Caster.SendLocalizedMessage( 1072060 ); // You cannot cast a spell while calmed.
 			}
-			#region Dueling
-			else if ( m_Caster is PlayerMobile && ((PlayerMobile)m_Caster).DuelContext != null && !((PlayerMobile)m_Caster).DuelContext.AllowSpellCast( m_Caster, this ) )
-			{
-			}
-			#endregion
 			else if ( m_Caster.Mana >= ScaleMana( GetMana() ) )
 			{
 				if ( m_Caster.Spell == null && m_Caster.CheckSpellCast( this ) && CheckCast() && m_Caster.Region.OnBeginSpellCast( m_Caster, this ) )

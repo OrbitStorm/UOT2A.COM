@@ -67,16 +67,6 @@ namespace Server.Items
 					}
 				}
 
-				#region Dueling
-				if ( attacker is PlayerMobile )
-				{
-					PlayerMobile pm = (PlayerMobile)attacker;
-
-					if ( pm.DuelContext != null && !pm.DuelContext.CheckItemEquip( attacker, this ) )
-						canSwing = false;
-				}
-				#endregion
-
 				if ( canSwing && attacker.HarmfulCheck( defender ) )
 				{
 					attacker.DisruptiveAction();
