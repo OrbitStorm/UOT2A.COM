@@ -350,10 +350,6 @@ namespace Server.Items
 			{
 				m_Mobile.SendLocalizedMessage( 1019004 ); // You are not allowed to travel there.
 			}
-			else if ( Factions.Sigil.ExistsOn( m_Mobile ) && list.Map != Factions.Faction.Facet )
-			{
-				m_Mobile.SendLocalizedMessage( 1019004 ); // You are not allowed to travel there.
-			}
 			else if ( m_Mobile.Criminal )
 			{
 				m_Mobile.SendLocalizedMessage( 1005561, "", 0x22 ); // Thou'rt a criminal and cannot escape so easily.

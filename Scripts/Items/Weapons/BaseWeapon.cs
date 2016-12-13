@@ -5,7 +5,6 @@ using Server.Spells;
 using Server.Spells.Necromancy;
 using Server.Spells.Bushido;
 using Server.Spells.Ninjitsu;
-using Server.Factions;
 using Server.Engines.Craft;
 using System.Collections.Generic;
 using Server.Spells.Spellweaving;
@@ -18,7 +17,7 @@ namespace Server.Items
 		SlayerName Slayer2 { get; set; }
 	}
 
-	public abstract class BaseWeapon : Item, IWeapon, IFactionItem, ICraftable, ISlayer, IDurability
+	public abstract class BaseWeapon : Item, IWeapon, ICraftable, ISlayer, IDurability
 	{
 		private string m_EngravedText;
 		
@@ -28,24 +27,6 @@ namespace Server.Items
 			get{ return m_EngravedText; }
 			set{ m_EngravedText = value; InvalidateProperties(); }
 		}
-
-		#region Factions
-		private FactionItem m_FactionState;
-
-		public FactionItem FactionItemState
-		{
-			get{ return m_FactionState; }
-			set
-			{
-				m_FactionState = value;
-
-				if ( m_FactionState == null )
-					Hue = CraftResources.GetHue( Resource );
-
-				LootType = ( m_FactionState == null ? LootType.Regular : LootType.Blessed );
-			}
-		}
-		#endregion
 
 		/* Weapon internals work differently now (Mar 13 2003)
 		 * 
@@ -3120,11 +3101,6 @@ namespace Server.Items
 			if ( m_Crafter != null )
 				list.Add( 1050043, m_Crafter.Name ); // crafted by ~1_NAME~
 
-			#region Factions
-			if ( m_FactionState != null )
-				list.Add( 1041350 ); // faction item
-			#endregion
-
 			if ( m_AosSkillBonuses != null )
 				m_AosSkillBonuses.GetProperties( list );
 
@@ -3371,11 +3347,6 @@ namespace Server.Items
 				else if ( LootType == LootType.Cursed )
 					attrs.Add( new EquipInfoAttribute( 1049643 ) ); // cursed
 			}
-
-			#region Factions
-			if ( m_FactionState != null )
-				attrs.Add( new EquipInfoAttribute( 1041350 ) ); // faction item
-			#endregion
 
 			if ( m_Quality == WeaponQuality.Exceptional )
 				attrs.Add( new EquipInfoAttribute( 1018305 - (int)m_Quality ) );

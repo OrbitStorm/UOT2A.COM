@@ -64,10 +64,6 @@ namespace Server.Spells.Ninjitsu
 			{
 				Caster.SendLocalizedMessage( 1063087 ); // You must be in stealth mode to use this ability.
 			}
-			else if ( Factions.Sigil.ExistsOn( Caster ) )
-			{
-				Caster.SendLocalizedMessage( 1061632 ); // You can't do that while carrying the sigil.
-			}
 			else if ( Server.Misc.WeightOverloading.IsOverloaded( Caster ) )
 			{
 				Caster.SendLocalizedMessage( 502359, "", 0x22 ); // Thou art too encumbered to move.

@@ -9,7 +9,6 @@ using Server.Misc;
 using Server.Items;
 using Server.ContextMenus;
 using Server.Engines.PartySystem;
-using Server.Factions;
 using Server.SkillHandlers;
 using Server.Spells.Bushido;
 using Server.Spells.Spellweaving;
@@ -307,9 +306,6 @@ namespace Server.Mobiles
 			get { return m_SummonEnd; }
 			set { m_SummonEnd = value; }
 		}
-
-		public virtual Faction FactionAllegiance{ get{ return null; } }
-		public virtual int FactionSilverWorth{ get{ return 30; } }
 
 		#region Bonding
 		public const bool BondingEnabled = true;
@@ -855,29 +851,6 @@ namespace Server.Mobiles
 
 		#endregion
 
-		#region Allegiance
-		public enum Allegiance
-		{
-			None,
-			Ally,
-			Enemy
-		}
-
-		public virtual Allegiance GetFactionAllegiance( Mobile mob )
-		{
-			if ( mob == null || mob.Map != Faction.Facet || FactionAllegiance == null )
-				return Allegiance.None;
-
-			Faction fac = Faction.Find( mob, true );
-
-			if ( fac == null )
-				return Allegiance.None;
-
-			return ( fac == FactionAllegiance ? Allegiance.Ally : Allegiance.Enemy );
-		}
-
-		#endregion
-
 		public virtual bool IsEnemy( Mobile m )
 		{
 			OppositionGroup g = this.OppositionGroup;
@@ -886,9 +859,6 @@ namespace Server.Mobiles
 				return true;
 
 			if ( m is BaseGuard )
-				return false;
-
-			if ( GetFactionAllegiance( m ) == Allegiance.Ally )
 				return false;
 
 			if ( !(m is BaseCreature) )
@@ -4714,8 +4684,6 @@ namespace Server.Mobiles
 					List<int> fame = new List<int>();
 					List<int> karma = new List<int>();
 
-					bool givenFactionKill = false;
-
 					for ( int i = 0; i < list.Count; ++i )
 					{
 						DamageStore ds = list[i];
@@ -4760,12 +4728,6 @@ namespace Server.Mobiles
 						}
 
 						OnKilledBy( ds.m_Mobile );
-
-						if ( !givenFactionKill )
-						{
-							givenFactionKill = true;
-							Faction.HandleDeath( this, ds.m_Mobile );
-						}
 					}
 
 					for ( int i = 0; i < titles.Count; ++i )
@@ -4817,9 +4779,6 @@ namespace Server.Mobiles
 
 		public override bool CanBeHarmful( Mobile target, bool message, bool ignoreOurBlessedness )
 		{
-			if ( target is BaseFactionGuard )
-				return false;
-
 			if ( ( target is BaseCreature && ( (BaseCreature)target ).IsInvulnerable ) || target is PlayerVendor || target is TownCrier )
 			{
 				if ( message )

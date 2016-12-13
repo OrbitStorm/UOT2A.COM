@@ -256,12 +256,6 @@ namespace Server.Mobiles
 					m_Mobile.SayTo(from, "Your pet refuses to attack this creature!");
 					return;
 				}
-
-				if (target is Factions.BaseFactionGuard)
-				{
-					m_Mobile.SayTo(from, "Your pet refuses to attack the guard.");
-					return;
-				}
 			}
 
 			if (m_Mobile.CheckControlChance(from))
@@ -2422,7 +2416,7 @@ namespace Server.Mobiles
 				return false;
 			}
 
-			if (acqType == FightMode.Aggressor && m_Mobile.Aggressors.Count == 0 && m_Mobile.Aggressed.Count == 0 && m_Mobile.FactionAllegiance == null)
+			if (acqType == FightMode.Aggressor && m_Mobile.Aggressors.Count == 0 && m_Mobile.Aggressed.Count == 0)
 			{
 				m_Mobile.FocusMob = null;
 				return false;
@@ -2506,9 +2500,6 @@ namespace Server.Mobiles
 					if (acqType == FightMode.Aggressor || acqType == FightMode.Evil)
 					{
 						bool bValid = IsHostile(m);
-
-						if (!bValid)
-							bValid = (m_Mobile.GetFactionAllegiance(m) == BaseCreature.Allegiance.Enemy);
 
 						if (acqType == FightMode.Evil && !bValid)
 						{
