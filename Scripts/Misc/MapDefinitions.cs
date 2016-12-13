@@ -13,7 +13,6 @@ namespace Server.Misc
 			 */
 
 			RegisterMap( 0, 0, 0, 7168, 4096, 0, "Felucca",		MapRules.FeluccaRules );
-			RegisterMap( 1, 1, 1, 7168, 4096, 0, "Trammel",		MapRules.TrammelRules );
 
 			RegisterMap( 0x7F, 0x7F, 0x7F, Map.SectorSize, Map.SectorSize, 1, "Internal", MapRules.Internal );
 

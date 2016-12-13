@@ -70,7 +70,7 @@ namespace Server.Items
 		}
 
 		[Constructable]
-		public SOS() : this( Map.Trammel )
+		public SOS() : this( Map.Felucca )
 		{
 		}
 
@@ -137,7 +137,7 @@ namespace Server.Items
 					m_TargetMap = this.Map;
 
 					if ( m_TargetMap == null || m_TargetMap == Map.Internal )
-						m_TargetMap = Map.Trammel;
+						m_TargetMap = Map.Felucca;
 
 					m_TargetLocation = FindLocation( m_TargetMap );
 					m_MessageIndex = Utility.Random( MessageEntry.Entries.Length );
@@ -189,7 +189,7 @@ namespace Server.Items
 
 			Rectangle2D[] regions;
 
-			if ( map == Map.Felucca || map == Map.Trammel )
+			if ( map == Map.Felucca )
 				regions = m_BritRegions;
 			else
 				regions = new Rectangle2D[]{ new Rectangle2D( 0, 0, map.Width, map.Height ) };

@@ -235,7 +235,7 @@ namespace Server.Engines.Events
 			new Point3D( 2701,  692, 5 ), // Minoc
 			new Point3D( 1828, 2948,-20), // Trinsic
 			new Point3D(  643, 2067, 5 ), // Skara Brae
-			new Point3D( 3563, 2139, Map.Trammel.GetAverageZ( 3563, 2139 ) ), // (New) Magincia
+			new Point3D( 3563, 2139, Map.Felucca.GetAverageZ( 3563, 2139 ) ), // (New) Magincia
 		};
 
 		private static Point3D[] Malas_Locations =

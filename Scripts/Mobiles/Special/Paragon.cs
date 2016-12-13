@@ -9,8 +9,8 @@ namespace Server.Mobiles
 		public static double ChocolateIngredientChance = .20;  // Chance that a paragon will drop a chocolatiering ingredient
 		public static Map[] Maps = new Map[]                   // Maps that paragons will spawn on
 		{
-			Map.Trammel
-		};
+			Map.Felucca
+        };
 
 		private static TimeSpan FastRegenRate = TimeSpan.FromSeconds( .5 );
 		private static TimeSpan CPUSaverRate = TimeSpan.FromSeconds( 2 );

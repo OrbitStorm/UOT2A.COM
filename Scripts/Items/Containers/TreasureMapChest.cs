@@ -134,17 +134,6 @@ namespace Server.Items
 			cont.Locked = true;
 			int numberItems;
 			
-			if ( level == 0 )
-			{
-				cont.LockLevel = 0; // Can't be unlocked
-
-				cont.DropItem( new Gold( Utility.RandomMinMax( 50, 100 ) ) );
-
-				if ( Utility.RandomDouble() < 0.75 )
-					cont.DropItem( new TreasureMap( 0, Map.Trammel ) );
-			}
-			else
-			{
 				cont.TrapType = TrapType.ExplosionTrap;
 				cont.TrapPower = level * 25;
 				cont.TrapLevel = level;
@@ -267,7 +256,6 @@ namespace Server.Items
 						cont.DropItem( item );
 					}
 				}
-			}
 
 			int reagents;
 			if ( level == 0 )

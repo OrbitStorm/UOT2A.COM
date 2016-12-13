@@ -484,12 +484,6 @@ namespace Server.Commands
 				CreateTeleporter( 6310, 893, 0, 1716, 2997, 0, map, false );
 			}
 
-			public void CreateTeleportersTrammel( Map map )
-			{
-				// Haven
-				CreateTeleporter( 3632, 2566, 0, 3632, 2566, 20, map, true );
-			}
-
 			public void CreateTeleportersFelucca( Map map )
 			{
 				// Star room
@@ -499,8 +493,6 @@ namespace Server.Commands
 			public int CreateTeleporters()
 			{
 				CreateTeleportersMap( Map.Felucca );
-				CreateTeleportersMap( Map.Trammel );
-				CreateTeleportersTrammel( Map.Trammel );
 				CreateTeleportersFelucca( Map.Felucca );
 				return m_Count;
 			}

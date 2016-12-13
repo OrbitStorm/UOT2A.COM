@@ -6,7 +6,6 @@ namespace Server.Gumps
     public class GoGump : Gump
 	{
 		public static readonly LocationTree Felucca = new LocationTree( "felucca.xml", Map.Felucca );
-		public static readonly LocationTree Trammel = new LocationTree( "trammel.xml", Map.Trammel );
 
 		public static bool OldStyle = PropsConfig.OldStyle;
 
@@ -61,12 +60,7 @@ namespace Server.Gumps
 
 		public static void DisplayTo( Mobile from )
 		{
-			LocationTree tree;
-
-			if ( from.Map == Map.Trammel )
-				tree = Trammel;
-			else
-				tree = Felucca;
+			LocationTree tree = Felucca;
 
 			ParentNode branch = null;
 			tree.LastBranch.TryGetValue( from, out branch );

@@ -40,7 +40,6 @@ namespace Server.Commands
 
 			if ( File.Exists( cfg ) )
 			{
-				List<SignEntry> list = new List<SignEntry>();
 				from.SendMessage( "Generating signs, please wait." );
 
 				using ( StreamReader ip = new StreamReader( cfg ) )
@@ -56,29 +55,10 @@ namespace Server.Commands
 							new Point3D( Utility.ToInt32( split[2] ), Utility.ToInt32( split[3] ), Utility.ToInt32( split[4] ) ),
 							Utility.ToInt32( split[1] ), Utility.ToInt32( split[0] ) );
 
-						list.Add( e );
-					}
-				}
+                        Add_Static(e.m_ItemID, e.m_Location, Map.Felucca, e.m_Text);
 
-				Map[] brit = new Map[]{ Map.Felucca, Map.Trammel };
-				Map[] fel = new Map[]{ Map.Felucca };
-				Map[] tram = new Map[]{ Map.Trammel };
-
-				for ( int i = 0; i < list.Count; ++i )
-				{
-					SignEntry e = list[i];
-					Map[] maps = null;
-
-					switch ( e.m_Map )
-					{
-						case 0: maps = brit; break; // Trammel and Felucca
-						case 1: maps = fel; break;  // Felucca
-						case 2: maps = tram; break; // Trammel
-					}
-
-					for ( int j = 0; maps != null && j < maps.Length; ++j )
-						Add_Static( e.m_ItemID, e.m_Location, maps[j], e.m_Text );
-				}
+                    }
+                }
 
 				from.SendMessage( "Sign generating complete." );
 			}

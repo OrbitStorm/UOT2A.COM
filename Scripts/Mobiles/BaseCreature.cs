@@ -4411,24 +4411,13 @@ namespace Server.Mobiles
 		{
 			int treasureLevel = TreasureMapLevel;
 
-			if ( treasureLevel == 1 && this.Map == Map.Trammel && TreasureMap.IsInHavenIsland( this ) )
-			{
-				Mobile killer = this.LastKiller;
-
-				if ( killer is BaseCreature )
-					killer = ((BaseCreature)killer).GetMaster();
-
-				if ( killer is PlayerMobile && ((PlayerMobile)killer).Young )
-					treasureLevel = 0;
-			}
-
 			if ( !Summoned && !NoKillAwards && !IsBonded )
 			{
 				if ( treasureLevel >= 0 )
 				{
 					if ( m_Paragon && Paragon.ChestChance > Utility.RandomDouble() )
 						PackItem( new ParagonChest( this.Name, treasureLevel ) );
-					else if ( (Map == Map.Felucca || Map == Map.Trammel) && TreasureMap.LootChance >= Utility.RandomDouble() )
+					else if ( Map == Map.Felucca && TreasureMap.LootChance >= Utility.RandomDouble() )
 						PackItem( new TreasureMap( treasureLevel, Map ) );
 				}
 

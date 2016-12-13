@@ -63,7 +63,6 @@ namespace Server
 		public static Map[] Maps { get { return m_Maps; } }
 
 		public static Map Felucca { get { return m_Maps[0]; } }
-		public static Map Trammel { get { return m_Maps[1]; } }
 		public static Map Internal { get { return m_Maps[0x7F]; } }
 
 		private static List<Map> m_AllMaps = new List<Map>();

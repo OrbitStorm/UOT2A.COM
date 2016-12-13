@@ -449,7 +449,6 @@ namespace Server
 				CommandLogging.WriteLine( from, "{0} {1} invoking unfreeze for every item in every map", from.AccessLevel, CommandLogging.Format( from ) );
 
 				DoUnfreeze( Map.Felucca, ref badDataFile, ref totalUnfrozen );
-				DoUnfreeze( Map.Trammel, ref badDataFile, ref totalUnfrozen );
 			}
 			else if ( start == NullP3D && end == NullP3D )
 			{

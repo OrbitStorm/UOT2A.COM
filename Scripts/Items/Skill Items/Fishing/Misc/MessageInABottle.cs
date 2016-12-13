@@ -32,7 +32,7 @@ namespace Server.Items
 		}
 
 		[Constructable]
-		public MessageInABottle() : this( Map.Trammel )
+		public MessageInABottle() : this( Map.Felucca )
 		{
 		}
 
@@ -84,7 +84,7 @@ namespace Server.Items
 				}
 				case 0:
 				{
-					m_TargetMap = Map.Trammel;
+					m_TargetMap = Map.Felucca;
 					break;
 				}
 			}

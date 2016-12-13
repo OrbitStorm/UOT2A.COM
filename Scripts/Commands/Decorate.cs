@@ -22,9 +22,7 @@ namespace Server.Commands
 
             m_Mobile.SendMessage("Generating world decoration, please wait.");
 
-            Generate("Data/Decoration/Britannia", Map.Trammel, Map.Felucca);
-            Generate("Data/Decoration/Trammel", Map.Trammel);
-            Generate("Data/Decoration/Felucca", Map.Felucca);
+            Generate("Data/Decoration/Britannia", Map.Felucca);
 
             m_Mobile.SendMessage("World generating complete. {0} items were generated.", m_Count);
         }

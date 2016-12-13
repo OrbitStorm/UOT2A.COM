@@ -153,19 +153,19 @@ namespace Server.Misc
 			cont = new Bag();
 			cont.Name = "Bag Of Treasure Maps";
 
-			PlaceItemIn( cont, 30, 35, new TreasureMap( 1, Map.Trammel ) );
-			PlaceItemIn( cont, 45, 35, new TreasureMap( 2, Map.Trammel ) );
-			PlaceItemIn( cont, 60, 35, new TreasureMap( 3, Map.Trammel ) );
-			PlaceItemIn( cont, 75, 35, new TreasureMap( 4, Map.Trammel ) );
-			PlaceItemIn( cont, 90, 35, new TreasureMap( 5, Map.Trammel ) );
-			PlaceItemIn( cont, 90, 35, new TreasureMap( 6, Map.Trammel ) );
+			PlaceItemIn( cont, 30, 35, new TreasureMap( 1, Map.Felucca ) );
+			PlaceItemIn( cont, 45, 35, new TreasureMap( 2, Map.Felucca) );
+			PlaceItemIn( cont, 60, 35, new TreasureMap( 3, Map.Felucca) );
+			PlaceItemIn( cont, 75, 35, new TreasureMap( 4, Map.Felucca) );
+			PlaceItemIn( cont, 90, 35, new TreasureMap( 5, Map.Felucca) );
+			PlaceItemIn( cont, 90, 35, new TreasureMap( 6, Map.Felucca) );
 
-			PlaceItemIn( cont, 30, 50, new TreasureMap( 1, Map.Trammel ) );
-			PlaceItemIn( cont, 45, 50, new TreasureMap( 2, Map.Trammel ) );
-			PlaceItemIn( cont, 60, 50, new TreasureMap( 3, Map.Trammel ) );
-			PlaceItemIn( cont, 75, 50, new TreasureMap( 4, Map.Trammel ) );
-			PlaceItemIn( cont, 90, 50, new TreasureMap( 5, Map.Trammel ) );
-			PlaceItemIn( cont, 90, 50, new TreasureMap( 6, Map.Trammel ) );
+			PlaceItemIn( cont, 30, 50, new TreasureMap( 1, Map.Felucca) );
+			PlaceItemIn( cont, 45, 50, new TreasureMap( 2, Map.Felucca) );
+			PlaceItemIn( cont, 60, 50, new TreasureMap( 3, Map.Felucca) );
+			PlaceItemIn( cont, 75, 50, new TreasureMap( 4, Map.Felucca) );
+			PlaceItemIn( cont, 90, 50, new TreasureMap( 5, Map.Felucca) );
+			PlaceItemIn( cont, 90, 50, new TreasureMap( 6, Map.Felucca) );
 
 			PlaceItemIn( cont, 55, 100, new Lockpick( 30 ) );
 			PlaceItemIn( cont, 60, 100, new Pickaxe() );
@@ -341,7 +341,7 @@ namespace Server.Misc
 			PlaceItemIn( cont, 93, 66, new PixieSwatter() );
 
 			for( int i = 0; i < 10; i++ )
-				PlaceItemIn( cont, 117, 128, new MessageInABottle( Utility.RandomBool() ? Map.Trammel : Map.Felucca, 4 ) );
+				PlaceItemIn( cont, 117, 128, new MessageInABottle( Map.Felucca, 4 ) );
 
 			PlaceItemIn( bank, 18, 124, cont );
 
@@ -408,11 +408,11 @@ namespace Server.Misc
 			bank.DropItem( bag );
 
 			// Treasure maps
-			bank.DropItem( new TreasureMap( 1, Map.Trammel ) );
-			bank.DropItem( new TreasureMap( 2, Map.Trammel ) );
-			bank.DropItem( new TreasureMap( 3, Map.Trammel ) );
-			bank.DropItem( new TreasureMap( 4, Map.Trammel ) );
-			bank.DropItem( new TreasureMap( 5, Map.Trammel ) );
+			bank.DropItem( new TreasureMap( 1, Map.Felucca) );
+			bank.DropItem( new TreasureMap( 2, Map.Felucca) );
+			bank.DropItem( new TreasureMap( 3, Map.Felucca) );
+			bank.DropItem( new TreasureMap( 4, Map.Felucca) );
+			bank.DropItem( new TreasureMap( 5, Map.Felucca) );
 
 			// Bag containing 50 of each reagent
 			bank.DropItem( new BagOfReagents( 50 ) );

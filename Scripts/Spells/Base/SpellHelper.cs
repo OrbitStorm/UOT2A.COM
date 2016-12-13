@@ -567,10 +567,8 @@ namespace Server.Spells
 			{
 				new TravelValidator( IsFeluccaT2A ),
 				new TravelValidator( IsKhaldun ),
-				new TravelValidator( IsTrammelWind ),
 				new TravelValidator( IsFeluccaWind ),
 				new TravelValidator( IsFeluccaDungeon ),
-				new TravelValidator( IsTrammelSolenHive ),
 				new TravelValidator( IsFeluccaSolenHive ),
 				new TravelValidator( IsSafeZone ),
 				new TravelValidator( IsFactionStronghold ),
@@ -580,14 +578,14 @@ namespace Server.Spells
 
 		private static bool[,] m_Rules = new bool[,]
 			{
-					/*T2A(Fel),	Khaldun,	Wind(Tram),	Wind(Fel),	Dungeons(Fel),	Solen(Tram),	Solen(Fel),	SafeZone,	Stronghold,	Heartwood,	MLDungeons */
-/* Recall From */	{ false,	false,		true,		false,		false,			true,			false,		true,		true,		false,		false },
-/* Recall To */		{ false,	false,		false,		false,		false,			false,			false,		false,		false,		false,		false },
-/* Gate From */		{ false,	false,		false,		false,		false,			false,			false,		false,		false,		false,		false },
-/* Gate To */		{ false,	false,		false,		false,		false,			false,			false,		false,		false,		false,		false },
-/* Mark In */		{ false,	false,		false,		false,		false,			false,			false,		false,		false,		false,		false },
-/* Tele From */		{ true,		true,		true,		true,		true,			true,			true,		true,		false,		false,		true },
-/* Tele To */		{ true,		true,		true,		true,		true,			true,			true,		false,		false, 		false,		false },
+					/*T2A(Fel),	Khaldun,	Wind(Fel),	Dungeons(Fel),	Solen(Fel),	SafeZone,	Stronghold,	Heartwood,	MLDungeons */
+/* Recall From */	{ false,	false,		false,		false,			false,		true,		true,		false,		false },
+/* Recall To */		{ false,	false,		false,		false,			false,		false,		false,		false,		false },
+/* Gate From */		{ false,	false,		false,		false,			false,		false,		false,		false,		false },
+/* Gate To */		{ false,	false,		false,		false,			false,		false,		false,		false,		false },
+/* Mark In */		{ false,	false,		false,		false,			false,		false,		false,		false,		false },
+/* Tele From */		{ true,		true,		true,		true,			true,		true,		false,		false,		true },
+/* Tele To */		{ true,		true,		true,		true,			true,		false,		false, 		false,		false },
 			};
 
 		public static void SendInvalidMessage( Mobile caster, TravelCheckType type )
@@ -665,21 +663,11 @@ namespace Server.Spells
 			return (map == Map.Felucca && IsWindLoc( loc ));
 		}
 
-		public static bool IsTrammelWind( Map map, Point3D loc )
-		{
-			return (map == Map.Trammel && IsWindLoc( loc ));
-		}
-
 		public static bool IsSolenHiveLoc( Point3D loc )
 		{
 			int x = loc.X, y = loc.Y;
 
 			return (x >= 5640 && y >= 1776 && x < 5935 && y < 2039);
-		}
-
-		public static bool IsTrammelSolenHive( Map map, Point3D loc )
-		{
-			return (map == Map.Trammel && IsSolenHiveLoc( loc ));
 		}
 
 		public static bool IsFeluccaSolenHive( Map map, Point3D loc )
@@ -692,13 +680,6 @@ namespace Server.Spells
 			int x = loc.X, y = loc.Y;
 
 			return (map == Map.Felucca && x >= 5120 && y >= 2304 && x < 6144 && y < 4096);
-		}
-
-		public static bool IsAnyT2A( Map map, Point3D loc )
-		{
-			int x = loc.X, y = loc.Y;
-
-			return ((map == Map.Trammel || map == Map.Felucca) && x >= 5120 && y >= 2304 && x < 6144 && y < 4096);
 		}
 
 		public static bool IsFeluccaDungeon( Map map, Point3D loc )
@@ -748,7 +729,7 @@ namespace Server.Spells
 		{
 			int x = loc.X, y = loc.Y;
 
-			return (map == Map.Trammel || map == Map.Felucca) && (x >= 6911 && y >= 254 && x < 7167 && y < 511);
+			return  map == Map.Felucca && (x >= 6911 && y >= 254 && x < 7167 && y < 511);
 		}
 
 		public static bool IsMLDungeon( Map map, Point3D loc )

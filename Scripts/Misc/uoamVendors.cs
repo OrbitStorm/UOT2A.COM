@@ -212,13 +212,9 @@ namespace Server
 			{
 				case 0://Trammel and Felucca
 					MakeSpawner( types, x, y, Map.Felucca );
-					MakeSpawner( types, x, y, Map.Trammel );
 					break;
 				case 1://Felucca
 					MakeSpawner( types, x, y, Map.Felucca );
-					break;
-				case 2:
-					MakeSpawner( types, x, y, Map.Trammel );
 					break;
 				default:
 					Console.WriteLine( "UOAM Vendor Parser: Warning, unknown map {0}", map );

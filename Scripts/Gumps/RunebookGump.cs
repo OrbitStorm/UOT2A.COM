@@ -17,9 +17,7 @@ namespace Server.Gumps
 
 		public int GetMapHue( Map map )
 		{
-			if ( map == Map.Trammel )
-				return 10;
-			else if ( map == Map.Felucca )
+			if ( map == Map.Felucca )
 				return 81;
 
 			return 0;
