@@ -108,12 +108,6 @@ namespace Server.Mobiles
 			Tamable = true;
 			ControlSlots = 4;
 			MinTameSkill = 98.7;
-
-			if( Utility.RandomDouble() < .33 )
-				PackItem( Engines.Plants.Seed.RandomBonsaiSeed() );
-
-			if ( Core.ML && Utility.RandomDouble() < .33 )
-				PackItem( Engines.Plants.Seed.RandomPeculiarSeed(3) );
 		}
 
 

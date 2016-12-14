@@ -45,8 +45,6 @@ namespace Server.Mobiles
 				PackItem( new Log( 10 ) );
 
 			PackReg( 3 );
-			PackItem( new Engines.Plants.Seed() );
-			PackItem( new Engines.Plants.Seed() );
 		}
 
 		public override void GenerateLoot()

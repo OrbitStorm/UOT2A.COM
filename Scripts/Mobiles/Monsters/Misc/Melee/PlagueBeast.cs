@@ -66,9 +66,6 @@ namespace Server.Mobiles
 			if ( Utility.RandomDouble() < 0.80 )
 				PackItem( new PlagueBeastGland() );
 
-			if ( Core.ML && Utility.RandomDouble() < 0.33 )
-				PackItem( Engines.Plants.Seed.RandomPeculiarSeed(4) );
-
 			m_DevourTotal = 0;
 			m_DevourGoal = Utility.RandomMinMax( 15, 25 ); // How many corpses must be devoured before a metal chest is awarded
 		}

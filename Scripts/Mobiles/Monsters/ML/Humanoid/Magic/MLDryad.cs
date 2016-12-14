@@ -1,5 +1,4 @@
 using System;
-using Server.Engines.Plants;
 
 namespace Server.Mobiles
 {
@@ -48,9 +47,6 @@ namespace Server.Mobiles
 			Karma = 5000;
 
 			VirtualArmor = 28; // Don't know what it should be
-
-			if ( Core.ML && Utility.RandomDouble() < .60 )
-				PackItem( Seed.RandomPeculiarSeed( 1 ) );
 
 			PackArcanceScroll( 0.05 );
 		}
