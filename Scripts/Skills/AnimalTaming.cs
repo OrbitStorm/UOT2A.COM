@@ -191,7 +191,7 @@ namespace Server.SkillHandlers
 								if ( creature.AIObject != null )
 									creature.AIObject.DoMove( creature.Direction );
 
-								if ( from is PlayerMobile && !(( (PlayerMobile)from ).HonorActive || TransformationSpellHelper.UnderTransformation( from, typeof( EtherealVoyageSpell ))))
+								if ( TransformationSpellHelper.UnderTransformation( from, typeof( EtherealVoyageSpell )))
 									creature.Combatant = from;
 							}
 							else

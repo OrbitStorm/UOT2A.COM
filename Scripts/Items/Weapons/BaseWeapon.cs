@@ -1436,21 +1436,6 @@ namespace Server.Items
 				percentageBonus += 25;
 			}
 
-			if ( attacker is PlayerMobile && !(Core.ML && defender is PlayerMobile ))
-			{
-				PlayerMobile pmAttacker = (PlayerMobile) attacker;
-
-				if( pmAttacker.HonorActive && pmAttacker.InRange( defender, 1 ) )
-				{
-					percentageBonus += 25;
-				}
-
-				if( pmAttacker.SentHonorContext != null && pmAttacker.SentHonorContext.Target == defender )
-				{
-					percentageBonus += pmAttacker.SentHonorContext.PerfectionDamageBonus;
-				}
-			}
-
 			BaseTalisman talisman = attacker.Talisman as BaseTalisman;
 
 			if ( talisman != null && talisman.Killer != null )
@@ -1699,9 +1684,6 @@ namespace Server.Items
 
 			if ( move != null )
 				move.OnHit( attacker, defender, damage );
-
-			if ( defender is IHonorTarget && ((IHonorTarget)defender).ReceivedHonorContext != null )
-				((IHonorTarget)defender).ReceivedHonorContext.OnTargetHit( attacker );
 
 			if ( !(this is BaseRanged) )
 			{
@@ -2042,9 +2024,6 @@ namespace Server.Items
 
 			if ( move != null )
 				move.OnMiss( attacker, defender );
-
-			if ( defender is IHonorTarget && ((IHonorTarget)defender).ReceivedHonorContext != null )
-				((IHonorTarget)defender).ReceivedHonorContext.OnTargetMissed( attacker );
 		}
 
 		public virtual void GetBaseDamageRange( Mobile attacker, out int min, out int max )
