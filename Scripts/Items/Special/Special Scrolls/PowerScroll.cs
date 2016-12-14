@@ -245,7 +245,6 @@ namespace Server.Items
 			else
 			{
 				LootType = LootType.Cursed;
-				Insured = false;
 			}
 		}
 	}

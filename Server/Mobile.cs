@@ -4192,8 +4192,7 @@ namespace Server
 		{
 			private Mobile m_Mobile;
 
-			public AutoManifestTimer( Mobile m, TimeSpan delay )
-				: base( delay )
+			public AutoManifestTimer( Mobile m, TimeSpan delay ) : base( delay )
 			{
 				m_Mobile = m;
 			}
@@ -4208,14 +4207,6 @@ namespace Server
 		public virtual bool CheckTarget( Mobile from, Target targ, object targeted )
 		{
 			return true;
-		}
-
-		private static bool m_InsuranceEnabled;
-
-		public static bool InsuranceEnabled
-		{
-			get { return m_InsuranceEnabled; }
-			set { m_InsuranceEnabled = value; }
 		}
 
 		public virtual void Use( Item item )

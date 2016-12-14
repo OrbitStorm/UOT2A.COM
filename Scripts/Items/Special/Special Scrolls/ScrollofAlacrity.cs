@@ -162,7 +162,6 @@ namespace Server.Items
 			int version = ( InheritsItem ? 0 : reader.ReadInt() ); //Required for SpecialScroll insertion
 
 			LootType = LootType.Cursed;
-			Insured = false;
 		}
 	}
 }
