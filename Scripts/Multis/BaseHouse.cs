@@ -1575,14 +1575,13 @@ namespace Server.Multis
 			if ( !locked )
 				i.SetLastMoved();
 
-			if ( (i is Container) && (!locked || !(i is BaseBoard || i is Aquarium || i is FishBowl)) )
+			if ( (i is Container) && (!locked || !(i is BaseBoard)) )
 			{
 				foreach ( Item c in i.Items )
 					SetLockdown( c, locked, checkContains );
 			}
 		}
-
-		public bool LockDown( Mobile m, Item item )
+        public bool LockDown( Mobile m, Item item )
 		{
 			return LockDown( m, item, true );
 		}
@@ -2485,7 +2484,7 @@ namespace Server.Multis
 			{
 				Item item = (Item)m_LockDowns[i];
 
-				if ( item is Container && !(item is BaseBoard || item is Aquarium || item is FishBowl) )
+				if ( item is Container && !(item is BaseBoard) )
 				{
 					Container cont = (Container)item;
 					List<Item> children = cont.Items;
