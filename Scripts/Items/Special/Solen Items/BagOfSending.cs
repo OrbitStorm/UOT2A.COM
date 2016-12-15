@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Server.ContextMenus;
 using Server.Targeting;
 using Server.Network;
 
@@ -117,38 +115,6 @@ namespace Server.Items
 			base.OnSingleClick( from );
 
 			LabelTo( from, 1060741, m_Charges.ToString() ); // charges: ~1_val~
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( from.Alive )
-				list.Add( new UseBagEntry( this, Charges > 0 && IsChildOf( from.Backpack ) ) );
-		}
-
-		private class UseBagEntry : ContextMenuEntry
-		{
-			private BagOfSending m_Bag;
-
-			public UseBagEntry( BagOfSending bag, bool enabled ) : base( 6189 )
-			{
-				m_Bag = bag;
-
-				if ( !enabled )
-					Flags |= CMEFlags.Disabled;
-			}
-
-			public override void OnClick()
-			{
-				if ( m_Bag.Deleted )
-					return;
-
-				Mobile from = Owner.From;
-
-				if ( from.CheckAlive() )
-					m_Bag.OnDoubleClick( from );
-			}
 		}
 
 		public override void OnDoubleClick( Mobile from )

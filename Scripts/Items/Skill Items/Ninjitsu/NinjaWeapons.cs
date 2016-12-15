@@ -1,5 +1,4 @@
 using System;
-using Server.ContextMenus;
 using Server.Mobiles;
 using Server.Spells.Necromancy;
 using Server.Spells.Ninjitsu;
@@ -13,7 +12,7 @@ using Server.Targeting;
 
 namespace Server.Items
 {
-	public interface INinjaAmmo : IUsesRemaining
+    public interface INinjaAmmo : IUsesRemaining
 	{
 		int PoisonCharges { get; set; }
 		Poison Poison { get; set; }
@@ -340,46 +339,6 @@ namespace Server.Items
 				return true;
 			}
 			return false;
-		}
-
-		public class LoadEntry : ContextMenuEntry
-		{
-			private INinjaWeapon weapon;
-
-			public LoadEntry(INinjaWeapon wep, int entry)
-				: base(entry, 0)
-			{
-				weapon = wep;
-			}
-
-			public override void OnClick()
-			{
-				if (WeaponIsValid(weapon, Owner.From))
-				{
-					Owner.From.BeginTarget(10, false, TargetFlags.Harmful, new TargetStateCallback<INinjaWeapon>(OnTarget), weapon);
-				}
-			}
-		}
-
-		public class UnloadEntry : ContextMenuEntry
-		{
-			private INinjaWeapon weapon;
-
-			public UnloadEntry(INinjaWeapon wep, int entry)
-				: base(entry, 0)
-			{
-				weapon = wep;
-
-				Enabled = (weapon.UsesRemaining > 0);
-			}
-
-			public override void OnClick()
-			{
-				if (WeaponIsValid(weapon, Owner.From))
-				{
-					Unload(Owner.From, weapon);
-				}
-			}
 		}
 	}
 }

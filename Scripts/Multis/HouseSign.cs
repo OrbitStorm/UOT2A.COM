@@ -1,7 +1,5 @@
 using System;
-using System.Collections.Generic;
 using Server.Gumps;
-using Server.ContextMenus;
 
 namespace Server.Multis
 {
@@ -198,75 +196,6 @@ namespace Server.Multis
 			}
 
 			ShowSign( m );
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( BaseHouse.NewVendorSystem && from.Alive && Owner != null && Owner.IsAosRules )
-			{
-				if ( Owner.AreThereAvailableVendorsFor( from ) )
-					list.Add( new VendorsEntry( this ) );
-
-				if ( Owner.VendorInventories.Count > 0 )
-					list.Add( new ReclaimVendorInventoryEntry( this ) );
-			}
-		}
-
-		private class VendorsEntry : ContextMenuEntry
-		{
-			private HouseSign m_Sign;
-
-			public VendorsEntry( HouseSign sign ) : base( 6211 )
-			{
-				m_Sign = sign;
-			}
-
-			public override void OnClick()
-			{
-				Mobile from = this.Owner.From;
-
-				if ( !from.CheckAlive() || m_Sign.Deleted || m_Sign.Owner == null || !m_Sign.Owner.AreThereAvailableVendorsFor( from ) )
-					return;
-
-				if ( from.Map != m_Sign.Map || !from.InRange( m_Sign, 5 ) )
-				{
-					from.SendLocalizedMessage( 1062429 ); // You must be within five paces of the house sign to use this option.
-				}
-				else
-				{
-					from.SendGump( new HouseGumpAOS( HouseGumpPageAOS.Vendors, from, m_Sign.Owner ) );
-				}
-			}
-		}
-
-		private class ReclaimVendorInventoryEntry : ContextMenuEntry
-		{
-			private HouseSign m_Sign;
-
-			public ReclaimVendorInventoryEntry( HouseSign sign ) : base( 6213 )
-			{
-				m_Sign = sign;
-			}
-
-			public override void OnClick()
-			{
-				Mobile from = this.Owner.From;
-
-				if ( m_Sign.Deleted || m_Sign.Owner == null || m_Sign.Owner.VendorInventories.Count == 0 || !from.CheckAlive() )
-					return;
-
-				if ( from.Map != m_Sign.Map || !from.InRange( m_Sign, 5 ) )
-				{
-					from.SendLocalizedMessage( 1062429 ); // You must be within five paces of the house sign to use this option.
-				}
-				else
-				{
-					from.CloseGump( typeof( VendorInventoryGump ) );
-					from.SendGump( new VendorInventoryGump( m_Sign.Owner, from ) );
-				}
-			}
 		}
 
 		public override void Serialize( GenericWriter writer )

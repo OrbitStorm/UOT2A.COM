@@ -2,7 +2,6 @@ using System;
 using Server.Multis;
 using Server.Gumps;
 using System.Collections.Generic;
-using Server.ContextMenus;
 
 namespace Server.Items
 {
@@ -107,12 +106,6 @@ namespace Server.Items
 		{
 			get{ return m_Level; }
 			set{ m_Level = value; }
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-			SetSecureLevelEntry.AddTo( from, this, list );
 		}
 
 		public BaseHouseDoor( DoorFacing facing, int closedID, int openedID, int openedSound, int closedSound, Point3D offset ) : base( closedID, openedID, openedSound, closedSound, offset )

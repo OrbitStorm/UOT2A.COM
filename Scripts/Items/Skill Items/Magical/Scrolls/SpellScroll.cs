@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Server.Spells;
-using Server.ContextMenus;
 
 namespace Server.Items
 {
@@ -62,14 +61,6 @@ namespace Server.Items
 					break;
 				}
 			}
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( from.Alive && this.Movable )
-				list.Add( new ContextMenus.AddToSpellbookEntry() );
 		}
 
 		public override void OnDoubleClick( Mobile from )

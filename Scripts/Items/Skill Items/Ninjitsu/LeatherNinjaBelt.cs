@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Server.ContextMenus;
 using Server.Mobiles;
 
 namespace Server.Items
@@ -96,17 +94,6 @@ namespace Server.Items
 		public override void OnDoubleClick(Mobile from)
 		{
 			NinjaWeapon.AttemptShoot((PlayerMobile)from, this);
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( IsChildOf( from ) )
-			{
-				list.Add(new NinjaWeapon.LoadEntry(this, 6222));
-				list.Add(new NinjaWeapon.UnloadEntry(this, 6223));
-			}
 		}
 
 		public override void Serialize( GenericWriter writer )

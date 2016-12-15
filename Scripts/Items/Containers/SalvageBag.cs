@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using Server.ContextMenus;
 using Server.Engines.Craft;
 using Server.Network;
 
@@ -26,18 +25,6 @@ namespace Server.Items
 			m_Failure = false;
         }
 
-        public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-        {
-            base.GetContextMenuEntries( from, list );
-
-            if( from.Alive )
-            {
-                list.Add( new SalvageIngotsEntry( this, IsChildOf( from.Backpack ) && Resmeltables() ) );
-                list.Add( new SalvageClothEntry( this, IsChildOf( from.Backpack ) && Scissorables() ) );
-                list.Add( new SalvageAllEntry( this, IsChildOf( from.Backpack ) && Resmeltables() && Scissorables() ) );
-            }
-        }
-		
 		#region Checks
 		private bool Resmeltables() //Where context menu checks for metal items and dragon barding deeds
 		{
@@ -287,83 +274,6 @@ namespace Server.Items
             SalvageCloth( from );
         }
 		#endregion
-
-        #region ContextMenuEntries
-        private class SalvageAllEntry : ContextMenuEntry
-        {
-            private SalvageBag m_Bag;
-
-            public SalvageAllEntry( SalvageBag bag, bool enabled )
-                : base( 6276 )
-            {
-                m_Bag = bag;
-
-                if( !enabled )
-                    Flags |= CMEFlags.Disabled;
-            }
-
-            public override void OnClick()
-            {
-                if( m_Bag.Deleted )
-                    return;
-
-                Mobile from = Owner.From;
-
-                if( from.CheckAlive() )
-                    m_Bag.SalvageAll( from );
-            }
-        }
-
-        private class SalvageIngotsEntry : ContextMenuEntry
-        {
-            private SalvageBag m_Bag;
-
-            public SalvageIngotsEntry( SalvageBag bag, bool enabled )
-                : base( 6277 )
-            {
-                m_Bag = bag;
-
-                if( !enabled )
-                    Flags |= CMEFlags.Disabled;
-            }
-
-            public override void OnClick()
-            {
-                if( m_Bag.Deleted )
-                    return;
-
-                Mobile from = Owner.From;
-
-                if( from.CheckAlive() )
-                    m_Bag.SalvageIngots( from );
-            }
-        }
-
-        private class SalvageClothEntry : ContextMenuEntry
-        {
-            private SalvageBag m_Bag;
-
-            public SalvageClothEntry( SalvageBag bag, bool enabled )
-                : base( 6278 )
-            {
-                m_Bag = bag;
-
-                if( !enabled )
-                    Flags |= CMEFlags.Disabled;
-            }
-
-            public override void OnClick()
-            {
-                if( m_Bag.Deleted )
-                    return;
-
-                Mobile from = Owner.From;
-
-                if( from.CheckAlive() )
-                    m_Bag.SalvageCloth( from );
-            }
-        }
-        #endregion
 
         #region Serialization
         public SalvageBag( Serial serial )

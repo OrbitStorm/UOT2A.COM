@@ -3,14 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Server.Items;
 using Server.Network;
-using Server.ContextMenus;
-using Server.Mobiles;
-using Server.Misc;
 using Server.Regions;
 
 namespace Server.Mobiles
 {
-	public enum VendorShoeType
+    public enum VendorShoeType
 	{
 		None,
 		Shoes,
@@ -1130,20 +1127,6 @@ namespace Server.Mobiles
 				IsParagon = false;
 		}
 
-		public override void AddCustomContextEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			if ( from.Alive && IsActiveVendor )
-			{
-				if ( IsActiveSeller )
-					list.Add( new VendorBuyEntry( from, this ) );
-
-				if ( IsActiveBuyer )
-					list.Add( new VendorSellEntry( from, this ) );
-			}
-
-			base.AddCustomContextEntries( from, list );
-		}
-
 		public virtual IShopSellInfo[] GetSellInfo()
 		{
 			return (IShopSellInfo[])m_ArmorSellInfo.ToArray( typeof( IShopSellInfo ) );
@@ -1156,46 +1139,9 @@ namespace Server.Mobiles
 	}
 }
 
-namespace Server.ContextMenus
-{
-	public class VendorBuyEntry : ContextMenuEntry
-	{
-		private BaseVendor m_Vendor;
-
-		public VendorBuyEntry( Mobile from, BaseVendor vendor )
-			: base( 6103, 8 )
-		{
-			m_Vendor = vendor;
-			Enabled = vendor.CheckVendorAccess( from );
-		}
-
-		public override void OnClick()
-		{
-			m_Vendor.VendorBuy( this.Owner.From );
-		}
-	}
-
-	public class VendorSellEntry : ContextMenuEntry
-	{
-		private BaseVendor m_Vendor;
-
-		public VendorSellEntry( Mobile from, BaseVendor vendor )
-			: base( 6104, 8 )
-		{
-			m_Vendor = vendor;
-			Enabled = vendor.CheckVendorAccess( from );
-		}
-
-		public override void OnClick()
-		{
-			m_Vendor.VendorSell( this.Owner.From );
-		}
-	}
-}
-
 namespace Server
 {
-	public interface IShopSellInfo
+    public interface IShopSellInfo
 	{
 		//get display name for an item
 		string GetNameFor( Item item );

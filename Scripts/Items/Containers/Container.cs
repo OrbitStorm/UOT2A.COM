@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using Server.Multis;
 using Server.Mobiles;
 using Server.Network;
-using Server.ContextMenus;
 
 namespace Server.Items
 {
@@ -45,12 +44,6 @@ namespace Server.Items
 				return true;
 
 			return base.CheckItemUse( from, item );
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-			SetSecureLevelEntry.AddTo( from, this, list );
 		}
 
 		public override bool TryDropItem( Mobile from, Item dropped, bool sendFullMessage )

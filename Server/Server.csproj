@@ -75,10 +75,6 @@
     <Compile Include=".\Body.cs" />
     <Compile Include=".\ClientVersion.cs" />
     <Compile Include=".\Commands.cs" />
-    <Compile Include=".\ContextMenus\ContextMenu.cs" />
-    <Compile Include=".\ContextMenus\ContextMenuEntry.cs" />
-    <Compile Include=".\ContextMenus\OpenBackpackEntry.cs" />
-    <Compile Include=".\ContextMenus\PaperdollEntry.cs" />
     <Compile Include=".\Diagnostics\BaseProfile.cs" />
     <Compile Include=".\Diagnostics\GumpProfile.cs" />
     <Compile Include=".\Diagnostics\PacketProfile.cs" />

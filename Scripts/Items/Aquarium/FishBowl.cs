@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Server.ContextMenus;
 using Server.Network;
 
 namespace Server.Items
@@ -112,14 +111,6 @@ namespace Server.Items
 			}
 		}
 
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( !Empty && IsAccessibleTo( from ) )
-				list.Add( new RemoveCreature( this ) );
-		}
-
 		public override void Serialize( GenericWriter writer )
 		{
 			base.Serialize( writer );
@@ -135,42 +126,6 @@ namespace Server.Items
 
 			if ( version == 0 )
 				Weight = DefaultWeight;
-		}
-
-		private class RemoveCreature : ContextMenuEntry
-		{
-			private FishBowl m_Bowl;
-
-			public RemoveCreature( FishBowl bowl ) : base( 6242, 3 ) // Remove creature
-			{
-				m_Bowl = bowl;
-			}
-
-			public override void OnClick()
-			{
-				if ( m_Bowl == null || m_Bowl.Deleted || !m_Bowl.IsAccessibleTo( Owner.From ) )
-					return;
-
-				BaseFish fish = m_Bowl.Fish;
-
-				if ( fish != null )
-				{
-					if ( fish.IsLockedDown ) // for legacy fish bowls
-					{
-						Owner.From.SendLocalizedMessage( 1010449 ); // You may not use this object while it is locked down.
-					}
-					else if ( !Owner.From.PlaceInBackpack( fish ) )
-					{
-						Owner.From.SendLocalizedMessage( 1074496 ); // There is no room in your pack for the creature.
-					}
-					else
-					{
-						Owner.From.SendLocalizedMessage( 1074495 ); // The creature has been removed from the fish bowl.
-						fish.StartTimer();
-						m_Bowl.InvalidateProperties();
-					}
-				}
-			}
 		}
 	}
 }

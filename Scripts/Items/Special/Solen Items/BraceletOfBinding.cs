@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Server.ContextMenus;
 using Server.Network;
 using Server.Prompts;
 using Server.Targeting;
@@ -100,44 +98,6 @@ namespace Server.Items
 		public override void OnSingleClick( Mobile from )
 		{
 			LabelTo( from, 1054000, m_Charges.ToString() + ( m_Inscription.Length == 0 ? "\t " : " :\t" + m_Inscription ) ); // a bracelet of binding : ~1_val~ ~2_val~
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( from.Alive && this.IsChildOf( from ) )
-			{
-				BraceletOfBinding bound = this.Bound;
-
-				list.Add( new BraceletEntry( new BraceletCallback( Activate ), 6170, bound != null ) );
-				list.Add( new BraceletEntry( new BraceletCallback( Search ), 6171, bound != null ) );
-				list.Add( new BraceletEntry( new BraceletCallback( Bind ), bound == null ? 6173 : 6174, true ) );
-				list.Add( new BraceletEntry( new BraceletCallback( Inscribe ), 6175, true ) );
-			}
-		}
-
-		private delegate void BraceletCallback( Mobile from );
-
-		private class BraceletEntry : ContextMenuEntry
-		{
-			private BraceletCallback m_Callback;
-
-			public BraceletEntry( BraceletCallback callback, int number, bool enabled ) : base( number )
-			{
-				m_Callback = callback;
-
-				if ( !enabled )
-					Flags |= CMEFlags.Disabled;
-			}
-
-			public override void OnClick()
-			{
-				Mobile from = Owner.From;
-
-				if ( from.CheckAlive() )
-					m_Callback( from );
-			}
 		}
 
 		public override void OnDoubleClick( Mobile from )

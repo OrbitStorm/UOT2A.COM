@@ -5,7 +5,6 @@ using Server.Multis;
 using Server.Prompts;
 using Server.Mobiles;
 using Server.Network;
-using Server.ContextMenus;
 
 namespace Server.Items
 {
@@ -107,12 +106,6 @@ namespace Server.Items
 
 		public BasePlayerBB( Serial serial ) : base( serial )
 		{
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-			SetSecureLevelEntry.AddTo( from, this, list );
 		}
 
 		public override void Serialize( GenericWriter writer )

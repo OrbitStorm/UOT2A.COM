@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Server.Gumps;
 using Server.Multis;
-using Server.ContextMenus;
 
 namespace Server.Engines.Mahjong
 {
@@ -146,36 +145,6 @@ namespace Server.Engines.Mahjong
 				list.Add( 1062717 ); // Spectator Vision Enabled
 			else
 				list.Add( 1062718 ); // Spectator Vision Disabled
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			m_Players.CheckPlayers();
-
-			if ( from.Alive && IsAccessibleTo( from ) && m_Players.GetInGameMobiles( true, false ).Count == 0 )
-				list.Add( new ResetGameEntry( this ) );
-
-			SetSecureLevelEntry.AddTo( from, this, list );
-		}
-
-		private class ResetGameEntry : ContextMenuEntry
-		{
-			private MahjongGame m_Game;
-
-			public ResetGameEntry( MahjongGame game ) : base( 6162 )
-			{
-				m_Game = game;
-			}
-
-			public override void OnClick()
-			{
-				Mobile from = Owner.From;
-
-				if ( from.CheckAlive() && !m_Game.Deleted && m_Game.IsAccessibleTo( from ) && m_Game.Players.GetInGameMobiles( true, false ).Count == 0 )
-					m_Game.ResetGame( from );
-			}
 		}
 
 		public override void OnDoubleClick( Mobile from )

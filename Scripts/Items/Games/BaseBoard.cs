@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using Server.Multis;
 using Server.Network;
-using Server.ContextMenus;
 using Server.Gumps;
 
 namespace Server.Items
@@ -108,58 +107,6 @@ namespace Server.Items
 			else
 			{
 				return false;
-			}
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( ValidateDefault( from, this ) )
-				list.Add( new DefaultEntry( from, this ) );
-
-			SetSecureLevelEntry.AddTo( from, this, list );
-		}
-
-		public static bool ValidateDefault( Mobile from, BaseBoard board )
-		{
-			if ( from.AccessLevel >= AccessLevel.GameMaster )
-				return true;
-
-			if ( !from.Alive )
-				return false;
-
-			if ( board.IsChildOf( from.Backpack ) )
-				return true;
-
-			object root = board.RootParent;
-
-			if ( root is Mobile && root != from )
-				return false;
-
-			if ( board.Deleted || board.Map != from.Map || !from.InRange( board.GetWorldLocation(), 1 ) )
-				return false;
-
-			BaseHouse house = BaseHouse.FindHouseAt( board );
-
-			return ( house != null && house.IsOwner( from ) );
-		}
-
-		public class DefaultEntry : ContextMenuEntry
-		{
-			private Mobile m_From;
-			private BaseBoard m_Board;
-
-			public DefaultEntry( Mobile from, BaseBoard board ) : base( 6162, from.AccessLevel >= AccessLevel.GameMaster ? -1 : 1 )
-			{
-				m_From = from;
-				m_Board = board;
-			}
-
-			public override void OnClick()
-			{
-				if ( BaseBoard.ValidateDefault( m_From, m_Board ) )
-					m_Board.Reset();
 			}
 		}
 	}

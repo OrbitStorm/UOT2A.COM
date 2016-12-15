@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Server.Multis;
-using Server.ContextMenus;
 using Server.Gumps;
 using Server.Mobiles;
 using Server.Targeting;
@@ -194,37 +193,6 @@ namespace Server.Items
 				else
 				{
 					from.SendLocalizedMessage( 501853 ); // Target is too far away.
-				}
-			}
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( IsUsableBy( from, true, true, true, false ) )
-			{
-				list.Add( new ContractOptionEntry( this ) );
-			}
-		}
-
-		private class ContractOptionEntry : ContextMenuEntry
-		{
-			private VendorRentalContract m_Contract;
-
-			public ContractOptionEntry( VendorRentalContract contract ) : base( 6209 )
-			{
-				m_Contract = contract;
-			}
-
-			public override void OnClick()
-			{
-				Mobile from = Owner.From;
-
-				if ( m_Contract.IsUsableBy( from, true, true, true, true ) )
-				{
-					from.CloseGump( typeof( VendorRentalContractGump ) );
-					from.SendGump( new VendorRentalContractGump( m_Contract, from ) );
 				}
 			}
 		}

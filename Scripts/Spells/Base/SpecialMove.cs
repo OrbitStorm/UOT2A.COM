@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using Server.Items;
 using Server.Network;
-using Server.Spells.Ninjitsu;
-using Server.Spells.Bushido;
 
 namespace Server.Spells
 {

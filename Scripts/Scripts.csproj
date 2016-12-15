@@ -123,12 +123,6 @@
     <Compile Include=".\Commands\Statics.cs" />
     <Compile Include=".\Commands\VisibilityList.cs" />
     <Compile Include=".\Commands\Wipe.cs" />
-    <Compile Include=".\Context Menus\AddToParty.cs" />
-    <Compile Include=".\Context Menus\AddToSpellbookEntry.cs" />
-    <Compile Include=".\Context Menus\EatEntry.cs" />
-    <Compile Include=".\Context Menus\EjectPlayer.cs" />
-    <Compile Include=".\Context Menus\OpenBankEntry.cs" />
-    <Compile Include=".\Context Menus\TeachEntry.cs" />
     <Compile Include=".\Engines\Chat\Channel.cs" />
     <Compile Include=".\Engines\Chat\Chat.cs" />
     <Compile Include=".\Engines\Chat\ChatActionHandler.cs" />

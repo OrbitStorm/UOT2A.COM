@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using Server.Items;
-using Server.ContextMenus;
 
 namespace Server.Mobiles
 {
@@ -147,13 +145,6 @@ namespace Server.Mobiles
 		public override bool CheckNonlocalLift( Mobile from, Item item )
 		{
 			return PackAnimal.CheckAccess( this, from );
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			PackAnimal.GetContextMenuEntries( this, from, list );
 		}
 		#endregion
 

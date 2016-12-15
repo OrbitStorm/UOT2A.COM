@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using Server.Items;
-using Server.ContextMenus;
 
 namespace Server.Mobiles
 {
@@ -96,14 +95,6 @@ namespace Server.Mobiles
 			}
 		}
 
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( from.Alive && Controlled && from == ControlMaster && from.InRange( this, 14 ) )
-				list.Add( new ReleaseEntry( from, this ) );
-		}
-
 		public virtual void BeginRelease( Mobile from )
 		{
 			if ( !Deleted && Controlled && from == ControlMaster && from.CheckAlive() )
@@ -158,24 +149,6 @@ namespace Server.Mobiles
 		{
 			DropPackContents();
 			Delete();
-		}
-
-		private class ReleaseEntry : ContextMenuEntry
-		{
-			private Mobile m_From;
-			private BaseFamiliar m_Familiar;
-
-			public ReleaseEntry( Mobile from, BaseFamiliar familiar ) : base( 6118, 14 )
-			{
-				m_From = from;
-				m_Familiar = familiar;
-			}
-
-			public override void OnClick()
-			{
-				if ( !m_Familiar.Deleted && m_Familiar.Controlled && m_From == m_Familiar.ControlMaster && m_From.CheckAlive() )
-					m_Familiar.BeginRelease( m_From );
-			}
 		}
 	}
 }

@@ -8,7 +8,6 @@ using Server.Prompts;
 using Server.Targeting;
 using Server.Misc;
 using Server.Multis;
-using Server.ContextMenus;
 
 namespace Server.Mobiles
 {
@@ -143,41 +142,6 @@ namespace Server.Mobiles
 				return true;
 
 			return targ.GetType().IsDefined( typeof( PlayerVendorTargetAttribute ), false );
-		}
-
-		public override void GetChildContextMenuEntries( Mobile from, List<ContextMenuEntry> list, Item item )
-		{
-			base.GetChildContextMenuEntries( from, list, item );
-
-			PlayerVendor pv = RootParent as PlayerVendor;
-
-			if ( pv == null || pv.IsOwner( from ) )
-				return;
-
-			VendorItem vi = pv.GetVendorItem( item );
-
-			if ( vi != null )
-				list.Add( new BuyEntry( item ) );
-		}
-
-		private class BuyEntry : ContextMenuEntry
-		{
-			private Item m_Item;
-
-			public BuyEntry( Item item ) : base( 6103 )
-			{
-				m_Item = item;
-			}
-
-			public override bool NonLocalUse{ get{ return true; } }
-
-			public override void OnClick()
-			{
-				if ( m_Item.Deleted )
-					return;
-
-				PlayerVendor.TryToBuy( m_Item, Owner.From );
-			}
 		}
 
 		public override void GetChildNameProperties( ObjectPropertyList list, Item item )
@@ -1230,34 +1194,6 @@ namespace Server.Mobiles
 		{
 			if ( Placeholder != null )
 				Placeholder.Delete();
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			if ( from.Alive && Placeholder != null && IsOwner( from ) )
-			{
-				list.Add( new ReturnVendorEntry( this ) );
-			}
-
-			base.GetContextMenuEntries( from, list );
-		}
-
-		private class ReturnVendorEntry : ContextMenuEntry
-		{
-			private PlayerVendor m_Vendor;
-
-			public ReturnVendorEntry( PlayerVendor vendor ) : base( 6214 )
-			{
-				m_Vendor = vendor;
-			}
-
-			public override void OnClick()
-			{
-				Mobile from = Owner.From;
-
-				if ( !m_Vendor.Deleted && m_Vendor.IsOwner( from ) && from.CheckAlive() )
-					m_Vendor.Return();
-			}
 		}
 
 		public override bool HandlesOnSpeech( Mobile from )

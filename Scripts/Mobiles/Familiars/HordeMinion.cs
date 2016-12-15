@@ -1,10 +1,8 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using Server.Items;
 using Server.Gumps;
 using Server.Network;
-using Server.ContextMenus;
 
 namespace Server.Mobiles
 {
@@ -170,13 +168,6 @@ namespace Server.Mobiles
 		public override void OnDoubleClick( Mobile from )
 		{
 			PackAnimal.TryPackOpen( this, from );
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			PackAnimal.GetContextMenuEntries( this, from, list );
 		}
 		#endregion
 

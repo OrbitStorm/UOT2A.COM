@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using Server.Mobiles;
 using Server.Targeting;
-using Server.ContextMenus;
 using Server.Network;
 using Server.Regions;
 using Server.Spells;
@@ -101,45 +99,6 @@ namespace Server.Items
 		public override void OnSingleClick( Mobile from )
 		{
 			LabelTo( from, 1054131, m_Charges.ToString() + ( m_PetName.Length == 0 ? "\t " : "\t" + m_PetName ) ); // a crystal ball of pet summoning: [charges: ~1_charges~] : [linked pet: ~2_petName~]
-		}
-
-		private delegate void BallCallback( Mobile from );
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( from.Alive && this.RootParent == from )
-			{
-				if ( Pet == null )
-				{
-					list.Add( new BallEntry( new BallCallback( LinkPet ), 6180 ) );
-				}
-				else
-				{
-					list.Add(new BallEntry(new BallCallback( CastSummonPet ), 6181 ));
-					list.Add( new BallEntry( new BallCallback( UpdatePetName ), 6183 ) );
-					list.Add( new BallEntry( new BallCallback( UnlinkPet ), 6182 ) );
-				}
-			}
-		}
-
-		private class BallEntry : ContextMenuEntry
-		{
-			private BallCallback m_Callback;
-
-			public BallEntry( BallCallback callback, int number ) : base( number, 2 )
-			{
-				m_Callback = callback;
-			}
-
-			public override void OnClick()
-			{
-				Mobile from = Owner.From;
-
-				if ( from.CheckAlive() )
-					m_Callback( from );
-			}
 		}
 
 		public override void OnDoubleClick( Mobile from )

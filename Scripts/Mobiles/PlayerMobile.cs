@@ -6,7 +6,6 @@ using Server.Items;
 using Server.Gumps;
 using Server.Multis;
 using Server.Engines.Help;
-using Server.ContextMenus;
 using Server.Network;
 using Server.Spells;
 using Server.Spells.Fifth;
@@ -14,12 +13,10 @@ using Server.Spells.Seventh;
 using Server.Spells.Necromancy;
 using Server.Spells.Ninjitsu;
 using Server.Spells.Bushido;
-using Server.Targeting;
 using Server.Regions;
 using Server.Accounting;
 using Server.Engines.Craft;
 using Server.Spells.Spellweaving;
-using Server.Engines.PartySystem;
 
 namespace Server.Mobiles
 {
@@ -1455,57 +1452,7 @@ namespace Server.Mobiles
 				RecheckTownProtection();
 		}
 
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			if ( from == this )
-			{
-				BaseHouse house = BaseHouse.FindHouseAt( this );
-
-				if ( house != null )
-				{
-					if ( Alive && house.InternalizedVendors.Count > 0 && house.IsOwner( this ) )
-						list.Add( new CallbackEntry( 6204, new ContextCallback( GetVendor ) ) );
-				}
-
-				if ( Core.HS )
-				{
-					NetState ns = from.NetState;
-
-					if ( ns != null && ns.ExtendedStatus )
-						list.Add( new CallbackEntry( RefuseTrades ? 1154112 : 1154113, new ContextCallback( ToggleTrades ) ) ); // Allow Trades / Refuse Trades
-				}
-			}
-			if ( from != this )
-			{
-				if ( Alive && Core.Expansion >= Expansion.AOS )
-				{
-					Party theirParty = from.Party as Party;
-					Party ourParty = this.Party as Party;
-
-					if ( theirParty == null && ourParty == null ) {
-						list.Add( new AddToPartyEntry( from, this ) );
-					} else if ( theirParty != null && theirParty.Leader == from ) {
-						if ( ourParty == null ) {
-							list.Add( new AddToPartyEntry( from, this ) );
-						} else if ( ourParty == theirParty ) {
-							list.Add( new RemoveFromPartyEntry( from, this ) );
-						}
-					}
-				}
-
-				BaseHouse curhouse = BaseHouse.FindHouseAt( this );
-
-				if( curhouse != null )
-				{
-					if ( Alive && Core.Expansion >= Expansion.AOS && curhouse.IsAosRules && curhouse.IsFriend( from ) )
-						list.Add( new EjectPlayerEntry( from, this ) );
-				}
-			}
-		}
-
-		private void ToggleTrades()
+    	private void ToggleTrades()
 		{
 			RefuseTrades = !RefuseTrades;
 		}
@@ -1527,28 +1474,6 @@ namespace Server.Mobiles
 
 			if ( house != null )
 				this.Location = house.BanLocation;
-		}
-
-		private delegate void ContextCallback();
-
-		private class CallbackEntry : ContextMenuEntry
-		{
-			private ContextCallback m_Callback;
-
-			public CallbackEntry( int number, ContextCallback callback ) : this( number, -1, callback )
-			{
-			}
-
-			public CallbackEntry( int number, int range, ContextCallback callback ) : base( number, range )
-			{
-				m_Callback = callback;
-			}
-
-			public override void OnClick()
-			{
-				if ( m_Callback != null )
-					m_Callback();
-			}
 		}
 
 		public override void DisruptiveAction()

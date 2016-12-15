@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using Server.ContextMenus;
 
 namespace Server.Mobiles
 {
@@ -33,17 +31,6 @@ namespace Server.Mobiles
 
 		public override void DisplayPaperdollTo(Mobile to)
 		{
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-
-			for ( int i = 0; i < list.Count; ++i )
-			{
-				if ( list[i] is ContextMenus.PaperdollEntry )
-					list.RemoveAt( i-- );
-			}
 		}
 
 		public override void OnThink()

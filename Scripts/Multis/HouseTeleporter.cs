@@ -1,8 +1,6 @@
 using System;
 using Server.Gumps;
 using Server.Multis;
-using System.Collections.Generic;
-using Server.ContextMenus;
 
 namespace Server.Items
 {
@@ -67,12 +65,6 @@ namespace Server.Items
 			}
 
 			return true;
-		}
-
-		public override void GetContextMenuEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			base.GetContextMenuEntries( from, list );
-			SetSecureLevelEntry.AddTo( from, this, list );
 		}
 
 		public HouseTeleporter( Serial serial ) : base( serial )

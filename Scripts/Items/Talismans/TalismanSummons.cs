@@ -1,8 +1,4 @@
 using System;
-using System.Collections.Generic;
-
-using Server.ContextMenus;
-using Server.Items;
 
 using BunnyHole = Server.Mobiles.VorpalBunny.BunnyHole;
 
@@ -23,12 +19,6 @@ namespace Server.Mobiles
 		{
 		}
 		
-		public override void AddCustomContextEntries( Mobile from, List<ContextMenuEntry> list )
-		{
-			if ( from.Alive && ControlMaster == from )
-				list.Add( new TalismanReleaseEntry( this ) );
-		}
-
 		public override void Serialize( GenericWriter writer )
 		{
 			base.Serialize( writer );
@@ -41,24 +31,6 @@ namespace Server.Mobiles
 			base.Deserialize( reader );
 
 			int version = reader.ReadEncodedInt();
-		}
-
-		private class TalismanReleaseEntry : ContextMenuEntry
-		{
-			private Mobile m_Mobile;
-
-			public TalismanReleaseEntry( Mobile m )	: base( 6118, 3 )
-			{
-				m_Mobile = m;
-			}
-
-			public override void OnClick()
-			{
-				Effects.SendLocationParticles( EffectItem.Create( m_Mobile.Location, m_Mobile.Map, EffectItem.DefaultDuration ), 0x3728, 8, 20, 5042 );
-				Effects.PlaySound( m_Mobile, m_Mobile.Map, 0x201 );
-
-				m_Mobile.Delete();
-			}
 		}
 	}
 
