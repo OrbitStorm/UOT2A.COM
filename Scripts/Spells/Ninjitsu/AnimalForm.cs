@@ -209,9 +209,6 @@ namespace Server.Spells.Ninjitsu
 
 			m.CheckSkill(SkillName.Ninjitsu, 0.0, 37.5);
 
-			if (!BaseFormTalisman.EntryEnabled(m, entry.Type))
-				return MorphResult.Success; // Still consumes mana, just no effect
-
 			BaseMount.Dismount(m);
 
 			int bodyMod = entry.BodyMod;
@@ -421,8 +418,6 @@ namespace Server.Spells.Ninjitsu
 
 				for (int i = 0; i < entries.Length; ++i)
 				{
-					bool enabled = (ninjitsu >= entries[i].ReqSkill && BaseFormTalisman.EntryEnabled(caster, entries[i].Type));
-
 					int page = current / 10 + 1;
 					int pos = current % 10;
 
@@ -441,19 +436,6 @@ namespace Server.Spells.Ninjitsu
 							AddButton(300, 374, 0xFAE, 0xFB0, 0, GumpButtonType.Page, 1);
 							AddHtmlLocalized(340, 376, 60, 20, 1011393, 0x7FFF, false, false); // Back
 						}
-					}
-
-					if (enabled)
-					{
-						int x = (pos % 2 == 0) ? 14 : 264;
-						int y = (pos / 2) * 64 + 44;
-
-						Rectangle2D b = ItemBounds.Table[entries[i].ItemID];
-
-						AddImageTiledButton(x, y, 0x918, 0x919, i + 1, GumpButtonType.Reply, 0, entries[i].ItemID, entries[i].Hue, 40 - b.Width / 2 - b.X, 30 - b.Height / 2 - b.Y, entries[i].Tooltip);
-						AddHtmlLocalized(x + 84, y, 250, 60, entries[i].Name, 0x7FFF, false, false);
-
-						current++;
 					}
 				}
 			}
@@ -475,20 +457,6 @@ namespace Server.Spells.Ninjitsu
 				else if( ( m_Caster is PlayerMobile ) && ( m_Caster as PlayerMobile ).MountBlockReason != BlockMountType.None )
 				{
 					m_Caster.SendLocalizedMessage( 1063108 ); // You cannot use this ability right now.
-				}
-				else if (BaseFormTalisman.EntryEnabled(sender.Mobile, entry.Type))
-				{
-					if (AnimalForm.Morph(m_Caster, entryID) == MorphResult.Fail)
-					{
-						m_Caster.LocalOverheadMessage( MessageType.Regular, 0x3B2, 502632 ); // The spell fizzles.
-						m_Caster.FixedParticles( 0x3735, 1, 30, 9503, EffectLayer.Waist );
-						m_Caster.PlaySound( 0x5C );
-					}
-					else
-					{
-						m_Caster.FixedParticles(0x3728, 10, 13, 2023, EffectLayer.Waist);
-						m_Caster.Mana -= mana;
-					}
 				}
 			}
 		}

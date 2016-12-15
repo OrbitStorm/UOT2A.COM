@@ -21,7 +21,7 @@ namespace Server.Items
 		ManaDraining
 	}
 
-	public abstract class BaseWand : BaseBashing, ITokunoDyable
+	public abstract class BaseWand : BaseBashing
 	{
 		public override WeaponAbility PrimaryAbility { get { return WeaponAbility.Dismount; } }
 		public override WeaponAbility SecondaryAbility { get { return WeaponAbility.Disarm; } }

@@ -1,6 +1,6 @@
 ﻿namespace Server.Items
 {
-    public class JesterHatofChuckles : BaseHat, ITokunoDyable
+    public class JesterHatofChuckles : BaseHat
 	{
 		public override int LabelNumber { get { return 1073256; } }  //Jester Hat of Chuckles - Museum of Vesper Replica	1073256
 
