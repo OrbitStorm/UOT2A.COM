@@ -190,11 +190,6 @@
     <Compile Include=".\Engines\Help\SpeechLog.cs" />
     <Compile Include=".\Engines\Help\SpeechLogGump.cs" />
     <Compile Include=".\Engines\Help\StuckMenu.cs" />
-    <Compile Include=".\Engines\MyRunUO\Config.cs" />
-    <Compile Include=".\Engines\MyRunUO\DatabaseCommandQueue.cs" />
-    <Compile Include=".\Engines\MyRunUO\LayerComparer.cs" />
-    <Compile Include=".\Engines\MyRunUO\MyRunUO.cs" />
-    <Compile Include=".\Engines\MyRunUO\MyRunUOStatus.cs" />
     <Compile Include=".\Engines\Party\AddPartyTarget.cs" />
     <Compile Include=".\Engines\Party\DeclineTimer.cs" />
     <Compile Include=".\Engines\Party\Packets.cs" />

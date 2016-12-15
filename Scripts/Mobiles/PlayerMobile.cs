@@ -353,13 +353,6 @@ namespace Server.Mobiles
 		}
 
 		[CommandProperty( AccessLevel.GameMaster )]
-		public bool PublicMyRunUO
-		{
-			get{ return GetFlag( PlayerFlag.PublicMyRunUO ); }
-			set{ SetFlag( PlayerFlag.PublicMyRunUO, value ); InvalidateMyRunUO(); }
-		}
-
-		[CommandProperty( AccessLevel.GameMaster )]
 		public bool AcceptGuildInvites
 		{
 			get{ return GetFlag( PlayerFlag.AcceptGuildInvites ); }
@@ -1024,9 +1017,6 @@ namespace Server.Mobiles
 
 			if ( (flag & MobileDelta.Stat) != 0 )
 				ValidateEquipment();
-
-			if ( (flag & (MobileDelta.Name | MobileDelta.Hue)) != 0 )
-				InvalidateMyRunUO();
 		}
 
 		private static void Disconnect( object state )
@@ -1200,8 +1190,6 @@ namespace Server.Mobiles
 
 			if ( this.NetState != null )
 				CheckLightLevels( false );
-
-			InvalidateMyRunUO();
 		}
 
 		public override void OnItemRemoved( Item item )
@@ -1215,8 +1203,6 @@ namespace Server.Mobiles
 
 			if ( this.NetState != null )
 				CheckLightLevels( false );
-
-			InvalidateMyRunUO();
 		}
 
 		public override double ArmorRating
@@ -2105,8 +2091,6 @@ namespace Server.Mobiles
 			m_LongTermElapse = TimeSpan.FromHours( 40.0 );
 
 			m_GuildRank = Guilds.RankDefinition.Lowest;
-
-			InvalidateMyRunUO();
 		}
 
 		public override bool MutateSpeech( List<Mobile> hears, ref string text, ref object context )
@@ -2280,7 +2264,6 @@ namespace Server.Mobiles
 		{
 			m_VisList = new List<Mobile>();
 			m_AntiMacroTable = new Hashtable();
-			InvalidateMyRunUO();
 		}
 
 		public List<Mobile> VisibilityList
@@ -2774,91 +2757,6 @@ namespace Server.Mobiles
 					RemoveBuff( BuffIcon.Paralyze );
 			}
 		}
-
-		#region MyRunUO Invalidation
-		private bool m_ChangedMyRunUO;
-
-		public bool ChangedMyRunUO
-		{
-			get{ return m_ChangedMyRunUO; }
-			set{ m_ChangedMyRunUO = value; }
-		}
-
-		public void InvalidateMyRunUO()
-		{
-			if ( !Deleted && !m_ChangedMyRunUO )
-			{
-				m_ChangedMyRunUO = true;
-				Engines.MyRunUO.MyRunUO.QueueMobileUpdate( this );
-			}
-		}
-
-		public override void OnKillsChange( int oldValue )
-		{
-			if ( this.Young && this.Kills > oldValue )
-			{
-				Account acc = this.Account as Account;
-
-				if ( acc != null )
-					acc.RemoveYoungStatus( 0 );
-			}
-
-			InvalidateMyRunUO();
-		}
-
-		public override void OnGenderChanged( bool oldFemale )
-		{
-			InvalidateMyRunUO();
-		}
-
-		public override void OnGuildChange( Server.Guilds.BaseGuild oldGuild )
-		{
-			InvalidateMyRunUO();
-		}
-
-		public override void OnGuildTitleChange( string oldTitle )
-		{
-			InvalidateMyRunUO();
-		}
-
-		public override void OnKarmaChange( int oldValue )
-		{
-			InvalidateMyRunUO();
-		}
-
-		public override void OnFameChange( int oldValue )
-		{
-			InvalidateMyRunUO();
-		}
-
-		public override void OnSkillChange( SkillName skill, double oldBase )
-		{
-			if ( this.Young && this.SkillsTotal >= 4500 )
-			{
-				Account acc = this.Account as Account;
-
-				if ( acc != null )
-					acc.RemoveYoungStatus( 1019036 ); // You have successfully obtained a respectable skill level, and have outgrown your status as a young player!
-			}
-
-			InvalidateMyRunUO();
-		}
-
-		public override void OnAccessLevelChanged( AccessLevel oldLevel )
-		{
-			if ( AccessLevel == AccessLevel.Player )
-				IgnoreMobiles = false;
-			else
-				IgnoreMobiles = true;
-
-			InvalidateMyRunUO();
-		}
-
-		public override void OnRawStatChange( StatType stat, int oldValue )
-		{
-			InvalidateMyRunUO();
-		}
-		#endregion
 
 		#region Fastwalk Prevention
 		private static bool FastwalkPrevention = true; // Is fastwalk prevention enabled?
