@@ -1,7 +1,6 @@
 using System;
 using Server.Multis;
 using Server.Gumps;
-using System.Collections.Generic;
 
 namespace Server.Items
 {

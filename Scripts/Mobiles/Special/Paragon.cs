@@ -175,7 +175,7 @@ namespace Server.Mobiles
 			if ( Array.IndexOf( Maps, m ) == -1 )
 				return false;
 
-			if ( bc is BaseVendor || bc is BaseEscortable || bc is Clone || bc.IsParagon )
+			if ( bc is BaseVendor || bc is BaseEscortable || bc.IsParagon )
 				return false;
 
 			int fame = bc.Fame;

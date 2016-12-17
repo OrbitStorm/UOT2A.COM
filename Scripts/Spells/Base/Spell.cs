@@ -4,11 +4,7 @@ using Server.Network;
 using Server.Targeting;
 using Server.Mobiles;
 using Server.Spells.Second;
-using Server.Spells.Necromancy;
-using Server.Spells.Ninjitsu;
 using System.Collections.Generic;
-using Server.Spells.Spellweaving;
-using Server.Spells.Bushido;
 
 namespace Server.Spells
 {
@@ -145,11 +141,6 @@ namespace Server.Spells
 				sdiBonus = 15;
 
 			damageBonus += sdiBonus;
-
-			TransformContext context = TransformationSpellHelper.GetContext( Caster );
-
-			if( context != null && context.Spell is ReaperFormSpell )
-				damageBonus += ((ReaperFormSpell)context.Spell).SpellDamageBonus;
 
 			damage = AOS.Scale( damage, 100 + damageBonus );
 
@@ -322,9 +313,6 @@ namespace Server.Spells
 
 			target.Region.SpellDamageScalar( m_Caster, target, ref scalar );
 
-			if( Evasion.CheckSpellEvasion( target ) )	//Only single target spells an be evaded
-				scalar = 0;
-
 			return scalar;
 		}
 
@@ -343,12 +331,6 @@ namespace Server.Spells
 					defender.FixedEffect( 0x37B9, 10, 5 );	//TODO: Confirm this displays on OSIs
 					scalar = 2.0;
 				}
-
-
-				TransformContext context = TransformationSpellHelper.GetContext( defender );
-
-				if( (atkBook.Slayer == SlayerName.Silver || atkBook.Slayer2 == SlayerName.Silver) && context != null && context.Type != typeof( HorrificBeastSpell ) )
-					scalar +=.25; // Every necromancer transformation other than horrific beast take an additional 25% damage
 
 				if( scalar != 1.0 )
 					return scalar;
@@ -496,10 +478,6 @@ namespace Server.Spells
 			{
 				m_Caster.SendLocalizedMessage( 502642 ); // You are already casting a spell.
 			}
-			else if ( BlockedByHorrificBeast && TransformationSpellHelper.UnderTransformation( m_Caster, typeof( HorrificBeastSpell ) ) || ( BlockedByAnimalForm && AnimalForm.UnderTransformation( m_Caster ) ))
-			{
-				m_Caster.SendLocalizedMessage( 1061091 ); // You cannot cast that spell in this form.
-			}
 			else if ( !(m_Scroll is BaseWand) && (m_Caster.Paralyzed || m_Caster.Frozen) )
 			{
 				m_Caster.SendLocalizedMessage( 502643 ); // You can not cast a spell while frozen.
@@ -607,9 +585,6 @@ namespace Server.Spells
 		{
 			double scalar = 1.0;
 
-			if ( !Necromancy.MindRotSpell.GetMindRotScalar( Caster, ref scalar ) )
-				scalar = 1.0;
-
 			// Lower Mana Cost = 40%
 			int lmc = AosAttributes.GetValue( m_Caster, AosAttribute.LowerManaCost );
 			if ( lmc > 40 )
@@ -644,8 +619,6 @@ namespace Server.Spells
 				return NextSpellDelay;
 
 			int fcr = AosAttributes.GetValue( m_Caster, AosAttribute.CastRecovery );
-
-			fcr -= ThunderstormSpell.GetCastRecoveryMalus( m_Caster );
 
 			int fcrDelay = -(CastRecoveryFastScalar * fcr);
 
@@ -689,9 +662,6 @@ namespace Server.Spells
 
 			if ( ProtectionSpell.Registry.Contains( m_Caster ) )
 				fc -= 2;
-
-			if( EssenceOfWindSpell.IsDebuffed( m_Caster ) )
-				fc -= EssenceOfWindSpell.GetFCMalus( m_Caster );
 
 			TimeSpan baseDelay = CastDelayBase;
 
@@ -783,20 +753,6 @@ namespace Server.Spells
 
 				if ( karma != 0 )
 					Misc.Titles.AwardKarma( Caster, karma, true );
-
-				if( TransformationSpellHelper.UnderTransformation( m_Caster, typeof( VampiricEmbraceSpell ) ) )
-				{
-					bool garlic = false;
-
-					for ( int i = 0; !garlic && i < m_Info.Reagents.Length; ++i )
-						garlic = ( m_Info.Reagents[i] == Reagent.Garlic );
-
-					if ( garlic )
-					{
-						m_Caster.SendLocalizedMessage( 1061651 ); // The garlic burns you!
-						AOS.Damage( m_Caster, Utility.RandomMinMax( 17, 23 ), 100, 0, 0, 0, 0 );
-					}
-				}
 
 				return true;
 			}

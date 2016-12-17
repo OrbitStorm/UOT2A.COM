@@ -9,9 +9,6 @@ using Server.Misc;
 using Server.Items;
 using Server.Engines.PartySystem;
 using Server.SkillHandlers;
-using Server.Spells.Bushido;
-using Server.Spells.Spellweaving;
-using Server.Spells.Necromancy;
 
 namespace Server.Mobiles
 {
@@ -657,39 +654,36 @@ namespace Server.Mobiles
 		}
 
 		public virtual void BreathDealDamage( Mobile target )
-		{
-			if( !Evasion.CheckSpellEvasion( target ) )
-			{
-				int physDamage = BreathPhysicalDamage;
-				int fireDamage = BreathFireDamage;
-				int coldDamage = BreathColdDamage;
-				int poisDamage = BreathPoisonDamage;
-				int nrgyDamage = BreathEnergyDamage;
+        {
+            int physDamage = BreathPhysicalDamage;
+            int fireDamage = BreathFireDamage;
+            int coldDamage = BreathColdDamage;
+            int poisDamage = BreathPoisonDamage;
+            int nrgyDamage = BreathEnergyDamage;
 
-				if( BreathChaosDamage > 0 )
-				{
-					switch( Utility.Random( 5 ))
-					{
-						case 0: physDamage += BreathChaosDamage; break;
-						case 1: fireDamage += BreathChaosDamage; break;
-						case 2: coldDamage += BreathChaosDamage; break;
-						case 3: poisDamage += BreathChaosDamage; break;
-						case 4: nrgyDamage += BreathChaosDamage; break;
-					}
-				}
+            if (BreathChaosDamage > 0)
+            {
+                switch (Utility.Random(5))
+                {
+                    case 0: physDamage += BreathChaosDamage; break;
+                    case 1: fireDamage += BreathChaosDamage; break;
+                    case 2: coldDamage += BreathChaosDamage; break;
+                    case 3: poisDamage += BreathChaosDamage; break;
+                    case 4: nrgyDamage += BreathChaosDamage; break;
+                }
+            }
 
-				if( physDamage == 0 && fireDamage == 0 && coldDamage == 0 && poisDamage == 0 && nrgyDamage == 0 )
-				{
-					target.Damage( BreathComputeDamage(), this );// Unresistable damage even in AOS
-				}
-				else
-				{
-					AOS.Damage( target, this, BreathComputeDamage(), physDamage, fireDamage, coldDamage, poisDamage, nrgyDamage );
-				}
-			}
-		}
+            if (physDamage == 0 && fireDamage == 0 && coldDamage == 0 && poisDamage == 0 && nrgyDamage == 0)
+            {
+                target.Damage(BreathComputeDamage(), this);// Unresistable damage even in AOS
+            }
+            else
+            {
+                AOS.Damage(target, this, BreathComputeDamage(), physDamage, fireDamage, coldDamage, poisDamage, nrgyDamage);
+            }
+        }
 
-		public virtual int BreathComputeDamage()
+        public virtual int BreathComputeDamage()
 		{
 			int damage = (int)(Hits * BreathDamageScalar);
 
@@ -863,9 +857,6 @@ namespace Server.Mobiles
 			if ( !(m is BaseCreature) )
 				return true;
 
-			if( TransformationSpellHelper.UnderTransformation( m, typeof( EtherealVoyageSpell ) ) )
-				return false;
-
 			BaseCreature c = (BaseCreature)m;
 
 			if ( ( FightMode == FightMode.Evil && m.Karma < 0 ) || ( c.FightMode == FightMode.Evil && Karma < 0 ) )
@@ -998,37 +989,12 @@ namespace Server.Mobiles
 			}
 		}
 
-		public virtual bool IsNecroFamiliar
-		{
-			get
-			{
-				if ( !Summoned )
-					return false;
-
-				if ( m_ControlMaster != null && SummonFamiliarSpell.Table.Contains( m_ControlMaster ) )
-					return SummonFamiliarSpell.Table[ m_ControlMaster ] == this;
-
-				return false;
-			}
-		}
-
 		public override void Damage( int amount, Mobile from )
 		{
 			int oldHits = this.Hits;
 
 			if ( Core.AOS && !this.Summoned && this.Controlled && 0.2 > Utility.RandomDouble() )
 				amount = (int)(amount * BonusPetDamageScalar);
-
-			if ( Spells.Necromancy.EvilOmenSpell.TryEndEffect( this ) )
-				amount = (int)(amount * 1.25);
-
-			Mobile oath = Spells.Necromancy.BloodOathSpell.GetBloodOath( from );
-
-			if ( oath == this )
-			{
-				amount = (int)(amount * 1.1);
-				from.Damage( amount, from );
-			}
 
 			base.Damage( amount, from );
 
@@ -1067,9 +1033,6 @@ namespace Server.Mobiles
 		{
 			if ( !Alive || IsDeadPet )
 				return ApplyPoisonResult.Immune;
-
-			if ( Spells.Necromancy.EvilOmenSpell.TryEndEffect( this ) )
-				poison = PoisonImpl.IncreaseLevel( poison );
 
 			ApplyPoisonResult result = base.ApplyPoison( from, poison );
 
@@ -1317,9 +1280,6 @@ namespace Server.Mobiles
 				if( c != null )
 					c.Slip();
 			}
-
-			if( Confidence.IsRegenerating( this ) )
-				Confidence.StopRegenerating( this );
 
 			WeightOverloading.FatigueOnDamage( this, amount );
 
@@ -1952,9 +1912,6 @@ namespace Server.Mobiles
 			ChangeAIType(m_CurrentAI);
 
 			AddFollowers();
-
-			if ( IsAnimatedDead )
-				Spells.Necromancy.AnimateDeadSpell.Register( m_SummonMaster, this );
 		}
 
 		public virtual bool IsHumanInTown()
@@ -2819,9 +2776,6 @@ namespace Server.Mobiles
 			}
 
 			FocusMob = null;
-
-			if ( IsAnimatedDead )
-				Spells.Necromancy.AnimateDeadSpell.Unregister( m_SummonMaster, this );
 
 			base.OnAfterDelete();
 		}
@@ -4186,17 +4140,6 @@ namespace Server.Mobiles
 					pack.DisplayTo( from );
 			}
 
-			if ( this.DeathAdderCharmable && from.CanBeHarmful( this, false ) )
-			{
-				DeathAdder da = Spells.Necromancy.SummonFamiliarSpell.Table[from] as DeathAdder;
-
-				if ( da != null && !da.Deleted )
-				{
-					from.SendAsciiMessage( "You charm the snake.  Select a target to attack." );
-					from.Target = new DeathAdderCharmTarget( this );
-				}
-			}
-
 			base.OnDoubleClick( from );
 		}
 
@@ -4212,10 +4155,6 @@ namespace Server.Mobiles
 			protected override void OnTarget( Mobile from, object targeted )
 			{
 				if ( !m_Charmed.DeathAdderCharmable || m_Charmed.Combatant != null || !from.CanBeHarmful( m_Charmed, false ) )
-					return;
-
-				DeathAdder da = Spells.Necromancy.SummonFamiliarSpell.Table[from] as DeathAdder;
-				if ( da == null || da.Deleted )
 					return;
 
 				Mobile targ = targeted as Mobile;
@@ -4245,9 +4184,7 @@ namespace Server.Mobiles
 					list.Add( 1080078 ); // guarding
 			}
 
-			if ( Summoned && !IsAnimatedDead && !IsNecroFamiliar && !( this is Clone ) )
-				list.Add( 1049646 ); // (summoned)
-			else if ( Controlled && Commandable )
+			if ( Controlled && Commandable )
 			{
 				if ( IsBonded )	//Intentional difference (showing ONLY bonded when bonded instead of bonded & tame)
 					list.Add( 1049608 ); // (bonded)
@@ -4561,8 +4498,6 @@ namespace Server.Mobiles
 				{
 					this.OwnerAbandonTime = DateTime.MinValue;
 				}
-
-				GiftOfLifeSpell.HandleDeath( this );
 
 				CheckStatTimers();
 			}

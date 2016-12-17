@@ -3,7 +3,6 @@ using Server.Multis;
 using Server.Mobiles;
 using Server.Network;
 using Server.Targeting;
-using Server.Spells.Necromancy;
 
 namespace Server.Spells.Fourth
 {
@@ -35,9 +34,7 @@ namespace Server.Spells.Fourth
 
 		public override void GetCastSkills( out double min, out double max )
 		{
-			if ( TransformationSpellHelper.UnderTransformation( Caster, typeof( WraithFormSpell ) ) )
-				min = max = 0;
-			else if( Core.SE && m_Book != null )	//recall using Runebook charge
+			if( Core.SE && m_Book != null )	//recall using Runebook charge
 				min = max = 0;
 			else
 				base.GetCastSkills( out min, out max );

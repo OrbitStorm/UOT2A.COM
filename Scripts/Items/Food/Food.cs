@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Server.Items
 {
     public abstract class Food : Item

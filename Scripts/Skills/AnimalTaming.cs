@@ -4,7 +4,6 @@ using Server.Targeting;
 using Server.Network;
 using Server.Mobiles;
 using Server.Spells;
-using Server.Spells.Spellweaving;
 
 namespace Server.SkillHandlers
 {
@@ -40,14 +39,6 @@ namespace Server.SkillHandlers
 
 		public static bool CheckMastery( Mobile tamer, BaseCreature creature )
 		{
-			BaseCreature familiar = (BaseCreature)Spells.Necromancy.SummonFamiliarSpell.Table[tamer];
-
-			if ( familiar != null && !familiar.Deleted && familiar is DarkWolfFamiliar )
-			{
-				if ( creature is DireWolf || creature is GreyWolf || creature is TimberWolf || creature is WhiteWolf || creature is BakeKitsune )
-					return true;
-			}
-
 			return false;
 		}
 
@@ -190,9 +181,6 @@ namespace Server.SkillHandlers
 
 								if ( creature.AIObject != null )
 									creature.AIObject.DoMove( creature.Direction );
-
-								if ( TransformationSpellHelper.UnderTransformation( from, typeof( EtherealVoyageSpell )))
-									creature.Combatant = from;
 							}
 							else
 							{

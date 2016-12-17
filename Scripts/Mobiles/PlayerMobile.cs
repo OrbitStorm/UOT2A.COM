@@ -10,13 +10,9 @@ using Server.Network;
 using Server.Spells;
 using Server.Spells.Fifth;
 using Server.Spells.Seventh;
-using Server.Spells.Necromancy;
-using Server.Spells.Ninjitsu;
-using Server.Spells.Bushido;
 using Server.Regions;
 using Server.Accounting;
 using Server.Engines.Craft;
-using Server.Spells.Spellweaving;
 
 namespace Server.Mobiles
 {
@@ -682,10 +678,6 @@ namespace Server.Mobiles
 				{
 					this.Mount.Rider = null;
 				}
-				else if( AnimalForm.UnderTransformation( this ) )
-				{
-					AnimalForm.RemoveContext(this, true);
-				}
 			}
 
 			if( ( m_MountBlock == null ) || !m_MountBlock.m_Timer.Running || ( m_MountBlock.m_Timer.Next < ( DateTime.UtcNow + duration ) ) )
@@ -787,18 +779,6 @@ namespace Server.Mobiles
 				min = baseMin;
 
 			return min;
-		}
-
-		public override void OnManaChange(int oldValue)
-		{
-			base.OnManaChange(oldValue);
-			if (m_ExecutesLightningStrike > 0)
-			{
-				if (Mana < m_ExecutesLightningStrike)
-				{
-					LightningStrike.ClearCurrentMove(this);
-				}
-			}
 		}
 
 		private static void OnLogin( LoginEventArgs e )
@@ -1245,9 +1225,6 @@ namespace Server.Mobiles
 
 					if ( Core.ML && strOffs > 25 && AccessLevel <= AccessLevel.Player )
 						strOffs = 25;
-
-					if ( AnimalForm.UnderTransformation( this, typeof( BakeKitsune ) ) || AnimalForm.UnderTransformation( this, typeof( GreyWolf ) ) )
-						strOffs += 20;
 				}
 				else
 				{
@@ -1389,23 +1366,6 @@ namespace Server.Mobiles
 			SkillName.Provocation, SkillName.RemoveTrap, SkillName.SpiritSpeak, SkillName.Stealing,
 			SkillName.TasteID
 		};
-
-		public override bool AllowSkillUse( SkillName skill )
-		{
-			if ( AnimalForm.UnderTransformation( this ) )
-			{
-				for( int i = 0; i < m_AnimalFormRestrictedSkills.Length; i++ )
-				{
-					if( m_AnimalFormRestrictedSkills[i] == skill )
-					{
-						SendLocalizedMessage( 1070771 ); // You cannot use that skill in this form.
-						return false;
-					}
-				}
-			}
-
-			return DesignContext.Check( this );
-		}
 
 		private bool m_LastProtectedMessage;
 		private int m_NextProtectionCheck = 10;
@@ -1682,7 +1642,7 @@ namespace Server.Mobiles
 
 		public override bool CheckShove( Mobile shoved )
 		{
-			if( m_IgnoreMobiles || TransformationSpellHelper.UnderTransformation( shoved, typeof( WraithFormSpell ) ) )
+			if( m_IgnoreMobiles )
 				return true;
 			else
 				return base.CheckShove( shoved );
@@ -1723,9 +1683,6 @@ namespace Server.Mobiles
 				if ( c != null )
 					c.Slip();
 			}
-
-			if( Confidence.IsRegenerating( this ) )
-				Confidence.StopRegenerating( this );
 
 			WeightOverloading.FatigueOnDamage( this, amount );
 
@@ -2105,34 +2062,6 @@ namespace Server.Mobiles
 
 		public override void Damage( int amount, Mobile from )
 		{
-			if ( Spells.Necromancy.EvilOmenSpell.TryEndEffect( this ) )
-				amount = (int)(amount * 1.25);
-
-			Mobile oath = Spells.Necromancy.BloodOathSpell.GetBloodOath( from );
-
-				/* Per EA's UO Herald Pub48 (ML):
-				 * ((resist spellsx10)/20 + 10=percentage of damage resisted)
-				 */
-
-			if ( oath == this )
-			{
-				amount = (int)(amount * 1.1);
-
-				if( amount > 35 && from is PlayerMobile )  /* capped @ 35, seems no expansion */
-				{
-					amount = 35;
-				}
-
-				if( Core.ML )
-				{
-					from.Damage( (int)(amount * ( 1 - ((( from.Skills.MagicResist.Value * .5 ) + 10) / 100 ))), this );
-				}
-				else
-				{
-					from.Damage( amount, this );
-				}
-			}
-
 			if ( from != null && Talisman is BaseTalisman )
 			{
 				BaseTalisman talisman = (BaseTalisman) Talisman;
@@ -2155,9 +2084,6 @@ namespace Server.Mobiles
 		{
 			if ( !Alive )
 				return ApplyPoisonResult.Immune;
-
-			if ( Spells.Necromancy.EvilOmenSpell.TryEndEffect( this ) )
-				poison = PoisonImpl.IncreaseLevel( poison );
 
 			ApplyPoisonResult result = base.ApplyPoison( from, poison );
 
@@ -2696,18 +2622,11 @@ namespace Server.Mobiles
 			if ( checkTurning && (dir & Direction.Mask) != (this.Direction & Direction.Mask) )
 				return Mobile.RunMount;	// We are NOT actually moving (just a direction change)
 
-			TransformContext context = TransformationSpellHelper.GetContext( this );
-
-			if ( context != null && context.Type == typeof( ReaperFormSpell ) )
-				return Mobile.WalkFoot;
-
 			bool running = ( (dir & Direction.Running) != 0 );
 
 			bool onHorse = ( this.Mount != null );
 
-			AnimalFormContext animalContext = AnimalForm.GetContext( this );
-
-			if( onHorse || (animalContext != null && animalContext.SpeedBoost) )
+			if( onHorse )
 				return ( running ? Mobile.RunMount : Mobile.WalkMount );
 
 			return ( running ? Mobile.RunFoot : Mobile.WalkFoot );

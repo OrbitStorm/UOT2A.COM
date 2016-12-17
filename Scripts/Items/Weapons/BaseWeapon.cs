@@ -2,12 +2,8 @@ using System;
 using Server.Network;
 using Server.Mobiles;
 using Server.Spells;
-using Server.Spells.Necromancy;
-using Server.Spells.Bushido;
-using Server.Spells.Ninjitsu;
 using Server.Engines.Craft;
 using System.Collections.Generic;
-using Server.Spells.Spellweaving;
 
 namespace Server.Items
 {
@@ -673,8 +669,6 @@ namespace Server.Items
 				if ( Core.AOS )
 					m_AosSkillBonuses.Remove();
 
-				ImmolatingWeaponSpell.StopImmolating( this );
-
 				m.CheckStatTimers();
 
 				m.Delta( MobileDelta.WeaponDamage );
@@ -726,11 +720,6 @@ namespace Server.Items
 			return defender.Skills[GetUsedSkill( defender, true )].Value;
 		}
 
-		private static bool CheckAnimal( Mobile m, Type type )
-		{
-			return AnimalForm.UnderTransformation( m, type );
-		}
-
 		public virtual bool CheckHit( Mobile attacker, Mobile defender )
 		{
 			BaseWeapon atkWeapon = attacker.Weapon as BaseWeapon;
@@ -756,12 +745,6 @@ namespace Server.Items
 
 				bonus += AosAttributes.GetValue( attacker, AosAttribute.AttackChance );
 
-				if ( Spells.Chivalry.DivineFurySpell.UnderEffect( attacker ) )
-					bonus += 10; // attacker gets 10% bonus when they're under divine fury
-
-				if ( CheckAnimal( attacker, typeof( GreyWolf ) ) || CheckAnimal( attacker, typeof( BakeKitsune ) ) )
-					bonus += 20; // attacker gets 20% bonus when under Wolf or Bake Kitsune form
-
 				if ( HitLower.IsUnderAttackEffect( attacker ) )
 					bonus -= 25; // Under Hit Lower Attack effect -> 25% malus
 
@@ -783,9 +766,6 @@ namespace Server.Items
 
 				bonus = AosAttributes.GetValue( defender, AosAttribute.DefendChance );
 
-				if ( Spells.Chivalry.DivineFurySpell.UnderEffect( defender ) )
-					bonus -= 20; // defender loses 20% bonus when they're under divine fury
-
 				if ( HitLower.IsUnderDefenseEffect( defender ) )
 					bonus -= 25; // Under Hit Lower Defense effect -> 25% malus
 					
@@ -793,11 +773,6 @@ namespace Server.Items
 
 				if ( Block.GetBonus( defender, ref blockBonus ) )
 					bonus += blockBonus;
-
-				int surpriseMalus = 0;
-
-				if ( SurpriseAttack.GetMalus( defender, ref surpriseMalus ) )
-					bonus -= surpriseMalus;
 
 				int discordanceEffect = 0;
 
@@ -854,31 +829,17 @@ namespace Server.Items
 				 */
 				int bonus = AosAttributes.GetValue( m, AosAttribute.WeaponSpeed );
 
-				if ( Spells.Chivalry.DivineFurySpell.UnderEffect( m ) )
-					bonus += 10;
-
-				// Bonus granted by successful use of Honorable Execution.
-				bonus += HonorableExecution.GetSwingBonus( m );
-
 				if( DualWield.Registry.Contains( m ) )
 					bonus += ((DualWield.DualWieldTimer)DualWield.Registry[m]).BonusSwingSpeed;
 
 				if( Feint.Registry.Contains( m ) )
 					bonus -= ((Feint.FeintTimer)Feint.Registry[m]).SwingSpeedReduction;
 
-				TransformContext context = TransformationSpellHelper.GetContext( m );
-
-				if( context != null && context.Spell is ReaperFormSpell )
-					bonus += ((ReaperFormSpell)context.Spell).SwingSpeedBonus;
-
 				int discordanceEffect = 0;
 
 				// Discordance gives a malus of -0/-28% to swing speed.
 				if ( SkillHandlers.Discordance.GetEffect( m, ref discordanceEffect ) )
 					bonus -= discordanceEffect;
-
-				if( EssenceOfWindSpell.IsDebuffed( m ) )
-					bonus -= EssenceOfWindSpell.GetSSIMalus( m );
 
 				if ( bonus > 60 )
 					bonus = 60;
@@ -913,9 +874,6 @@ namespace Server.Items
 				int v = (m.Stam + 100) * (int) speed;
 
 				int bonus = AosAttributes.GetValue( m, AosAttribute.WeaponSpeed );
-
-				if ( Spells.Chivalry.DivineFurySpell.UnderEffect( m ) )
-					bonus += 10;
 
 				int discordanceEffect = 0;
 
@@ -1071,10 +1029,6 @@ namespace Server.Items
 				if ( parry >= 100.0 || bushido >= 100.0)
 					chance += 0.05;
 
-				// Evasion grants a variable bonus post ML. 50% prior.
-				if ( Evasion.IsEvading( defender ) )
-					chance *= Evasion.GetParryScalar( defender );
-
 				// Low dexterity lowers the chance.
 				if ( defender.Dex < 80 )
 					chance = chance * (20 + defender.Dex) / 100;
@@ -1102,10 +1056,6 @@ namespace Server.Items
 					chance += 0.05;
 				}
 
-				// Evasion grants a variable bonus post ML. 50% prior.
-				if( Evasion.IsEvading( defender ) )
-					chance *= Evasion.GetParryScalar( defender );
-
 				// Low dexterity lowers the chance.
 				if( defender.Dex < 80 )
 					chance = chance * (20 + defender.Dex) / 100;
@@ -1131,32 +1081,6 @@ namespace Server.Items
 				{
 					defender.FixedEffect( 0x37B9, 10, 16 );
 					damage = 0;
-
-					// Successful block removes the Honorable Execution penalty.
-					HonorableExecution.RemovePenalty( defender );
-
-					if ( CounterAttack.IsCountering( defender ) )
-					{
-						BaseWeapon weapon = defender.Weapon as BaseWeapon;
-
-						if ( weapon != null )
-						{
-							defender.FixedParticles(0x3779, 1, 15, 0x158B, 0x0, 0x3, EffectLayer.Waist);
-							weapon.OnSwing( defender, attacker );
-						}
-
-						CounterAttack.StopCountering( defender );
-					}
-
-					if ( Confidence.IsConfident( defender ) )
-					{
-						defender.SendLocalizedMessage( 1063117 ); // Your confidence reassures you as you successfully block your opponent's blow.
-
-						double bushido = defender.Skills.Bushido.Value;
-
-						defender.Hits += Utility.RandomMinMax( 1, (int)(bushido / 12) );
-						defender.Stam += Utility.RandomMinMax( 1, (int)(bushido / 5) );
-					}
 
 					BaseShield shield = defender.FindItemOnLayer( Layer.TwoHanded ) as BaseShield;
 
@@ -1318,31 +1242,6 @@ namespace Server.Items
 
 		public virtual void OnHit( Mobile attacker, Mobile defender, double damageBonus )
 		{
-			if ( MirrorImage.HasClone( defender ) && (defender.Skills.Ninjitsu.Value / 150.0) > Utility.RandomDouble() )
-			{
-				Clone bc;
-
-				foreach ( Mobile m in defender.GetMobilesInRange( 4 ) )
-				{
-					bc = m as Clone;
-
-					if ( bc != null && bc.Summoned && bc.SummonMaster == defender )
-					{
-						attacker.SendLocalizedMessage( 1063141 ); // Your attack has been diverted to a nearby mirror image of your target!
-						defender.SendLocalizedMessage( 1063140 ); // You manage to divert the attack onto one of your nearby mirror images.
-
-						/*
-						 * TODO: What happens if the Clone parries a blow?
-						 * And what about if the attacker is using Honorable Execution
-						 * and kills it?
-						 */
-
-						defender = m;
-						break;
-					}
-				}
-			}
-
 			PlaySwingAnimation( attacker );
 			PlayHurtAnimation( defender );
 
@@ -1428,14 +1327,6 @@ namespace Server.Items
 				percentageBonus -= 10;
 			}
 
-			TransformContext context = TransformationSpellHelper.GetContext( defender );
-
-			if( (m_Slayer == SlayerName.Silver || m_Slayer2 == SlayerName.Silver) && context != null && context.Spell is NecromancerSpell && context.Type != typeof( HorrificBeastSpell ) )
-			{
-				// Every necromancer transformation other than horrific beast takes an additional 25% damage
-				percentageBonus += 25;
-			}
-
 			BaseTalisman talisman = attacker.Talisman as BaseTalisman;
 
 			if ( talisman != null && talisman.Killer != null )
@@ -1505,10 +1396,6 @@ namespace Server.Items
 				else if ( type == 4 ) nrgy = 100;
 			}
 
-			// TODO: Scale damage, alongside the leech effects below, to weapon speed.
-			if ( ImmolatingWeaponSpell.IsImmolating( this ) && damage > 0 )
-				ImmolatingWeaponSpell.DoEffect( this, defender );
-
 			int damageGiven = damage;
 
 			if ( a != null && !a.OnBeforeDamage( attacker, defender ) )
@@ -1534,7 +1421,6 @@ namespace Server.Items
 				int lifeLeech = 0;
 				int stamLeech = 0;
 				int manaLeech = 0;
-				int wraithLeech = 0;
 
 				if ( (int)(AosWeaponAttributes.GetValue( attacker, AosWeaponAttribute.HitLeechHits ) * propertyBonus) > Utility.Random( 100 ) )
 					lifeLeech += 30; // HitLeechHits% chance to leech 30% of damage as hit points
@@ -1547,21 +1433,6 @@ namespace Server.Items
 
 				if ( m_Cursed )
 					lifeLeech += 50; // Additional 50% life leech for cursed weapons (necro spell)
-
-				context = TransformationSpellHelper.GetContext( attacker );
-
-				if ( context != null && context.Type == typeof( VampiricEmbraceSpell ) )
-					lifeLeech += 20; // Vampiric embrace gives an additional 20% life leech
-
-				if ( context != null && context.Type == typeof( WraithFormSpell ) )
-				{
-					wraithLeech = (5 + (int)((15 * attacker.Skills.SpiritSpeak.Value) / 100)); // Wraith form gives an additional 5-20% mana leech
-
-					// Mana leeched by the Wraith Form spell is actually stolen, not just leeched.
-					defender.Mana -= AOS.Scale( damageGiven, wraithLeech );
-
-					manaLeech += wraithLeech;
-				}
 
 				if ( lifeLeech != 0 )
 					attacker.Hits += AOS.Scale( damageGiven, lifeLeech );
@@ -1684,15 +1555,6 @@ namespace Server.Items
 
 			if ( move != null )
 				move.OnHit( attacker, defender, damage );
-
-			if ( !(this is BaseRanged) )
-			{
-				if ( AnimalForm.UnderTransformation( attacker, typeof( GiantSerpent ) ) )
-					defender.ApplyPoison( attacker, Poison.Lesser );
-
-				if ( AnimalForm.UnderTransformation( defender, typeof( BullFrog ) ) )
-					attacker.ApplyPoison( defender, Poison.Regular );
-			}
 		}
 
 		public virtual double GetAosDamage( Mobile attacker, int bonus, int dice, int sides )
@@ -1715,11 +1577,6 @@ namespace Server.Items
 
 				// SDI bonus
 				damageBonus += AosAttributes.GetValue( attacker, AosAttribute.SpellDamage );
-
-				TransformContext context = TransformationSpellHelper.GetContext( attacker );
-
-				if( context != null && context.Spell is ReaperFormSpell )
-					damageBonus += ((ReaperFormSpell)context.Spell).SpellDamageBonus;
 			}
 
 			damage = AOS.Scale( damage, 100 + damageBonus );
@@ -2175,14 +2032,6 @@ namespace Server.Items
 			 * Capped at 100% total.
 			 */
 			int damageBonus = AosAttributes.GetValue( attacker, AosAttribute.WeaponDamage );
-
-			// Horrific Beast transformation gives a +25% bonus to damage.
-			if( TransformationSpellHelper.UnderTransformation( attacker, typeof( HorrificBeastSpell ) ) )
-				damageBonus += 25;
-
-			// Divine Fury gives a +10% bonus to damage.
-			if ( Spells.Chivalry.DivineFurySpell.UnderEffect( attacker ) )
-				damageBonus += 10;
 
 			int defenseMasteryMalus = 0;
 
@@ -3175,9 +3024,6 @@ namespace Server.Items
 
 			if ( (prop = m_AosWeaponAttributes.HitLeechStam) != 0 )
 				list.Add( 1060430, prop.ToString() ); // hit stamina leech ~1_val~%
-
-			if ( ImmolatingWeaponSpell.IsImmolating( this ) )
-				list.Add( 1111917 ); // Immolated
 
 			if ( Core.ML && this is BaseRanged && ( prop = ( (BaseRanged) this ).Velocity ) != 0 )
 				list.Add( 1072793, prop.ToString() ); // Velocity ~1_val~%

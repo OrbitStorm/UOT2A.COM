@@ -2,8 +2,6 @@ using System;
 using Server.Network;
 using Server.Mobiles;
 using Server.Spells;
-using Server.Spells.Necromancy;
-using Server.Spells.Ninjitsu;
 
 namespace Server
 {
@@ -85,22 +83,6 @@ namespace Server
 
 			protected override void OnTick()
 			{
-				if ( (Core.AOS && m_Poison.Level < 4 && TransformationSpellHelper.UnderTransformation( m_Mobile, typeof( VampiricEmbraceSpell ) )) ||
-					AnimalForm.UnderTransformation( m_Mobile, typeof( Unicorn ) ) )
-				{
-					if ( m_Mobile.CurePoison( m_Mobile ) )
-					{
-						m_Mobile.LocalOverheadMessage( MessageType.Emote, 0x3F, true,
-							"* You feel yourself resisting the effects of the poison *" );
-
-						m_Mobile.NonlocalOverheadMessage( MessageType.Emote, 0x3F, true,
-							String.Format( "* {0} seems resistant to the poison *", m_Mobile.Name ) );
-
-						Stop();
-						return;
-					}
-				}
-
 				if ( m_Index++ == m_Poison.m_Count )
 				{
 					m_Mobile.SendLocalizedMessage( 502136 ); // The poison seems to have worn off.

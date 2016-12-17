@@ -1,8 +1,6 @@
 using System;
 using Server.Items;
 using Server.Spells;
-using Server.Spells.Necromancy;
-using Server.Spells.Ninjitsu;
 using Server.Mobiles;
 
 namespace Server.Misc
@@ -44,11 +42,6 @@ namespace Server.Misc
 			return TransformationSpellHelper.UnderTransformation( m, type );
 		}
 
-		private static bool CheckAnimal( Mobile m, Type type )
-		{
-			return AnimalForm.UnderTransformation( m, type );
-		}
-
 		private static TimeSpan Mobile_HitsRegenRate( Mobile from )
 		{
 			int points = AosAttributes.GetValue( from, AosAttribute.RegenHits );
@@ -68,12 +61,6 @@ namespace Server.Misc
 			if( Core.ML && from is PlayerMobile )	//does racial bonus go before/after?
 				points = Math.Min( points, 18 );
 
-			if ( CheckTransform( from, typeof( HorrificBeastSpell ) ) )
-				points += 20;
-
-			if ( CheckAnimal( from, typeof( Dog ) ) || CheckAnimal( from, typeof( Cat ) ) )
-				points += from.Skills[SkillName.Ninjitsu].Fixed / 30;
-
 			return TimeSpan.FromSeconds( 1.0 / (0.1 * (1 + points)) );
 		}
 
@@ -90,12 +77,6 @@ namespace Server.Misc
 				points += 40;
 
 			int cappedPoints = AosAttributes.GetValue( from, AosAttribute.RegenStam );
-
-			if ( CheckTransform( from, typeof( VampiricEmbraceSpell ) ) )
-				cappedPoints += 15;
-
-			if ( CheckAnimal( from, typeof( Kirin ) ) )
-				cappedPoints += 20;
 
 			if( Core.ML && from is PlayerMobile )
 				cappedPoints = Math.Min( cappedPoints, 24 );
@@ -138,11 +119,6 @@ namespace Server.Misc
 					totalPoints += 40;
 
 				int cappedPoints = AosAttributes.GetValue( from, AosAttribute.RegenMana );
-
-				if ( CheckTransform( from, typeof( VampiricEmbraceSpell ) ) )
-					cappedPoints += 3;
-				else if ( CheckTransform( from, typeof( LichFormSpell ) ) )
-					cappedPoints += 13;
 
 				if( Core.ML && from is PlayerMobile )
 					cappedPoints = Math.Min( cappedPoints, 18 );

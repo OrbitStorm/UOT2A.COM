@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Server.Spells;
 
 namespace Server.Items

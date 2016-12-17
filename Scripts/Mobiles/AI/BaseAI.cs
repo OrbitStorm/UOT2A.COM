@@ -8,7 +8,6 @@ using Server.Network;
 using Server.Regions;
 using MoveImpl = Server.Movement.MovementImpl;
 using Server.Spells;
-using Server.Spells.Spellweaving;
 
 namespace Server.Mobiles
 {
@@ -2379,10 +2378,6 @@ namespace Server.Mobiles
 
 					// If we only want faction friends, make sure it's one.
 					if (bFacFriend && !m_Mobile.IsFriend(m))
-						continue;
-
-					//Ignore anyone under EtherealVoyage
-					if (TransformationSpellHelper.UnderTransformation(m, typeof(EtherealVoyageSpell)))
 						continue;
 
 					if (acqType == FightMode.Aggressor || acqType == FightMode.Evil)

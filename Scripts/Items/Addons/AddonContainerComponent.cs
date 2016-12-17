@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Server.Items
 {
     public class AddonContainerComponent : Item, IChopable
