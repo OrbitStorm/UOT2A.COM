@@ -98,8 +98,7 @@ namespace Server.Mobiles
 					Add( new GenericBuyInfo( typeof( LargeBagBall ), 3, 20, 0x2257, 0 ) );
 				}
 
-				if( !Guild.NewGuildSystem )
-					Add( new GenericBuyInfo( "1041055", typeof( GuildDeed ), 12450, 20, 0x14F0, 0 ) );
+				Add( new GenericBuyInfo( "1041055", typeof( GuildDeed ), 12450, 20, 0x14F0, 0 ) );
 			}
 		}
 
@@ -162,9 +161,7 @@ namespace Server.Mobiles
 				Add( typeof( SilverBracelet ), 10 );
 				Add( typeof( GoldEarrings ), 13 );
 				Add( typeof( SilverEarrings ), 10 );
-
-				if( !Guild.NewGuildSystem )
-					Add( typeof( GuildDeed ), 6225 );
+				Add( typeof( GuildDeed ), 6225 );
 			}
 		}
 	}

@@ -1226,7 +1226,7 @@ namespace Server.Gumps
 						{
 							if ( isOwner && m_House.MovingCrate == null && m_House.InternalizedVendors.Count == 0 )
 							{
-								if( !Guilds.Guild.NewGuildSystem && m_House.FindGuildstone() != null ) 
+								if( m_House.FindGuildstone() != null ) 
 								{
 									from.SendLocalizedMessage( 501389 ); // You cannot redeed a house with a guildstone inside.
 								}

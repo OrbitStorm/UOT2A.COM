@@ -1102,21 +1102,12 @@ namespace Server
 				else
 					title = title.Trim();
 
-				if( NewGuildDisplay && title.Length > 0 )
-				{
-					list.Add( "{0}, {1}", Utility.FixHtml( title ), Utility.FixHtml( guild.Name ) );
-				}
+				if( title.Length > 0 )
+					list.Add( "{0}, {1} Guild{2}", Utility.FixHtml( title ), Utility.FixHtml( guild.Name ), type );
 				else
-				{
-					if( title.Length > 0 )
-						list.Add( "{0}, {1} Guild{2}", Utility.FixHtml( title ), Utility.FixHtml( guild.Name ), type );
-					else
-						list.Add( Utility.FixHtml( guild.Name ) );
-				}
+					list.Add( Utility.FixHtml( guild.Name ) );
 			}
 		}
-
-		public virtual bool NewGuildDisplay { get { return false; } }
 
 		public virtual void GetProperties( ObjectPropertyList list )
 		{

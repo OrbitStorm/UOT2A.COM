@@ -374,34 +374,6 @@ namespace Server.Guilds
 			AllianceChat( from, (pm == null) ? 0x3B2 : pm.AllianceMessageHue, text );
 		}
 		#endregion
-
-		public class AllianceRosterGump : GuildDiplomacyGump
-		{
-			protected override bool AllowAdvancedSearch{ get{ return false; } }
-
-			private AllianceInfo m_Alliance;
-
-			public AllianceRosterGump( PlayerMobile pm, Guild g, AllianceInfo alliance ): base( pm, g, true, "", 0, alliance.m_Members, alliance.Name )
-			{
-				m_Alliance = alliance;
-			}
-
-			public AllianceRosterGump( PlayerMobile pm, Guild g, AllianceInfo alliance, IComparer<Guild> currentComparer, bool ascending, string filter, int startNumber ) : base( pm, g, currentComparer, ascending, filter, startNumber, alliance.m_Members, alliance.Name )
-			{
-				m_Alliance = alliance;
-			}
-
-			public override Gump GetResentGump( PlayerMobile pm, Guild g, IComparer<Guild> comparer, bool ascending, string filter, int startNumber )
-			{
-				return new AllianceRosterGump( pm, g, m_Alliance, comparer, ascending, filter, startNumber );
-			}
-
-			public override void OnResponse( NetState sender, RelayInfo info )
-			{
-				if( info.ButtonID != 8 ) //So that they can't get to the AdvancedSearch button
-					base.OnResponse( sender, info );
-			}
-		}
 	}
 	#endregion
 
@@ -557,8 +529,6 @@ namespace Server.Guilds
 
 		public static void Initialize()
 		{
-			if( Guild.NewGuildSystem )
-				new WarTimer().Start();
 		}
 
 		public WarTimer() : base( InternalDelay, InternalDelay )
@@ -580,7 +550,6 @@ namespace Server.Guilds
 		public static void Configure()
 		{
 			EventSink.CreateGuild += new CreateGuildHandler( EventSink_CreateGuild );
-			EventSink.GuildGumpRequest += new GuildGumpRequestHandler( EventSink_GuildGumpRequest );
 
 			CommandSystem.Register( "GuildProps", AccessLevel.Counselor, new CommandEventHandler( GuildProps_OnCommand ) );
 		}
@@ -617,9 +586,6 @@ namespace Server.Guilds
 				if ( g != null )
 				{
 					from.SendGump( new PropertiesGump( from, g ) );
-
-					if ( NewGuildSystem && from.AccessLevel >= AccessLevel.GameMaster && from is PlayerMobile )
-						from.SendGump( new GuildInfoGump( (PlayerMobile)from, g ) );
 				}
 			}
 
@@ -660,9 +626,6 @@ namespace Server.Guilds
 				if( g != null )
 				{
 					from.SendGump( new PropertiesGump( from, g ) );
-
-					if( NewGuildSystem && from.AccessLevel >= AccessLevel.GameMaster && from is PlayerMobile )
-						from.SendGump( new GuildInfoGump( (PlayerMobile)from, g ) );
 				}
 				else
 				{
@@ -673,26 +636,11 @@ namespace Server.Guilds
 		#endregion
 
 		#region EventSinks
-		public static void EventSink_GuildGumpRequest( GuildGumpRequestArgs args )
-		{
-			PlayerMobile pm = args.Mobile as PlayerMobile;
-			if( !NewGuildSystem || pm == null )
-				return;
-			
-			if( pm.Guild == null )
-				pm.SendGump( new CreateGuildGump( pm ) );
-			else
-				pm.SendGump( new GuildInfoGump( pm, pm.Guild as Guild ) );
-		}
-
 		public static BaseGuild EventSink_CreateGuild( CreateGuildEventArgs args )
 		{
 			return (BaseGuild)(new Guild( args.Id ));
 		}
 		#endregion
-
-		public static bool NewGuildSystem{ get{ return Core.SE; } }
-		public static bool OrderChaos{ get{ return !Core.SE; } }
 
 		public static readonly int RegistrationFee = 25000;
 		public static readonly int AbbrevLimit = 4;
@@ -916,38 +864,6 @@ namespace Server.Guilds
 				}
 			}
 		}
-
-		public static void HandleDeath( Mobile victim )
-		{
-			HandleDeath( victim, null );
-		}
-
-		public static void HandleDeath( Mobile victim, Mobile killer )
-		{
-			if( !NewGuildSystem )
-				return;
-
-			if ( killer == null )
-				killer = victim.FindMostRecentDamager( false );
-
-			if( killer == null || victim.Guild == null || killer.Guild == null )
-				return;
-
-			Guild victimGuild = GetAllianceLeader( victim.Guild as Guild );
-			Guild killerGuild = GetAllianceLeader( killer.Guild as Guild );
-			
-			WarDeclaration war = killerGuild.FindActiveWar( victimGuild );
-
-			if( war == null )
-				return;
-			
-			war.Kills++;
-
-			if ( war.Opponent == victimGuild )
-				killerGuild.CheckExpiredWars();
-			else
-				victimGuild.CheckExpiredWars();
-		}
 		#endregion
 
 		#region Var declarations
@@ -1137,7 +1053,7 @@ namespace Server.Guilds
 				if ( i < m_Enemies.Count )
 					RemoveEnemy( m_Enemies[i] );
 
-			if ( !NewGuildSystem && m_Guildstone != null )
+			if ( m_Guildstone != null )
 				m_Guildstone.Delete();
 
 			m_Guildstone = null;
@@ -1155,11 +1071,6 @@ namespace Server.Guilds
 
 		public bool IsAlly( Guild g )
 		{
-			if( NewGuildSystem )
-			{
-				return (Alliance != null && Alliance.IsMember( this ) && Alliance.IsMember( g ));
-			}
-
 			return m_Allies.Contains( g );
 		}
 
@@ -1175,17 +1086,6 @@ namespace Server.Guilds
 		{
 			if( g == null )
 				return false;
-
-			if( NewGuildSystem )
-			{
-				Guild guild = GetAllianceLeader( this );
-				Guild otherGuild = GetAllianceLeader( g );
-
-				if ( guild.FindActiveWar( otherGuild ) != null )
-					return true;
-
-				return false;
-			}
 
 			return m_Enemies.Contains( g );
 		}
@@ -1374,7 +1274,7 @@ namespace Server.Guilds
 
 		private void VerifyGuild_Callback()
 		{
-			if( (!NewGuildSystem && m_Guildstone == null) || m_Members.Count == 0 )
+			if( m_Guildstone == null || m_Members.Count == 0 )
 				Disband();
 
 			CheckExpiredWars();
@@ -1403,11 +1303,7 @@ namespace Server.Guilds
 
 				m_Members.Add( m );
 				m.Guild = this;
-
-				if( !NewGuildSystem )
-					m.GuildFealty = m_Leader;
-				else
-					m.GuildFealty = null;
+				m.GuildFealty = m_Leader;
 
 				if( m is PlayerMobile )
 					((PlayerMobile)m).GuildRank = RankDefinition.Lowest;
@@ -1582,24 +1478,11 @@ namespace Server.Guilds
 		#region Voting
 		public bool CanVote( Mobile m )
 		{
-			if( NewGuildSystem )
-			{
-				PlayerMobile pm = m as PlayerMobile;
-				if( pm == null || !pm.GuildRank.GetFlag( RankFlags.CanVote ) )
-					return false;
-			}
-
 			return ( m != null && !m.Deleted && m.Guild == this );
 		}
+
 		public bool CanBeVotedFor( Mobile m )
 		{
-			if( NewGuildSystem )
-			{
-				PlayerMobile pm = m as PlayerMobile;
-				if( pm == null || pm.LastOnline + InactiveTime < DateTime.Now )
-					return false;
-			}
-
 			return ( m != null && !m.Deleted && m.Guild == this );
 		}
 
@@ -1653,9 +1536,6 @@ namespace Server.Guilds
 					highVotes = val;
 				}
 			}
-
-			if( NewGuildSystem && (highVotes * 100) / Math.Max( votingMembers, 1 ) < MajorityPercentage && m_Leader != null && winner != m_Leader && !m_Leader.Deleted && m_Leader.Guild == this )
-				winner = m_Leader;
 
 			if ( m_Leader != winner && winner != null )
 				GuildMessage( 1018015, true, winner.Name ); // Guild Message: Guildmaster changed to:
@@ -1760,7 +1640,7 @@ namespace Server.Guilds
 		{
 			get
 			{
-				return OrderChaos ? m_Type : GuildType.Regular;
+				return GuildType.Regular;
 			}
 			set
 			{

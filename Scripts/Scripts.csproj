@@ -282,17 +282,6 @@
     <Compile Include=".\Gumps\Guilds\GuildWarAdminGump.cs" />
     <Compile Include=".\Gumps\Guilds\GuildWarGump.cs" />
     <Compile Include=".\Gumps\Guilds\GuildWebsitePrompt.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\AdvancedSearch.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\BaseGuildGump.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\BaseGuildListGump.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\Create Guild Gump.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\DiplomacyGump.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\GuildInfoGump.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\GuildInvitationRequest.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\GuildMemberInfoGump.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\GuildRosterGump.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\OtherGuildInfo.cs" />
-    <Compile Include=".\Gumps\Guilds\New Guild System\War Declaration gump.cs" />
     <Compile Include=".\Gumps\Guilds\RecruitTarget.cs" />
     <Compile Include=".\Gumps\HonorSelf.cs" />
     <Compile Include=".\Gumps\HouseDemolishGump.cs" />
