@@ -96,7 +96,7 @@ namespace Server
 								PlaceNPC( split[1], split[2], split[3], "Tavernkeeper", "Waiter", "Cook", "Barkeeper" );
 								break;
 							case "-reagents:":
-								PlaceNPC( split[1], split[2], split[3], "Herbalist", "Alchemist", "CustomHairstylist" );
+								PlaceNPC( split[1], split[2], split[3], "Herbalist", "Alchemist" );
 								break;
 							case "-fortuneteller:":
 								PlaceNPC( split[1], split[2], split[3], "FortuneTeller" );

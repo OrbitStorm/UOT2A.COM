@@ -1,0 +1,22 @@
+﻿Monsters
+- Ghost (Looks Like a Spectre)
+
+Townfolk
+- Beggar
+- Fighter
+- Gambler
+- Jailor
+- Judge
+- Magincia Council Member
+- Magincia Servant
+- Mayor
+- Ocllo Cashual
+- Ocllo Priest (Priestess)
+- Ocllo Runner
+- Paladin
+- Pirate
+- Sailor
+- Shepherd
+- Warrior
+- Weapons Trainer
+- Vegetable Seller

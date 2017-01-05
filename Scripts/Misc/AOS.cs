@@ -58,9 +58,6 @@ namespace Server
 			if( m == null || m.Deleted || !m.Alive || damage <= 0 )
 				return 0;
 
-			if( phys == 0 && fire == 100 && cold == 0 && pois == 0 && nrgy == 0 )
-				Mobiles.MeerMage.StopEffect( m, true );
-
 			if( !Core.AOS )
 			{
 				m.Damage( damage, from );
@@ -140,30 +137,6 @@ namespace Server
 					totalDamage += totalDamage * quiver.DamageIncrease / 100;
 			}
 
-			#region Dragon Barding
-			if( (from == null || !from.Player) && m.Player && m.Mount is SwampDragon )
-			{
-				SwampDragon pet = m.Mount as SwampDragon;
-
-				if( pet != null && pet.HasBarding )
-				{
-					int percent = (pet.BardingExceptional ? 20 : 10);
-					int absorbed = Scale( totalDamage, percent );
-
-					totalDamage -= absorbed;
-					pet.BardingHP -= absorbed;
-
-					if( pet.BardingHP < 0 )
-					{
-						pet.HasBarding = false;
-						pet.BardingHP = 0;
-
-						m.SendLocalizedMessage( 1053031 ); // Your dragon's barding has been destroyed!
-					}
-				}
-			}
-			#endregion
-
 			if( keepAlive && totalDamage > m.Hits )
 				totalDamage = m.Hits;
 
@@ -173,16 +146,7 @@ namespace Server
 
 				if( reflectPhys != 0 )
 				{
-					if( from is ExodusMinion && ((ExodusMinion)from).FieldActive || from is ExodusOverseer && ((ExodusOverseer)from).FieldActive )
-					{
-						from.FixedParticles( 0x376A, 20, 10, 0x2530, EffectLayer.Waist );
-						from.PlaySound( 0x2F4 );
-						m.SendAsciiMessage( "Your weapon cannot penetrate the creature's magical barrier" );
-					}
-					else
-					{
-						from.Damage( Scale( (damage * phys * (100 - (ignoreArmor ? 0 : m.PhysicalResistance))) / 10000, reflectPhys ), m );
-					}
+					from.Damage( Scale( (damage * phys * (100 - (ignoreArmor ? 0 : m.PhysicalResistance))) / 10000, reflectPhys ), m );
 				}
 			}
 

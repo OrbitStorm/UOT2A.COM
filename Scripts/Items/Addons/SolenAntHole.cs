@@ -83,9 +83,6 @@ namespace Server.Items
 
 				for ( int i = 0; i < count; i++ )
 					SpawnAnt();
-
-				if ( 0.05 > Utility.RandomDouble() )
-					SpawnAnt( new Beetle() );
 			}
 		}
 
@@ -100,14 +97,6 @@ namespace Server.Items
 		{
 			int random = Utility.Random( 3 );
 			Map map = Map;
-
-			if ( map == Map.Felucca )
-			{
-				if ( random < 2 )
-					SpawnAnt( new BlackSolenWorker() );
-				else
-					SpawnAnt( new BlackSolenWarrior() );
-			}
 		}
 
 		public void SpawnAnt( BaseCreature ant )

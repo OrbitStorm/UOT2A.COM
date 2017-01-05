@@ -53,22 +53,6 @@ namespace Server.Items
 
 				ItemID = 0x1765;
 
-				if ( Owner != null )
-				{
-					Container pack = Owner.Backpack;
-
-					if ( pack != null )
-					{
-						for ( int i = 0; i < pack.Items.Count; i++ )
-						{
-							PlagueBeastMainOrgan main = pack.Items[ i ] as PlagueBeastMainOrgan;
-
-							if ( main != null && main.Complete )
-								main.FinishOpening( from );
-						}
-					}
-				}
-
 				PublicOverheadMessage( MessageType.Regular, 0x3B2, 1071916 ); // * You patch up the wound with a bandage *
 
 				return true;
@@ -82,27 +66,13 @@ namespace Server.Items
 			if ( Patched )
 				return;
 
-			if ( Owner != null )
-				Owner.PlaySound( 0x25 );
-
-			if ( ItemID == 0x122A )
+			if ( Starting )
 			{
-				if ( Owner != null )
-				{
-					Owner.Unfreeze();
-					Owner.Kill();
-				}
+				X += 8;
+				Y -= 10;
 			}
-			else
-			{
-				if ( Starting )
-				{
-					X += 8;
-					Y -= 10;
-				}
 
-				ItemID--;
-			}
+			ItemID--;
 		}		
 
 		public PlagueBeastBlood( Serial serial ) : base( serial )

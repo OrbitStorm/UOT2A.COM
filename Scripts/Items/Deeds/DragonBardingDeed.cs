@@ -53,29 +53,12 @@ namespace Server.Items
 			if ( Deleted )
 				return;
 
-			SwampDragon pet = obj as SwampDragon;
-
-			if ( pet == null || pet.HasBarding )
-			{
-				from.SendLocalizedMessage( 1053025 ); // That is not an unarmored swamp dragon.
-			}
-			else if ( !pet.Controlled || pet.ControlMaster != from )
-			{
-				from.SendLocalizedMessage( 1053026 ); // You can only put barding on a tamed swamp dragon that you own.
-			}
-			else if ( !IsChildOf( from.Backpack ) )
+			if ( !IsChildOf( from.Backpack ) )
 			{
 				from.SendLocalizedMessage( 1060640 ); // The item must be in your backpack to use it.
 			}
 			else
 			{
-				pet.BardingExceptional = this.Exceptional;
-				pet.BardingCrafter = this.Crafter;
-				pet.BardingHP = pet.BardingMaxHP;
-				pet.BardingResource = this.Resource;
-				pet.HasBarding = true;
-				pet.Hue = this.Hue;
-
 				this.Delete();
 
 				from.SendLocalizedMessage( 1053027 ); // You place the barding on your swamp dragon.  Use a bladed item on your dragon to remove the armor.

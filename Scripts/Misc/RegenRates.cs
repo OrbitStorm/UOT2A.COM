@@ -49,9 +49,6 @@ namespace Server.Misc
 			if ( from is BaseCreature && !((BaseCreature)from).IsAnimatedDead )
 				points += 4;
 
-			if ( (from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan )
-				points += 40;
-
 			if( Core.ML && from.Race == Race.Human )	//Is this affected by the cap?
 				points += 2;
 
@@ -72,9 +69,6 @@ namespace Server.Misc
 			CheckBonusSkill( from, from.Stam, from.StamMax, SkillName.Focus );
 
 			int points =(int)(from.Skills[SkillName.Focus].Value * 0.1);
-
-			if( (from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan )
-				points += 40;
 
 			int cappedPoints = AosAttributes.GetValue( from, AosAttribute.RegenStam );
 
@@ -114,9 +108,6 @@ namespace Server.Misc
 					medPoints = 0; // In AOS, wearing any meditation-blocking armor completely removes meditation bonus
 
 				double totalPoints = focusPoints + medPoints + (from.Meditating ? (medPoints > 13.0 ? 13.0 : medPoints) : 0.0);
-
-				if( (from is BaseCreature && ((BaseCreature)from).IsParagon) || from is Leviathan )
-					totalPoints += 40;
 
 				int cappedPoints = AosAttributes.GetValue( from, AosAttribute.RegenMana );
 

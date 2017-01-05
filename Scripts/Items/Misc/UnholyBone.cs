@@ -99,7 +99,6 @@ namespace Server.Items
 					case 3: spawn = new Spectre(); break;
 					case 4: spawn = new Ghoul(); break;
 					case 5: spawn = new Mummy(); break;
-					case 6: spawn = new Bogle(); break;
 					case 7: spawn = new RottingCorpse(); break;
 					case 8: spawn = new BoneKnight(); break;
 					case 9: spawn = new SkeletalKnight(); break;

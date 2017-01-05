@@ -274,15 +274,9 @@ namespace Server.Items
 			if ( IsPoisonImmune( bc ) )
 				val += 100;
 
-			if ( targ is VampireBat || targ is VampireBatFamiliar )
-				val += 100;
-
 			val += GetPoisonLevel( bc ) * 20;
 
 			val /= 10;
-
-			if ( bc != null && bc.IsParagon )
-				val += 40.0;
 
 			if ( Core.SE && val > 160.0 )
 				val = 160.0;

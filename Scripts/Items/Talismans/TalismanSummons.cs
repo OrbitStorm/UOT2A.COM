@@ -1,7 +1,5 @@
 using System;
 
-using BunnyHole = Server.Mobiles.VorpalBunny.BunnyHole;
-
 namespace Server.Mobiles
 {
     public class BaseTalismanSummon : BaseCreature
@@ -536,8 +534,6 @@ namespace Server.Mobiles
 		{
 			if ( Deleted )
 				return;
-
-			new BunnyHole().MoveToWorld( Location, Map );
 
 			Frozen = true;
 			Say( "* The bunny begins to dig a tunnel back to its underground lair *" );

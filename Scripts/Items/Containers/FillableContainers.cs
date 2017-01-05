@@ -1336,7 +1336,6 @@ namespace Server.Items
 			new Type[]
 			{
 				typeof( AnimalTrainer ),
-				typeof( GypsyAnimalTrainer )
 			},
 			new FillableEntry[]
 			{

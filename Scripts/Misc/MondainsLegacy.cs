@@ -23,7 +23,7 @@ namespace Server
 			if ( !Core.ML )
 				return false;
 
-			return Paragon.CheckArtifactChance( m, bc );
+			return false;
 		}
 
 		public static void GiveArtifactTo( Mobile m )

@@ -311,7 +311,7 @@ namespace Server.Mobiles
 		public virtual TimeSpan BondingAbandonDelay{ get{ return TimeSpan.FromDays( 1.0 ); } }
 
 		public override bool CanRegenHits{ get{ return !m_IsDeadPet && base.CanRegenHits; } }
-		public override bool CanRegenStam{ get{ return !IsParagon && !m_IsDeadPet && base.CanRegenStam; } }
+		public override bool CanRegenStam{ get{ return !m_IsDeadPet && base.CanRegenStam; } }
 		public override bool CanRegenMana{ get{ return !m_IsDeadPet && base.CanRegenMana; } }
 
 		public override bool IsDeadBondedPet{ get{ return m_IsDeadPet; } }
@@ -482,25 +482,6 @@ namespace Server.Mobiles
 		public int DirectDamage{ get{ return m_DirectDamage; } set{ m_DirectDamage = value; } }
 
 		#endregion
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool IsParagon
-		{
-			get{ return m_Paragon; }
-			set
-			{
-				if ( m_Paragon == value )
-					return;
-				else if ( value )
-					Paragon.Convert( this );
-				else
-					Paragon.UnConvert( this );
-
-				m_Paragon = value;
-
-				InvalidateProperties();
-			}
-		}
 
 		public virtual bool HasManaOveride { get { return false; } }
 
@@ -687,9 +668,6 @@ namespace Server.Mobiles
 		{
 			int damage = (int)(Hits * BreathDamageScalar);
 
-			if ( IsParagon )
-				damage = (int)(damage / Paragon.HitsBuff);
-
 			if ( damage > 200 )
 				damage = 200;
 
@@ -865,19 +843,6 @@ namespace Server.Mobiles
 			return ( m_iTeam != c.m_iTeam || ( (m_bSummoned || m_bControlled) != (c.m_bSummoned || c.m_bControlled ) )/* || c.Combatant == this*/ );
 		}
 
-		public override string ApplyNameSuffix( string suffix )
-		{
-			if ( IsParagon && !GivesMLMinorArtifact )
-			{
-				if ( suffix.Length == 0 )
-					suffix = "(Paragon)";
-				else
-					suffix = String.Concat( suffix, " (Paragon)" );
-			}
-
-			return base.ApplyNameSuffix( suffix );
-		}
-
 		public virtual bool CheckControlChance( Mobile m )
 		{
 			if ( GetControlChance( m ) > Utility.RandomDouble() )
@@ -964,11 +929,9 @@ namespace Server.Mobiles
 
 		private static Type[] m_AnimateDeadTypes = new Type[]
 			{
-				typeof( MoundOfMaggots ), typeof( HellSteed ), typeof( SkeletalMount ),
-				typeof( WailingBanshee ), typeof( Wraith ), typeof( SkeletalDragon ),
-				typeof( LichLord ), typeof( FleshGolem ), typeof( Lich ),
+				typeof( Wraith ), typeof( LichLord ), typeof( Lich ),
 				typeof( SkeletalKnight ), typeof( BoneKnight ), typeof( Mummy ),
-				typeof( SkeletalMage ), typeof( BoneMagi ), typeof( PatchworkSkeleton )
+				typeof( SkeletalMage ), typeof( BoneMagi )
 			};
 
 		public virtual bool IsAnimatedDead
@@ -1019,14 +982,6 @@ namespace Server.Mobiles
 
 			if ( isTeleport && m_AI != null )
 				m_AI.OnTeleported();
-		}
-
-		public override void OnBeforeSpawn( Point3D location, Map m )
-		{
-			if ( Paragon.CheckConvert( this, location, m ) )
-				IsParagon = true;
-
-			base.OnBeforeSpawn( location, m );
 		}
 
 		public override ApplyPoisonResult ApplyPoison( Mobile from, Poison poison )
@@ -1898,11 +1853,6 @@ namespace Server.Mobiles
 
 			if ( version >= 18 )
 				m_CorpseNameOverride = reader.ReadString();
-
-			if( version <= 14 && m_Paragon && Hue == 0x31 )
-			{
-				Hue = Paragon.Hue; //Paragon hue fixed, should now be 0x501.
-			}
 
 			if ( Core.AOS && NameHue == 0x35 )
 				NameHue = -1;
@@ -4219,30 +4169,6 @@ namespace Server.Mobiles
 
 		public override bool OnBeforeDeath()
 		{
-			int treasureLevel = TreasureMapLevel;
-
-			if ( !Summoned && !NoKillAwards && !IsBonded )
-			{
-				if ( treasureLevel >= 0 )
-				{
-					if ( m_Paragon && Paragon.ChestChance > Utility.RandomDouble() )
-						PackItem( new ParagonChest( this.Name, treasureLevel ) );
-					else if ( Map == Map.Felucca && TreasureMap.LootChance >= Utility.RandomDouble() )
-						PackItem( new TreasureMap( treasureLevel, Map ) );
-				}
-
-				if ( m_Paragon && Paragon.ChocolateIngredientChance > Utility.RandomDouble() )
-				{
-					switch ( Utility.Random( 4 ) )
-					{
-						case 0: PackItem( new CocoaButter() ); break;
-						case 1: PackItem( new CocoaLiquor() ); break;
-						case 2: PackItem( new SackOfSugar() ); break;
-						case 3: PackItem( new Vanilla() ); break;
-					}
-				}
-			}
-
 			if ( !Summoned && !NoKillAwards && !m_HasGeneratedLoot )
 			{
 				m_HasGeneratedLoot = true;
@@ -4432,17 +4358,10 @@ namespace Server.Mobiles
 					MondainsLegacy.GiveArtifactTo( mob );
 			}
 			#endregion
-			else if ( m_Paragon )
-			{
-				if ( Paragon.CheckArtifactChance( mob, this ) )
-					Paragon.GiveArtifactTo( mob );
-			}
 		}
 
 		public override void OnDeath( Container c )
 		{
-			MeerMage.StopEffect( this, false );
-
 			if ( IsBonded )
 			{
 				int sound = this.GetDeathSound();
@@ -5126,7 +5045,7 @@ namespace Server.Mobiles
 				{
 					BaseCreature t = (BaseCreature)target;
 
-					if ( t.Unprovokable || (t.IsParagon && BaseInstrument.GetBaseDifficulty( t ) >= 160.0) )
+					if ( t.Unprovokable )
 						return;
 
 					t.BardProvoked = true;

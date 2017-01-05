@@ -102,9 +102,6 @@ namespace Server.Items
 		public virtual void FinishOpening( Mobile from )
 		{
 			m_Opened = true;
-
-			if ( Owner != null )
-				Owner.PlaySound( 0x50 );
 		}
 
 		public PlagueBeastOrgan( Serial serial ) : base( serial )
@@ -150,9 +147,6 @@ namespace Server.Items
 		{
 			ItemID = 0x1249;
 
-			if ( Owner != null )
-				Owner.PlaySound( 0x187 );
-			
 			AddComponent( new PlagueBeastComponent( 0x1D0D, 0x0 ), 22, 3 );
 			AddComponent( new PlagueBeastComponent( 0x1D12, 0x0 ), 15, 18 );
 			AddComponent( new PlagueBeastComponent( 0x1DA3, 0x21 ), 26, 46 );
@@ -319,12 +313,6 @@ namespace Server.Items
 				from.LocalOverheadMessage( MessageType.Regular, 0x3B2, 1071901 ); // * As you cut the vein, a cloud of poison is expelled from the plague beast's organ, and the plague beast dissolves into a puddle of goo *
 				from.ApplyPoison( from, Poison.Greater );
 				from.PlaySound( 0x22F );
-
-				if ( Owner != null )
-				{
-					Owner.Unfreeze();
-					Owner.Kill();
-				}
 			}
 		}
 
@@ -404,10 +392,7 @@ namespace Server.Items
 				from.SendAsciiMessage( 0x3B2, "* You place the healthy gland inside the organ sac *" );
 				item.Movable = false;
 
-				if ( Owner != null )
-					Owner.PlaySound( 0x20 );
-
-				return true;
+                return true;
 			}
 
 			return false;
@@ -519,17 +504,6 @@ namespace Server.Items
 				m_Brains++;
 				from.LocalOverheadMessage( MessageType.Regular, 0x34, 1071913 ); // You place the organ in the fleshy receptacle near the core.
 
-				if ( Owner != null )
-				{
-					Owner.PlaySound( 0x1BA );
-
-					if ( Owner.IsBleeding )
-					{
-						from.LocalOverheadMessage( MessageType.Regular, 0x34, 1071922 ); // The plague beast is still bleeding from open wounds.  You must seal any bleeding wounds before the core will open!
-						return true;
-					}
-				}
-				
 				if ( m_Brains == 4 )
 					FinishOpening( from );
 
@@ -543,19 +517,6 @@ namespace Server.Items
 		{
 			AddComponent( new PlagueBeastComponent( 0x1363, 0x1 ), 0, 22 );
 			AddComponent( new PlagueBeastComponent( 0x1D04, 0xD ), 0, 22 );
-
-			if ( Owner != null && Owner.Backpack != null )
-			{
-				PlagueBeastMutationCore core = new PlagueBeastMutationCore();
-				Owner.Backpack.AddItem( core );
-				core.Movable = false;
-				core.Cut = false;
-				core.X = X;
-				core.Y = Y + 34;
-
-				Owner.PlaySound( 0x21 );
-				Owner.PlaySound( 0x166 );
-			}
 
 			Opened = true;
 		}

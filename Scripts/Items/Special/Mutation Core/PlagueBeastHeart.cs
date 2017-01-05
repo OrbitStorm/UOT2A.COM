@@ -51,7 +51,7 @@ namespace Server.Items
 
 			protected override void OnTick()
 			{
-				if ( m_Heart == null || m_Heart.Deleted || m_Heart.Owner == null || !m_Heart.Owner.Alive )
+				if ( m_Heart == null || m_Heart.Deleted )
 				{
 					Stop();
 					return;
@@ -62,7 +62,6 @@ namespace Server.Items
 					if ( m_Delay )
 					{
 						m_Heart.ItemID = 0x1367;
-						m_Heart.Owner.PlaySound( 0x11F );
 					}
 
 					m_Delay = !m_Delay;
@@ -70,7 +69,6 @@ namespace Server.Items
 				else
 				{
 					m_Heart.ItemID = 0x1363;
-					m_Heart.Owner.PlaySound( 0x120 );
 					m_Delay = false;
 				}
 			}

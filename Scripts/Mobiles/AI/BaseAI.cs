@@ -485,7 +485,7 @@ namespace Server.Mobiles
 
 									if (WasNamed(speech) && m_Mobile.CheckControlChance(e.Mobile))
 									{
-										if (m_Mobile.Summoned || (m_Mobile is GrizzledMare))
+										if (m_Mobile.Summoned)
 											e.Mobile.SendLocalizedMessage(1005481); // Summoned creatures are loyal only to their summoners.
 										else if (e.Mobile.HasTrade)
 											e.Mobile.SendLocalizedMessage(1070947); // You cannot friend a pet with a trade pending
@@ -579,7 +579,7 @@ namespace Server.Mobiles
 
 									if (!m_Mobile.IsDeadPet && WasNamed(speech) && m_Mobile.CheckControlChance(e.Mobile))
 									{
-										if (m_Mobile.Summoned || (m_Mobile is GrizzledMare))
+										if (m_Mobile.Summoned)
 											e.Mobile.SendLocalizedMessage(1005487); // You cannot transfer ownership of a summoned creature.
 										else if (e.Mobile.HasTrade)
 											e.Mobile.SendLocalizedMessage(1010507); // You cannot transfer a pet with a trade pending
@@ -1473,7 +1473,7 @@ namespace Server.Mobiles
 				{
 					Name = creature.Name;
 				}
-				else if (this.ItemID == ShrinkTable.DefaultItemID || creature.GetType().IsDefined(typeof(FriendlyNameAttribute), false) || creature is Reptalon)
+				else if (this.ItemID == ShrinkTable.DefaultItemID || creature.GetType().IsDefined(typeof(FriendlyNameAttribute), false))
 					Name = FriendlyNameAttribute.GetFriendlyNameFor(creature.GetType()).ToString();
 
 				//(As Per OSI)No name.  Normally, set by the ItemID of the Shrink Item unless we either explicitly set it with an Attribute, or, no lookup found
@@ -2339,7 +2339,7 @@ namespace Server.Mobiles
 						continue;
 
 					// Let's not target ourselves...
-					if (m == m_Mobile || m is BaseFamiliar)
+					if (m == m_Mobile)
 						continue;
 
 					// Dead targets are invalid.

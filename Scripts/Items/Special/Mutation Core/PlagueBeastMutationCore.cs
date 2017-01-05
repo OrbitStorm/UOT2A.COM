@@ -27,29 +27,7 @@ namespace Server.Items
 
 		public virtual bool Scissor( Mobile from, Scissors scissors )
 		{
-			if ( !m_Cut )
-			{
-				PlagueBeastLord owner = RootParent as PlagueBeastLord;
-
-				m_Cut = true;
-				Movable = true;
-
-				from.AddToBackpack( this );
-				from.LocalOverheadMessage( MessageType.Regular, 0x34, 1071906 ); // * You remove the plague mutation core from the plague beast, causing it to dissolve into a pile of goo *				
-
-				if ( owner != null )
-					Timer.DelayCall<PlagueBeastLord>( TimeSpan.FromSeconds( 1 ), new TimerStateCallback<PlagueBeastLord>( KillParent ), owner );
-
-				return true;
-			}
-
 			return false;
-		}
-
-		private void KillParent( PlagueBeastLord parent )
-		{
-			parent.Unfreeze();
-			parent.Kill();
 		}
 
 		public PlagueBeastMutationCore( Serial serial ) : base( serial )

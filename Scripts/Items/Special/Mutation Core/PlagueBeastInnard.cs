@@ -5,10 +5,6 @@ namespace Server.Items
 {
     public class PlagueBeastInnard : Item, IScissorable, ICarvable
 	{
-		public PlagueBeastLord Owner
-		{
-			get { return RootParent as PlagueBeastLord; }
-		}
 
 		public PlagueBeastInnard( int itemID, int hue ) : base( itemID )
 		{
@@ -37,18 +33,6 @@ namespace Server.Items
 			if ( (int) check.AccessLevel >= (int) AccessLevel.GameMaster )
 				return true;
 
-			PlagueBeastLord owner = Owner;
-
-			if ( owner == null )
-				return false;
-
-			if ( !owner.InRange( check, 2 ) )
-				owner.PrivateOverheadMessage( MessageType.Label, 0x3B2, 500446, check.NetState ); // That is too far away.
-			else if ( owner.OpenedBy != null && owner.OpenedBy != check ) // TODO check
-				owner.PrivateOverheadMessage( MessageType.Label, 0x3B2, 500365, check.NetState ); // That is being used by someone else
-			else if ( owner.Frozen )
-				return true;
-
 			return false;
 		}
 
@@ -69,9 +53,8 @@ namespace Server.Items
 
 			int version = reader.ReadEncodedInt();
 
-			PlagueBeastLord owner = Owner;
 
-			if ( owner == null || !owner.Alive )
+
 				Delete();
 		}
 	}
