@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using Server.Network;
 using Server.Items;
+using Server.ContextMenus;
 
 namespace Server
 {
@@ -968,6 +969,8 @@ namespace Server
 				list.Add( 1038021 ); // blessed
 			else if ( m_LootType == LootType.Cursed )
 				list.Add( 1049643 ); // cursed
+			else if ( Insured )
+				list.Add( 1061682 ); // <b>insured</b>
 		}
 
 		/// <summary>
@@ -4549,6 +4552,18 @@ namespace Server
 
 				Delta( ItemDelta.Update );
 			}
+		}
+
+		public bool Insured
+		{
+			get{ return GetFlag( ImplFlag.Insured ); }
+			set{ SetFlag( ImplFlag.Insured, value ); InvalidateProperties(); }
+		}
+
+		public bool PayedInsurance
+		{
+			get{ return GetFlag( ImplFlag.PayedInsurance ); }
+			set{ SetFlag( ImplFlag.PayedInsurance, value ); }
 		}
 
 		public Mobile BlessedFor

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Text;
 using Server.Accounting;
 using Server.Commands;
+using Server.ContextMenus;
 using Server.Guilds;
 using Server.Gumps;
 using Server.HuePickers;
@@ -730,6 +731,7 @@ namespace Server
 		private ISpell m_Spell;
 		private Target m_Target;
 		private Prompt m_Prompt;
+		private ContextMenu m_ContextMenu;
 		private List<AggressorInfo> m_Aggressors, m_Aggressed;
 		private Mobile m_Combatant;
 		private List<Mobile> m_Stabled;
@@ -1095,26 +1097,26 @@ namespace Server
 				else
 					type = "";
 
-				string title = GuildTitle;
+                string title = GuildTitle;
 
-				if( title == null )
-					title = "";
-				else
-					title = title.Trim();
+                if (title == null)
+                    title = "";
+                else
+                    title = title.Trim();
 
-				if( title.Length > 0 )
-					list.Add( "{0}, {1} Guild{2}", Utility.FixHtml( title ), Utility.FixHtml( guild.Name ), type );
-				else
-					list.Add( Utility.FixHtml( guild.Name ) );
-			}
-		}
+                if (title.Length > 0)
+                    list.Add("{0}, {1} Guild{2}", Utility.FixHtml(title), Utility.FixHtml(guild.Name), type);
+                else
+                    list.Add(Utility.FixHtml(guild.Name));
+            }
+        }
 
-		public virtual void GetProperties( ObjectPropertyList list )
-		{
-			AddNameProperties( list );
-		}
+        public virtual void GetProperties(ObjectPropertyList list)
+        {
+            AddNameProperties(list);
+        }
 
-		public virtual void GetChildProperties( ObjectPropertyList list, Item item )
+        public virtual void GetChildProperties( ObjectPropertyList list, Item item )
 		{
 		}
 
@@ -2774,6 +2776,27 @@ namespace Server
 		/// </summary>
 		protected virtual void OnTargetChange()
 		{
+		}
+
+		public ContextMenu ContextMenu
+		{
+			get
+			{
+				return m_ContextMenu;
+			}
+			set
+			{
+				m_ContextMenu = value;
+
+				if ( m_ContextMenu != null && m_NetState != null )
+				{
+					// Old packet is preferred until assistants catch up
+					if ( m_NetState.NewHaven && m_ContextMenu.RequiresNewPacket )
+						Send( new DisplayContextMenu( m_ContextMenu ) );
+					else
+						Send( new DisplayContextMenuOld( m_ContextMenu ) );
+				}
+			}
 		}
 
 		public virtual bool CheckContextMenuDisplay( IEntity target )

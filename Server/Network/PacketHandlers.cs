@@ -29,6 +29,7 @@ using Server.Menus;
 using Server.Mobiles;
 using Server.Prompts;
 using Server.HuePickers;
+using Server.ContextMenus;
 using Server.Diagnostics;
 using CV = Server.ClientVersion;
 
@@ -158,6 +159,8 @@ namespace Server.Network
 			RegisterExtended( 0x0E,  true, new OnPacketReceive( Animate ) );
 			RegisterExtended( 0x0F, false, new OnPacketReceive( Empty ) ); // What's this?
 			RegisterExtended( 0x10,  true, new OnPacketReceive( QueryProperties ) );
+			RegisterExtended( 0x13,  true, new OnPacketReceive( ContextMenuRequest ) );
+			RegisterExtended( 0x15,  true, new OnPacketReceive( ContextMenuResponse ) );
 			RegisterExtended( 0x1A,  true, new OnPacketReceive( StatLockChange ) );
 			RegisterExtended( 0x1C,  true, new OnPacketReceive( CastSpell ) );
 			RegisterExtended( 0x24, false, new OnPacketReceive( UnhandledBF ) );
@@ -1766,6 +1769,88 @@ namespace Server.Network
 		{
 			int width = pvSrc.ReadInt32();
 			int unk = pvSrc.ReadInt32();
+		}
+
+		public static void ContextMenuResponse( NetState state, PacketReader pvSrc )
+		{
+			Mobile from = state.Mobile;
+
+			if ( from != null )
+			{
+				ContextMenu menu = from.ContextMenu;
+
+				from.ContextMenu = null;
+
+				if ( menu != null && from != null && from == menu.From )
+				{
+					IEntity entity = World.FindEntity( pvSrc.ReadInt32() );
+
+					if ( entity != null && entity == menu.Target && from.CanSee( entity ) )
+					{
+						Point3D p;
+
+						if ( entity is Mobile )
+							p = entity.Location;
+						else if ( entity is Item )
+							p = ((Item)entity).GetWorldLocation();
+						else
+							return;
+
+						int index = pvSrc.ReadUInt16();
+
+						if ( index >= 0 && index < menu.Entries.Length )
+						{
+							ContextMenuEntry e = menu.Entries[index];
+
+							int range = e.Range;
+
+							if ( range == -1 )
+								range = 18;
+
+							if ( e.Enabled && from.InRange( p, range ) )
+								e.OnClick();
+						}
+					}
+				}
+			}
+		}
+
+		public static void ContextMenuRequest( NetState state, PacketReader pvSrc )
+		{
+			Mobile from = state.Mobile;
+			IEntity target = World.FindEntity( pvSrc.ReadInt32() );
+
+			if ( from != null && target != null && from.Map == target.Map && from.CanSee( target ) )
+			{
+				if ( target is Mobile && !Utility.InUpdateRange( from.Location, target.Location ) )
+					return;
+				else if ( target is Item && !Utility.InUpdateRange( from.Location, ((Item)target).GetWorldLocation() ) )
+					return;
+
+				if ( !from.CheckContextMenuDisplay( target ) )
+					return;
+
+				ContextMenu c = new ContextMenu( from, target );
+
+				if ( c.Entries.Length > 0 )
+				{
+					if ( target is Item )
+					{
+						object root = ((Item)target).RootParent;
+
+						if ( root is Mobile && root != from && ((Mobile)root).AccessLevel >= from.AccessLevel )
+						{
+							for ( int i = 0; i < c.Entries.Length; ++i )
+							{
+								if ( !c.Entries[i].NonLocalUse )
+									c.Entries[i].Enabled = false;
+							}
+						}
+					}
+
+					from.ContextMenu = c;
+				}
+			}
 		}
 
 		public static void CloseStatus( NetState state, PacketReader pvSrc )
