@@ -257,10 +257,6 @@ namespace Server.Multis
 			foreach ( PlayerVendor vendor in list )
 				vendor.Destroy( true );
 
-			list = new ArrayList( PlayerBarkeepers );
-
-			foreach ( PlayerBarkeeper barkeeper in list )
-				barkeeper.Delete();
 		}
 
 		public virtual void Decay_Sandbox()
@@ -451,15 +447,9 @@ namespace Server.Multis
 			{
 				if ( Math.Abs( location.Z - entity.Z ) <= 16 )
 				{
-					if ( entity is PlayerVendor || entity is PlayerBarkeeper || entity is PlayerVendorPlaceholder )
+					if ( entity is PlayerVendor || entity is PlayerVendorPlaceholder )
 					{
 						vendor = true;
-						break;
-					}
-
-					if ( entity is VendorRentalContract )
-					{
-						rentalContract = true;
 						break;
 					}
 				}
@@ -472,12 +462,6 @@ namespace Server.Multis
 		{
 			get
 			{
-				foreach ( PlayerVendor vendor in PlayerVendors )
-				{
-					if ( !(vendor is RentedVendor) )
-						return true;
-				}
-
 				return false;
 			}
 		}
@@ -486,12 +470,6 @@ namespace Server.Multis
 		{
 			get
 			{
-				foreach ( PlayerVendor vendor in PlayerVendors )
-				{
-					if ( vendor is RentedVendor )
-						return true;
-				}
-
 				return false;
 			}
 		}
@@ -763,20 +741,10 @@ namespace Server.Multis
 						}
 						else
 						{
-							int height;
-							bool requireSurface;
-							if ( item is VendorRentalContract )
-							{
-								height = 16;
-								requireSurface = true;
-							}
-							else
-							{
-								height = item.ItemData.Height;
-								requireSurface = false;
-							}
+							int height = item.ItemData.Height;
+                            bool requireSurface = false;
 
-							if ( this.Map.CanFit( location.X, location.Y, location.Z, height, false, false, requireSurface ) )
+                            if ( this.Map.CanFit( location.X, location.Y, location.Z, height, false, false, requireSurface ) )
 							{
 								item.MoveToWorld( location, this.Map );
 								continue;
@@ -1137,8 +1105,6 @@ namespace Server.Multis
 			else if ( item is BaseInstrument )
 				return true;
 			else if ( item is Dyes || item is DyeTub )
-				return true;
-			else if ( item is VendorRentalContract )
 				return true;
 
 			return false;
@@ -1555,16 +1521,8 @@ namespace Server.Multis
 
 			if ( locked )
 			{
-				if ( i is VendorRentalContract )
-				{
-					if ( !VendorRentalContracts.Contains( i ) )
-						VendorRentalContracts.Add( i );
-				}
-				else
-				{
-					if ( !checkContains || !m_LockDowns.Contains( i ) )
-						m_LockDowns.Add( i );
-				}
+				if ( !checkContains || !m_LockDowns.Contains( i ) )
+					m_LockDowns.Add( i );
 			}
 			else
 			{
@@ -1613,10 +1571,6 @@ namespace Server.Multis
 				else if ( parentItem != null && !IsLockedDown( parentItem ) )
 				{
 					m.SendLocalizedMessage( 501736 ); // You must lockdown the container first!
-				}
-				else if ( !(item is VendorRentalContract) && ( IsAosRules ? (!CheckAosLockdowns( amt ) || !CheckAosStorage( amt )) : (this.LockDownCount + amt) > m_MaxLockDowns ) )
-				{
-					m.SendLocalizedMessage( 1005379 );//That would exceed the maximum lock down limit for this house
 				}
 				else
 				{
@@ -3598,29 +3552,13 @@ namespace Server.Multis
 				}
 				else
 				{
-					if ( targeted is VendorRentalContract )
-					{
-						from.LocalOverheadMessage( MessageType.Regular, 0x3B2, 1062392 ); // You must double click the contract in your pack to lock it down.
-						from.LocalOverheadMessage( MessageType.Regular, 0x3B2, 501732 ); // I cannot lock this down!
-					}
-					else if ( (Item)targeted is AddonComponent )
+					if ( (Item)targeted is AddonComponent )
 					{
 						from.LocalOverheadMessage( MessageType.Regular, 0x3E9, 501727 ); // You cannot lock that down!
 						from.LocalOverheadMessage( MessageType.Regular, 0x3E9, 501732 ); // I cannot lock this down!
 					}
 					else
 					{
-						#region Mondain's legacy
-						if ( targeted is AddonContainerComponent )
-						{
-							AddonContainerComponent component = (AddonContainerComponent) targeted;
-
-							if ( component.Addon != null )
-								m_House.LockDown( from, component.Addon );
-						}
-						else
-						#endregion
-
 						m_House.LockDown( from, (Item)targeted );
 					}
 				}
@@ -3678,26 +3616,7 @@ namespace Server.Multis
 				}
 				else
 				{
-					if ( targeted is VendorRentalContract )
-					{
-						from.LocalOverheadMessage( MessageType.Regular, 0x3B2, 1062392 ); // You must double click the contract in your pack to lock it down.
-						from.LocalOverheadMessage( MessageType.Regular, 0x3B2, 501732 ); // I cannot lock this down!
-					}
-					else
-					{
-						#region Mondain's legacy
-						if ( targeted is AddonContainerComponent )
-						{
-							AddonContainerComponent component = (AddonContainerComponent) targeted;
-
-							if ( component.Addon != null )
-								m_House.AddSecure( from, component.Addon );
-						}
-						else
-						#endregion
-
-						m_House.AddSecure( from, (Item)targeted );
-					}
+					m_House.AddSecure( from, (Item)targeted );
 				}
 			}
 			else

@@ -5,9 +5,6 @@ namespace Server.Items
     [FlipableAttribute( 0x13B0, 0x13AF )]
 	public class WarAxe : BaseAxe
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.ArmorIgnore; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.BleedAttack; } }
-
 		public override int AosStrengthReq{ get{ return 35; } }
 		public override int AosMinDamage{ get{ return 14; } }
 		public override int AosMaxDamage{ get{ return 15; } }

@@ -3,9 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0xF62, 0xF63 )]
 	public class Spear : BaseSpear
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.ArmorIgnore; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.ParalyzingBlow; } }
-
 		public override int AosStrengthReq{ get{ return 50; } }
 		public override int AosMinDamage{ get{ return 13; } }
 		public override int AosMaxDamage{ get{ return 15; } }

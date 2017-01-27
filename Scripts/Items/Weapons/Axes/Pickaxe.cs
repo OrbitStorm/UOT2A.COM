@@ -7,10 +7,7 @@ namespace Server.Items
 	{
 		public override HarvestSystem HarvestSystem{ get{ return Mining.System; } }
 
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.DoubleStrike; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.Disarm; } }
-
-		public override int AosStrengthReq{ get{ return 50; } }
+    	public override int AosStrengthReq{ get{ return 50; } }
 		public override int AosMinDamage{ get{ return 13; } }
 		public override int AosMaxDamage{ get{ return 15; } }
 		public override int AosSpeed{ get{ return 35; } }

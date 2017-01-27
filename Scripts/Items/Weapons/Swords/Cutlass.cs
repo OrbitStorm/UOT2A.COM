@@ -3,10 +3,7 @@ namespace Server.Items
     [FlipableAttribute( 0x1441, 0x1440 )]
 	public class Cutlass : BaseSword
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.BleedAttack; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.ShadowStrike; } }
-
-		public override int AosStrengthReq{ get{ return 25; } }
+    	public override int AosStrengthReq{ get{ return 25; } }
 		public override int AosMinDamage{ get{ return 11; } }
 		public override int AosMaxDamage{ get{ return 13; } }
 		public override int AosSpeed{ get{ return 44; } }

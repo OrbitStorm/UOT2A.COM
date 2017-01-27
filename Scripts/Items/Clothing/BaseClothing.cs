@@ -12,13 +12,6 @@ namespace Server.Items
 		Exceptional
 	}
 
-	public interface IArcaneEquip
-	{
-		bool IsArcane{ get; }
-		int CurArcaneCharges{ get; set; }
-		int MaxArcaneCharges{ get; set; }
-	}
-
 	public abstract class BaseClothing : Item, IDyable, IScissorable, ICraftable, IWearableDurability
 	{
 		public virtual bool CanFortify{ get{ return true; } }
@@ -502,15 +495,7 @@ namespace Server.Items
 				case CraftResource.Agapite:			oreType = 1053103; break; // agapite
 				case CraftResource.Verite:			oreType = 1053102; break; // verite
 				case CraftResource.Valorite:		oreType = 1053101; break; // valorite
-				case CraftResource.SpinedLeather:	oreType = 1061118; break; // spined
-				case CraftResource.HornedLeather:	oreType = 1061117; break; // horned
-				case CraftResource.BarbedLeather:	oreType = 1061116; break; // barbed
-				case CraftResource.RedScales:		oreType = 1060814; break; // red
-				case CraftResource.YellowScales:	oreType = 1060818; break; // yellow
-				case CraftResource.BlackScales:		oreType = 1060820; break; // black
-				case CraftResource.GreenScales:		oreType = 1060819; break; // green
-				case CraftResource.WhiteScales:		oreType = 1060821; break; // white
-				case CraftResource.BlueScales:		oreType = 1060815; break; // blue
+
 				default: oreType = 0; break;
 			}
 

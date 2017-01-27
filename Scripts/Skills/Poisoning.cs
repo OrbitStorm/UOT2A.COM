@@ -55,7 +55,7 @@ namespace Server.SkillHandlers
 
 					bool startTimer = false;
 
-					if ( targeted is Food || targeted is FukiyaDarts || targeted is Shuriken )
+					if ( targeted is Food )
 					{
 						startTimer = true;
 					}
@@ -63,11 +63,7 @@ namespace Server.SkillHandlers
 					{
 						BaseWeapon weapon = (BaseWeapon)targeted;
 
-						if ( Core.AOS )
-						{
-							startTimer = ( weapon.PrimaryAbility == WeaponAbility.InfectiousStrike || weapon.SecondaryAbility == WeaponAbility.InfectiousStrike );
-						}
-						else if ( weapon.Layer == Layer.OneHanded )
+						if ( weapon.Layer == Layer.OneHanded )
 						{
 							// Only Bladed or Piercing weapon can be poisoned
 							startTimer = ( weapon.Type == WeaponType.Slashing || weapon.Type == WeaponType.Piercing );
@@ -121,16 +117,6 @@ namespace Server.SkillHandlers
 							{
 								((BaseWeapon)m_Target).Poison = m_Poison;
 								((BaseWeapon)m_Target).PoisonCharges = 18 - (m_Poison.Level * 2);
-							}
-							else if ( m_Target is FukiyaDarts )
-							{
-								((FukiyaDarts)m_Target).Poison = m_Poison;
-								((FukiyaDarts)m_Target).PoisonCharges = Math.Min( 18 - (m_Poison.Level * 2), ((FukiyaDarts)m_Target).UsesRemaining );
-							}
-							else if ( m_Target is Shuriken )
-							{
-								((Shuriken)m_Target).Poison = m_Poison;
-								((Shuriken)m_Target).PoisonCharges = Math.Min( 18 - (m_Poison.Level * 2), ((Shuriken)m_Target).UsesRemaining );
 							}
 
 							m_From.SendLocalizedMessage( 1010517 ); // You apply the poison

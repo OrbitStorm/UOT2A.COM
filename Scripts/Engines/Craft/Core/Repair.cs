@@ -17,17 +17,10 @@ namespace Server.Engines.Craft
 			from.SendLocalizedMessage( 1044276 ); // Target an item to repair.
 		}
 
-		public static void Do( Mobile from, CraftSystem craftSystem, RepairDeed deed )
-		{
-			from.Target = new InternalTarget( craftSystem, deed );
-			from.SendLocalizedMessage( 1044276 ); // Target an item to repair.
-		}
-
 		private class InternalTarget : Target
 		{
 			private CraftSystem m_CraftSystem;
 			private BaseTool m_Tool;
-			private RepairDeed m_Deed;
 
 			public InternalTarget( CraftSystem craftSystem, BaseTool tool ) :  base ( 2, false, TargetFlags.None )
 			{
@@ -35,21 +28,10 @@ namespace Server.Engines.Craft
 				m_Tool = tool;
 			}
 
-			public InternalTarget( CraftSystem craftSystem, RepairDeed deed ) : base( 2, false, TargetFlags.None )
-			{
-				m_CraftSystem = craftSystem;
-				m_Deed = deed;
-			}
-
-			private static void EndGolemRepair( object state )
-			{
-				((Mobile)state).EndAction( typeof( Cat ) );
-			}
-
 			private int GetWeakenChance( Mobile mob, SkillName skill, int curHits, int maxHits )
 			{
 				// 40% - (1% per hp lost) - (1% per 10 craft skill)
-				return (40 + (maxHits - curHits)) - (int)(((m_Deed != null)? m_Deed.SkillLevel : mob.Skills[skill].Value) / 10);
+				return (40 + (maxHits - curHits)) - (int)( mob.Skills[skill].Value / 10);
 			}
 
 			private bool CheckWeaken( Mobile mob, SkillName skill, int curHits, int maxHits )
@@ -66,36 +48,7 @@ namespace Server.Engines.Craft
 			{
 				double difficulty = GetRepairDifficulty( curHits, maxHits ) * 0.1;
 
-
-				if( m_Deed != null )
-				{
-					double value = m_Deed.SkillLevel;
-					double minSkill = difficulty - 25.0;
-					double maxSkill = difficulty + 25;
-
-					if( value < minSkill )
-						return false; // Too difficult
-					else if( value >= maxSkill )
-						return true; // No challenge
-
-					double chance = (value - minSkill) / (maxSkill - minSkill);
-
-					return (chance >= Utility.RandomDouble());
-				}
-				else
-				{
-					return mob.CheckSkill( skill, difficulty - 25.0, difficulty + 25.0 );
-				}
-			}
-
-			private bool CheckDeed( Mobile from )
-			{
-				if( m_Deed != null )
-				{
-					return m_Deed.Check( from );
-				}
-
-				return true;
+				return mob.CheckSkill( skill, difficulty - 25.0, difficulty + 25.0 );
 			}
 
 			private bool IsSpecialClothing( BaseClothing clothing )
@@ -105,10 +58,7 @@ namespace Server.Engines.Craft
 				if ( m_CraftSystem is DefTailoring )
 				{
 					return ( clothing is BearMask )
-						|| ( clothing is DeerMask )
-						|| ( clothing is TheMostKnowledgePerson )
-						|| ( clothing is TheRobeOfBritanniaAri )
-						|| ( clothing is EmbroideredOakLeafCloak );
+						|| ( clothing is DeerMask );
 				}
 
 				return false;
@@ -130,78 +80,12 @@ namespace Server.Engines.Craft
 				{
 					return ( weapon is Club )
 						|| ( weapon is BlackStaff )
-						|| ( weapon is MagicWand )
-					#region Temporary
-					// TODO: Make these items craftable
-						|| ( weapon is WildStaff );
-					#endregion
+						|| ( weapon is MagicWand );
 				}
 				else if ( m_CraftSystem is DefBlacksmithy )
 				{
-					return ( weapon is Pitchfork )
-					#region Temporary
-					// TODO: Make these items craftable
-						|| ( weapon is RadiantScimitar )
-						|| ( weapon is WarCleaver )
-						|| ( weapon is ElvenSpellblade )
-						|| ( weapon is AssassinSpike )
-						|| ( weapon is Leafblade )
-						|| ( weapon is RuneBlade )
-						|| ( weapon is ElvenMachete )
-						|| ( weapon is OrnateAxe )
-						|| ( weapon is DiamondMace );
-					#endregion
+					return ( weapon is Pitchfork );
 				}
-				#region Temporary
-				// TODO: Make these items craftable
-				else if ( m_CraftSystem is DefBowFletching )
-				{
-					return ( weapon is ElvenCompositeLongbow )
-						|| ( weapon is MagicalShortbow );
-				}
-				#endregion
-
-				return false;
-			}
-
-			private bool IsSpecialArmor( BaseArmor armor )
-			{
-				// Armor repairable but not craftable
-
-				#region Temporary
-				// TODO: Make these items craftable
-				if ( m_CraftSystem is DefTailoring )
-				{
-					return ( armor is LeafTonlet )
-						|| ( armor is LeafArms )
-						|| ( armor is LeafChest )
-						|| ( armor is LeafGloves )
-						|| ( armor is LeafGorget )
-						|| ( armor is LeafLegs )
-						|| ( armor is HideChest )
-						|| ( armor is HideGloves )
-						|| ( armor is HideGorget )
-						|| ( armor is HidePants )
-						|| ( armor is HidePauldrons );
-				}
-				else if ( m_CraftSystem is DefCarpentry )
-				{
-					return ( armor is WingedHelm )
-						|| ( armor is RavenHelm )
-						|| ( armor is VultureHelm )
-						|| ( armor is WoodlandArms )
-						|| ( armor is WoodlandChest )
-						|| ( armor is WoodlandGloves )
-						|| ( armor is WoodlandGorget )
-						|| ( armor is WoodlandLegs );
-				}
-				else if ( m_CraftSystem is DefBlacksmithy )
-				{
-					return ( armor is Circlet )
-						|| ( armor is RoyalCirclet )
-						|| ( armor is GemmedCirclet );
-				}
-				#endregion
 
 				return false;
 			}
@@ -209,12 +93,6 @@ namespace Server.Engines.Craft
 			protected override void OnTarget( Mobile from, object targeted )
 			{
 				int number;
-
-				if( !CheckDeed( from ) )
-					return;
-
-				bool usingDeed = (m_Deed != null);
-				bool toDelete = false;
 
 				if ( m_CraftSystem.CanCraft( from, m_Tool, targeted.GetType() ) == 1044267 )
 				{
@@ -232,7 +110,7 @@ namespace Server.Engines.Craft
 					}
 					else if ( skill != SkillName.Tailoring )
 					{
-						double skillLevel = (usingDeed)? m_Deed.SkillLevel : from.Skills[skill].Base;
+						double skillLevel = from.Skills[skill].Base;
 
 						if ( skillLevel >= 90.0 )
 							toWeaken = 1;
@@ -244,7 +122,7 @@ namespace Server.Engines.Craft
 
 					if ( m_CraftSystem.CraftItems.SearchForSubclass( weapon.GetType() ) == null && !IsSpecialWeapon( weapon ) )
 					{
-						number = (usingDeed)? 1061136 : 1044277; // That item cannot be repaired. // You cannot repair that item with this type of repair contract.
+					    number = 1061136; // That item cannot be repaired. 
 					}
 					else if ( !weapon.IsChildOf( from.Backpack ) && ( !Core.ML || weapon.Parent != from ) )
 					{
@@ -278,11 +156,9 @@ namespace Server.Engines.Craft
 						}
 						else
 						{
-							number = (usingDeed)? 1061137 : 1044280; // You fail to repair the item. [And the contract is destroyed]
+						    number = 1061137; // You fail to repair the item.
 							m_CraftSystem.PlayCraftEffect( from );
 						}
-
-						toDelete = true;
 					}
 				}
 				else if ( targeted is BaseArmor )
@@ -297,7 +173,7 @@ namespace Server.Engines.Craft
 					}
 					else if ( skill != SkillName.Tailoring )
 					{
-						double skillLevel = (usingDeed)? m_Deed.SkillLevel : from.Skills[skill].Base;
+						double skillLevel = from.Skills[skill].Base;
 
 						if ( skillLevel >= 90.0 )
 							toWeaken = 1;
@@ -307,9 +183,9 @@ namespace Server.Engines.Craft
 							toWeaken = 3;
 					}
 
-					if ( m_CraftSystem.CraftItems.SearchForSubclass( armor.GetType() ) == null && !IsSpecialArmor( armor ) )
+					if ( m_CraftSystem.CraftItems.SearchForSubclass( armor.GetType() ) == null )
 					{
-						number = (usingDeed)? 1061136 : 1044277; // That item cannot be repaired. // You cannot repair that item with this type of repair contract.
+					    number = 1061136; // That item cannot be repaired.
 					}
 					else if ( !armor.IsChildOf( from.Backpack ) && ( !Core.ML || armor.Parent != from ) )
 					{
@@ -339,11 +215,9 @@ namespace Server.Engines.Craft
 						}
 						else
 						{
-							number = (usingDeed)? 1061137 : 1044280; // You fail to repair the item. [And the contract is destroyed]
+							number = 1061137; // You fail to repair the item.
 							m_CraftSystem.PlayCraftEffect( from );
 						}
-
-						toDelete = true;
 					}
 				}
 				else if ( targeted is BaseClothing )
@@ -358,7 +232,7 @@ namespace Server.Engines.Craft
 					}
 					else if ( skill != SkillName.Tailoring )
 					{
-						double skillLevel = (usingDeed) ? m_Deed.SkillLevel : from.Skills[skill].Base;
+						double skillLevel = from.Skills[skill].Base;
 
 						if ( skillLevel >= 90.0 )
 							toWeaken = 1;
@@ -370,7 +244,7 @@ namespace Server.Engines.Craft
 
  					if (m_CraftSystem.CraftItems.SearchForSubclass(clothing.GetType()) == null && !IsSpecialClothing(clothing) && !((targeted is TribalMask) || (targeted is HornedTribalMask)) )
  					{
-						number = (usingDeed) ? 1061136 : 1044277; // That item cannot be repaired. // You cannot repair that item with this type of repair contract.
+						number = 1061136; // That item cannot be repaired.
 					}
 					else if ( !clothing.IsChildOf( from.Backpack ) && ( !Core.ML || clothing.Parent != from ) )
 					{
@@ -400,49 +274,22 @@ namespace Server.Engines.Craft
 						}
 						else
 						{
-							number = (usingDeed) ? 1061137 : 1044280; // You fail to repair the item. [And the contract is destroyed]
+							number = 1061137; // You fail to repair the item.
 							m_CraftSystem.PlayCraftEffect( from );
 						}
-
-						toDelete = true;
 					}
-				}
-				else if( !usingDeed && targeted is BlankScroll )
-				{
-					SkillName skill = m_CraftSystem.MainSkill;
-
-					if( from.Skills[skill].Value >= 50.0 )
-					{
-						((BlankScroll)targeted).Consume( 1 );
-						RepairDeed deed = new RepairDeed( RepairDeed.GetTypeFor( m_CraftSystem ), from.Skills[skill].Value, from );
-						from.AddToBackpack( deed );
-
-						number = 500442; // You create the item and put it in your backpack.
-					}
-					else
-						number = 1047005; // You must be at least apprentice level to create a repair service contract.
 				}
 				else if ( targeted is Item )
 				{
-					number = (usingDeed)? 1061136 : 1044277; // That item cannot be repaired. // You cannot repair that item with this type of repair contract.
+					number = 1061136; // That item cannot be repaired.
 				}
 				else
 				{
 					number = 500426; // You can't repair that.
 				}
 
-				if( !usingDeed )
-				{
-					CraftContext context = m_CraftSystem.GetContext( from );
-					from.SendGump( new CraftGump( from, m_CraftSystem, m_Tool, number ) );
-				}
-				else
-				{
-					from.SendLocalizedMessage( number );
+				from.SendGump( new CraftGump( from, m_CraftSystem, m_Tool, number ) );
 
-					if( toDelete )
-						m_Deed.Delete();
-				}
 			}
 		}
 	}

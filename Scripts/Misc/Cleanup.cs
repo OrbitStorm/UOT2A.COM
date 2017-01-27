@@ -28,15 +28,6 @@ namespace Server.Misc
 					items.Add( item );
 					continue;
 				}
-				else if ( item is CommodityDeed )
-				{
-					CommodityDeed deed = (CommodityDeed)item;
-
-					if ( deed.Commodity != null )
-						validItems.Add( deed.Commodity );
-
-					continue;
-				}
 				else if ( item is BaseHouse )
 				{
 					BaseHouse house = (BaseHouse)item;
@@ -131,7 +122,7 @@ namespace Server.Misc
 			if ( item is Fists )
 				return false;
 
-			if ( item is ICommodity || item is Multis.BaseBoat
+			if ( item is Multis.BaseBoat
 				|| item is Fish || item is BigFish
 				|| item is BasePotion || item is Food || item is CookableFood
 				|| item is SpecialFishingNet || item is BaseMagicFish
@@ -142,24 +133,8 @@ namespace Server.Misc
 				|| item is BaseClothing
 				|| ( item is BaseJewel && Core.AOS )
 				|| ( item is BasePotion && Core.ML )
-				#region Champion artifacts
-				|| item is SkullPole
-				|| item is EvilIdolSkull
-				|| item is MonsterStatuette
-				|| item is Pier
-				|| item is ArtifactLargeVase
-				|| item is ArtifactVase
-				|| item is SwampTile
-				|| item is WallBlood
-				|| item is TatteredAncientMummyWrapping
-				|| item is LavaTile
-				|| item is DemonSkull
-				|| item is Web
-				|| item is WaterTile
-				|| item is WindSpirit
-				|| item is DirtPatch
-				|| item is Futon )
-				#endregion
+				|| item is MonsterStatuette )
+
 				return true;
 
 			return false;

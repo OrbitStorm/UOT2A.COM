@@ -20,10 +20,6 @@ namespace Server.Mobiles
 		{
 			public InternalBuyInfo()
 			{
-				#region Salvage Bag
-				if( Core.ML )
-					Add( new GenericBuyInfo( "1079931", typeof( SalvageBag ), 1255, 20, 0xE76, Utility.RandomBlueHue() ) );
-				#endregion
 				Add( new GenericBuyInfo( typeof( Arrow ), 2, 20, 0xF3F, 0 ) );
 				Add( new GenericBuyInfo( typeof( Bolt ), 5, 20, 0x1BFB, 0 ) );
 
@@ -88,8 +84,6 @@ namespace Server.Mobiles
 				Add( new GenericBuyInfo( "1016450", typeof( Chessboard ), 2, 20, 0xFA6, 0 ) );
 				Add( new GenericBuyInfo( "1016449", typeof( CheckerBoard ), 2, 20, 0xFA6, 0 ) );
 				Add( new GenericBuyInfo( typeof( Backgammon ), 2, 20, 0xE1C, 0 ) );
-				if ( Core.AOS )
-					Add( new GenericBuyInfo( typeof( Engines.Mahjong.MahjongGame ), 6, 20, 0xFAA, 0 ) );
 				Add( new GenericBuyInfo( typeof( Dices ), 2, 20, 0xFA7, 0 ) );
 
 				if ( Core.AOS )

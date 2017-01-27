@@ -2,7 +2,7 @@ using Server.Spells;
 
 namespace Server.Items
 {
-    public class SpellScroll : Item, ICommodity
+    public class SpellScroll : Item
 	{
 		private int m_SpellID;
 
@@ -13,9 +13,6 @@ namespace Server.Items
 				return m_SpellID;
 			}
 		}
-
-		int ICommodity.DescriptionNumber { get { return LabelNumber; } }
-		bool ICommodity.IsDeedable { get { return (Core.ML); } }
 
 		public SpellScroll( Serial serial ) : base( serial )
 		{

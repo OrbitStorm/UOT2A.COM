@@ -44,7 +44,6 @@ namespace Server.Mobiles
 
 			VirtualArmor = 50;
 			PackItem( new GnarledStaff() );
-			PackNecroReg( 12, 40 );
 		}
 
 		public override OppositionGroup OppositionGroup

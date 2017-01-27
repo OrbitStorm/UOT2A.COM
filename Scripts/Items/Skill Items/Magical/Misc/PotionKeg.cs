@@ -92,11 +92,6 @@ namespace Server.Items
 		{ 
 			get
 			{
-				if( m_Held > 0 && ( int )m_Type >= ( int )PotionEffect.Conflagration )
-				{
-					return 1072658 + ( int )m_Type - ( int )PotionEffect.Conflagration;
-				}
-
 				return (m_Held > 0 ? 1041620 + (int)m_Type : 1041641); 
 			} 
 		}
@@ -340,12 +335,6 @@ namespace Server.Items
 				case PotionEffect.ExplosionLesser:		return new LesserExplosionPotion();
 				case PotionEffect.Explosion:			return new ExplosionPotion();
 				case PotionEffect.ExplosionGreater:		return new GreaterExplosionPotion();
-				
-				case PotionEffect.Conflagration:		return new ConflagrationPotion();
-				case PotionEffect.ConflagrationGreater:		return new GreaterConflagrationPotion();
-
-				case PotionEffect.ConfusionBlast:		return new ConfusionBlastPotion();
-				case PotionEffect.ConfusionBlastGreater:	return new GreaterConfusionBlastPotion();
 			}
 		}
 

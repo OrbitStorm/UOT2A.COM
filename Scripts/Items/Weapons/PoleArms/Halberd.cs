@@ -3,9 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0x143E, 0x143F )]
 	public class Halberd : BasePoleArm
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.WhirlwindAttack; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.ConcussionBlow; } }
-
 		public override int AosStrengthReq{ get{ return 95; } }
 		public override int AosMinDamage{ get{ return 18; } }
 		public override int AosMaxDamage{ get{ return 19; } }

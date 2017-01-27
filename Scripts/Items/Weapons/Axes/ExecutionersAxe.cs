@@ -3,10 +3,7 @@ namespace Server.Items
     [FlipableAttribute( 0xf45, 0xf46 )]
 	public class ExecutionersAxe : BaseAxe
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.BleedAttack; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.MortalStrike; } }
-
-		public override int AosStrengthReq{ get{ return 40; } }
+    	public override int AosStrengthReq{ get{ return 40; } }
 		public override int AosMinDamage{ get{ return 15; } }
 		public override int AosMaxDamage{ get{ return 17; } }
 		public override int AosSpeed{ get{ return 33; } }

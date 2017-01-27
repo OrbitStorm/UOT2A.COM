@@ -3,9 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0x13FF, 0x13FE )]
 	public class Katana : BaseSword
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.DoubleStrike; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.ArmorIgnore; } }
-
 		public override int AosStrengthReq{ get{ return 25; } }
 		public override int AosMinDamage{ get{ return 11; } }
 		public override int AosMaxDamage{ get{ return 13; } }

@@ -25,7 +25,7 @@ namespace Server.Mobiles
 		public override void InitOutfit()
 		{
 			AddItem( new Sandals() );
-			AddItem( new MonkRobe() );
+			AddItem( new Robe() );
 		}
 
 		public Monk( Serial serial ) : base( serial )

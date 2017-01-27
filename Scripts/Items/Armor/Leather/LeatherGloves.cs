@@ -3,7 +3,7 @@ using System;
 namespace Server.Items
 {
     [Flipable]
-	public class LeatherGloves : BaseArmor, IArcaneEquip
+	public class LeatherGloves : BaseArmor
 	{
 		public override int BasePhysicalResistance{ get{ return 2; } }
 		public override int BaseFireResistance{ get{ return 4; } }
@@ -39,17 +39,6 @@ namespace Server.Items
 			base.Serialize( writer );
 
 			writer.Write( (int) 1 ); // version
-
-			if ( IsArcane )
-			{
-				writer.Write( true );
-				writer.Write( (int) m_CurArcaneCharges );
-				writer.Write( (int) m_MaxArcaneCharges );
-			}
-			else
-			{
-				writer.Write( false );
-			}
 		}
 
 		public override void Deserialize( GenericReader reader )
@@ -62,77 +51,9 @@ namespace Server.Items
 			{
 				case 1:
 				{
-					if ( reader.ReadBool() )
-					{
-						m_CurArcaneCharges = reader.ReadInt();
-						m_MaxArcaneCharges = reader.ReadInt();
-
-						if ( Hue == 2118 )
-							Hue = ArcaneGem.DefaultArcaneHue;
-					}
-
 					break;
 				}
 			}
 		}
-
-		#region Arcane Impl
-		private int m_MaxArcaneCharges, m_CurArcaneCharges;
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int MaxArcaneCharges
-		{
-			get{ return m_MaxArcaneCharges; }
-			set{ m_MaxArcaneCharges = value; InvalidateProperties(); Update(); }
-		}
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int CurArcaneCharges
-		{
-			get{ return m_CurArcaneCharges; }
-			set{ m_CurArcaneCharges = value; InvalidateProperties(); Update(); }
-		}
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool IsArcane
-		{
-			get{ return ( m_MaxArcaneCharges > 0 && m_CurArcaneCharges >= 0 ); }
-		}
-
-		public void Update()
-		{
-			if ( IsArcane )
-				ItemID = 0x26B0;
-			else if ( ItemID == 0x26B0 )
-				ItemID = 0x13C6;
-
-			if ( IsArcane && CurArcaneCharges == 0 )
-				Hue = 0;
-		}
-
-		public override void GetProperties( ObjectPropertyList list )
-		{
-			base.GetProperties( list );
-
-			if ( IsArcane )
-				list.Add( 1061837, "{0}\t{1}", m_CurArcaneCharges, m_MaxArcaneCharges ); // arcane charges: ~1_val~ / ~2_val~
-		}
-
-		public override void OnSingleClick( Mobile from )
-		{
-			base.OnSingleClick( from );
-
-			if ( IsArcane )
-				LabelTo( from, 1061837, String.Format( "{0}\t{1}", m_CurArcaneCharges, m_MaxArcaneCharges ) );
-		}
-
-		public void Flip()
-		{
-			if ( ItemID == 0x13C6 )
-				ItemID = 0x13CE;
-			else if ( ItemID == 0x13CE )
-				ItemID = 0x13C6;
-		}
-		#endregion
 	}
 }

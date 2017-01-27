@@ -3,9 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0xF5C, 0xF5D )]
 	public class Mace : BaseBashing
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.ConcussionBlow; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.Disarm; } }
-
 		public override int AosStrengthReq{ get{ return 45; } }
 		public override int AosMinDamage{ get{ return 12; } }
 		public override int AosMaxDamage{ get{ return 14; } }

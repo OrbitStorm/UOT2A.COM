@@ -84,11 +84,6 @@ namespace Server
 				}
 			}
 
-			BaseQuiver quiver = null;
-			
-			if ( archer && from != null )
-				quiver = from.FindItemOnLayer( Layer.Cloak ) as BaseQuiver;
-
 			int totalDamage;
 
 			if( !ignoreArmor )
@@ -108,33 +103,12 @@ namespace Server
 
 				totalDamage /= 10000;
 
-				if ( Core.ML )
-				{
-					totalDamage += damage * direct / 100;
-
-					if ( quiver != null )
-						totalDamage += totalDamage * quiver.DamageIncrease / 100;
-				}
-
 				if( totalDamage < 1 )
 					totalDamage = 1;
-			}
-			else if( Core.ML && m is PlayerMobile && from is PlayerMobile )
-			{
-				if ( quiver != null )
-					damage += damage * quiver.DamageIncrease / 100;
-
-				if ( !deathStrike )
-					totalDamage = Math.Min( damage, 35 );	// Direct Damage cap of 35
-				else
-					totalDamage = Math.Min( damage, 70 );	// Direct Damage cap of 70
 			}
 			else
 			{
 				totalDamage = damage;
-
-				if ( Core.ML && quiver != null )
-					totalDamage += totalDamage * quiver.DamageIncrease / 100;
 			}
 
 			if( keepAlive && totalDamage > m.Hits )
@@ -287,20 +261,6 @@ namespace Server
 					AosAttributes attrs = ((Spellbook)obj).Attributes;
 
 					if( attrs != null )
-						value += attrs[attribute];
-				}
-				else if( obj is BaseQuiver )
-				{
-					AosAttributes attrs = ((BaseQuiver)obj).Attributes;
-
-					if( attrs != null )
-						value += attrs[attribute];
-				}
-				else if ( obj is BaseTalisman )
-				{
-					AosAttributes attrs = ((BaseTalisman)obj).Attributes;
-
-					if (attrs != null)
 						value += attrs[attribute];
 				}
 			}
@@ -488,13 +448,6 @@ namespace Server
 				if( obj is BaseWeapon )
 				{
 					AosWeaponAttributes attrs = ((BaseWeapon)obj).WeaponAttributes;
-
-					if( attrs != null )
-						value += attrs[attribute];
-				}
-				else if ( obj is ElvenGlasses )
-				{
-					AosWeaponAttributes attrs = ((ElvenGlasses)obj).WeaponAttributes;
 
 					if( attrs != null )
 						value += attrs[attribute];

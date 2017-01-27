@@ -46,7 +46,6 @@ namespace Server.Mobiles
 			VirtualArmor = 44;
 
 			PackReg( 5, 15 );
-			PackNecroReg( 5, 15 );
 		}
 
 		public override void GenerateLoot()

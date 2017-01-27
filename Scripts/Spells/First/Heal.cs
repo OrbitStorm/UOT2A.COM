@@ -40,7 +40,7 @@ namespace Server.Spells.First
 			{
 				Caster.SendLocalizedMessage( 1061654 ); // You cannot heal that which is not alive.
 			}
-			else if ( m.Poisoned || Server.Items.MortalStrike.IsWounded( m ) )
+			else if ( m.Poisoned )
 			{
 				Caster.LocalOverheadMessage( MessageType.Regular, 0x22, (Caster == m) ? 1005000 : 1010398 );
 			}

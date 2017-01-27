@@ -3,9 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0x1439, 0x1438 )]
 	public class WarHammer : BaseBashing
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.WhirlwindAttack; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.CrushingBlow; } }
-
 		public override int AosStrengthReq{ get{ return 95; } }
 		public override int AosMinDamage{ get{ return 17; } }
 		public override int AosMaxDamage{ get{ return 18; } }

@@ -3,10 +3,7 @@ namespace Server.Items
     [FlipableAttribute( 0x13FB, 0x13FA )]
 	public class LargeBattleAxe : BaseAxe
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.WhirlwindAttack; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.BleedAttack; } }
-
-		public override int AosStrengthReq{ get{ return 80; } }
+    	public override int AosStrengthReq{ get{ return 80; } }
 		public override int AosMinDamage{ get{ return 16; } }
 		public override int AosMaxDamage{ get{ return 17; } }
 		public override int AosSpeed{ get{ return 29; } }

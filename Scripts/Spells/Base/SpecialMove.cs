@@ -200,28 +200,7 @@ namespace Server.Spells
 				return false;
 			}
 
-			bool sameMove = ( move == GetCurrentMove( m ) );
-
 			ClearCurrentMove( m );
-
-			if ( sameMove )
-				return true;
-
-			if ( move != null )
-			{
-				WeaponAbility.ClearCurrentAbility( m );
-
-				m_Table[m] = move;
-
-				move.OnUse( m );
-
-				int moveID = SpellRegistry.GetRegistryNumber( move );
-
-				if ( moveID > 0 )
-					m.Send( new ToggleSpecialAbility( moveID + 1, true ) );
-
-				TextDefinition.SendMessageTo( m, move.AbilityMessage );
-			}
 
 			return true;
 		}

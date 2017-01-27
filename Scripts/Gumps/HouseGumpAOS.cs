@@ -763,8 +763,6 @@ namespace Server.Gumps
 						{
 							if ( mobile is PlayerVendor )
 								((PlayerVendor)mobile).House = newHouse;
-							else if ( mobile is PlayerBarkeeper )
-								((PlayerBarkeeper)mobile).House = newHouse;
 						}
 
 						if( house.MovingCrate != null )

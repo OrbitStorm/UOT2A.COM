@@ -3,9 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0xF5E, 0xF5F )]
 	public class Broadsword : BaseSword
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.CrushingBlow; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.ArmorIgnore; } }
-
 		public override int AosStrengthReq{ get{ return 30; } }
 		public override int AosMinDamage{ get{ return 14; } }
 		public override int AosMaxDamage{ get{ return 15; } }

@@ -79,9 +79,6 @@ namespace Server.Items
 		#endregion
 
 		#region Virtual Properties
-		public virtual WeaponAbility PrimaryAbility{ get{ return null; } }
-		public virtual WeaponAbility SecondaryAbility{ get{ return null; } }
-
 		public virtual int DefMaxRange{ get{ return 1; } }
 		public virtual int DefHitSound{ get{ return 0; } }
 		public virtual int DefMissSound{ get{ return 0; } }
@@ -748,11 +745,6 @@ namespace Server.Items
 				if ( HitLower.IsUnderAttackEffect( attacker ) )
 					bonus -= 25; // Under Hit Lower Attack effect -> 25% malus
 
-				WeaponAbility ability = WeaponAbility.GetCurrentAbility( attacker );
-
-				if ( ability != null )
-					bonus += ability.AccuracyBonus;
-
 				SpecialMove move = SpecialMove.GetCurrentMove( attacker );
 
 				if ( move != null )
@@ -769,11 +761,6 @@ namespace Server.Items
 				if ( HitLower.IsUnderDefenseEffect( defender ) )
 					bonus -= 25; // Under Hit Lower Defense effect -> 25% malus
 					
-				int blockBonus = 0;
-
-				if ( Block.GetBonus( defender, ref blockBonus ) )
-					bonus += blockBonus;
-
 				int discordanceEffect = 0;
 
 				// Defender loses -0/-28% if under the effect of Discordance.
@@ -828,12 +815,6 @@ namespace Server.Items
 				 * Sure that AOS has THIS formula
 				 */
 				int bonus = AosAttributes.GetValue( m, AosAttribute.WeaponSpeed );
-
-				if( DualWield.Registry.Contains( m ) )
-					bonus += ((DualWield.DualWieldTimer)DualWield.Registry[m]).BonusSwingSpeed;
-
-				if( Feint.Registry.Contains( m ) )
-					bonus -= ((Feint.FeintTimer)Feint.Registry[m]).SwingSpeedReduction;
 
 				int discordanceEffect = 0;
 
@@ -908,11 +889,6 @@ namespace Server.Items
 
 		public virtual void OnBeforeSwing( Mobile attacker, Mobile defender )
 		{
-			WeaponAbility a = WeaponAbility.GetCurrentAbility( attacker );
-
-			if( a != null && !a.OnBeforeSwing( attacker, defender ) )
-				WeaponAbility.ClearCurrentAbility( attacker );
-
 			SpecialMove move = SpecialMove.GetCurrentMove( attacker );
 
 			if( move != null && !move.OnBeforeSwing( attacker, defender ) )
@@ -953,20 +929,6 @@ namespace Server.Items
 
 				if ( attacker.NetState != null )
 					attacker.Send( new Swing( 0, attacker, defender ) );
-
-				if ( attacker is BaseCreature )
-				{
-					BaseCreature bc = (BaseCreature)attacker;
-					WeaponAbility ab = bc.GetWeaponAbility();
-
-					if ( ab != null )
-					{
-						if ( bc.WeaponAbilityChance > Utility.RandomDouble() )
-							WeaponAbility.SetCurrentAbility( bc, ab );
-						else
-							WeaponAbility.ClearCurrentAbility( bc );
-					}
-				}
 
 				if ( CheckHit( attacker, defender ) )
 					OnHit( attacker, defender, damageBonus );
@@ -1257,13 +1219,7 @@ namespace Server.Items
 			 */
 			int percentageBonus = 0;
 
-			WeaponAbility a = WeaponAbility.GetCurrentAbility( attacker );
 			SpecialMove move = SpecialMove.GetCurrentMove( attacker );
-
-			if( a != null )
-			{
-				percentageBonus += (int)(a.DamageScalar * 100) - 100;
-			}
 
 			if( move != null )
 			{
@@ -1327,11 +1283,6 @@ namespace Server.Items
 				percentageBonus -= 10;
 			}
 
-			BaseTalisman talisman = attacker.Talisman as BaseTalisman;
-
-			if ( talisman != null && talisman.Killer != null )
-				percentageBonus += talisman.Killer.DamageBonus( defender );
-
 			percentageBonus = Math.Min( percentageBonus, 300 );
 
 			damage = AOS.Scale( damage, 100 + percentageBonus );
@@ -1347,30 +1298,12 @@ namespace Server.Items
 
 			if ( !Core.AOS && damage < 1 )
 				damage = 1;
-			else if ( Core.AOS && damage == 0 ) // parried
-			{
-				if ( a != null && a.Validate( attacker ) /*&& a.CheckMana( attacker, true )*/ ) // Parried special moves have no mana cost 
-				{
-					a = null;
-					WeaponAbility.ClearCurrentAbility( attacker );
-
-					attacker.SendLocalizedMessage( 1061140 ); // Your attack was parried!
-				}
-			}
 
 			AddBlood( attacker, defender, damage );
 
 			int phys, fire, cold, pois, nrgy, chaos, direct;
 
 			GetDamageTypes( attacker, out phys, out fire, out cold, out pois, out nrgy, out chaos, out direct );
-
-			if ( Core.ML && this is BaseRanged )
-			{
-				BaseQuiver quiver = attacker.FindItemOnLayer( Layer.Cloak ) as BaseQuiver;
-
-				if ( quiver != null )
-					quiver.AlterBowDamage( ref phys, ref fire, ref cold, ref pois, ref nrgy, ref chaos, ref direct );
-			}
 
 			if ( m_Consecrated )
 			{
@@ -1398,21 +1331,13 @@ namespace Server.Items
 
 			int damageGiven = damage;
 
-			if ( a != null && !a.OnBeforeDamage( attacker, defender ) )
-			{
-				WeaponAbility.ClearCurrentAbility( attacker );
-				a = null;
-			}
-
 			if ( move != null && !move.OnBeforeDamage( attacker, defender ) )
 			{
 				SpecialMove.ClearCurrentMove( attacker );
 				move = null;
 			}
 
-			bool ignoreArmor = ( a is ArmorIgnore || (move != null && move.IgnoreArmor( attacker )) );
-
-			damageGiven = AOS.Damage( defender, attacker, damage, ignoreArmor, phys, fire, cold, pois, nrgy, chaos, direct, false, this is BaseRanged, false );
+			damageGiven = AOS.Damage( defender, attacker, damage, false, phys, fire, cold, pois, nrgy, chaos, direct, false, this is BaseRanged, false );
 
 			double propertyBonus = ( move == null ) ? 1.0 : move.GetPropertyBonus( attacker );
 
@@ -1535,9 +1460,6 @@ namespace Server.Items
 
 			if ( defender is BaseCreature )
 				((BaseCreature)defender).OnGotMeleeAttack( attacker );
-
-			if ( a != null )
-				a.OnHit( attacker, defender, damage );
 
 			if ( move != null )
 				move.OnHit( attacker, defender, damage );
@@ -1734,15 +1656,7 @@ namespace Server.Items
 			SlayerEntry atkSlayer = SlayerGroup.GetEntryByName( atkWeapon.Slayer );
 			SlayerEntry atkSlayer2 = SlayerGroup.GetEntryByName( atkWeapon.Slayer2 );
 
-			if( atkWeapon is ButchersWarCleaver && TalismanSlayer.Slays( TalismanSlayerName.Bovine, defender ) )
-				return CheckSlayerResult.Slayer;
-
 			if ( atkSlayer != null && atkSlayer.Slays( defender )  || atkSlayer2 != null && atkSlayer2.Slays( defender ) )
-				return CheckSlayerResult.Slayer;
-
-			BaseTalisman talisman = attacker.Talisman as BaseTalisman;
-
-			if ( talisman != null && TalismanSlayer.Slays( talisman.Slayer, defender ) )
 				return CheckSlayerResult.Slayer;
 
 			if ( !Core.SE )
@@ -1857,11 +1771,6 @@ namespace Server.Items
 			PlaySwingAnimation( attacker );
 			attacker.PlaySound( GetMissAttackSound( attacker, defender ) );
 			defender.PlaySound( GetMissDefendSound( attacker, defender ) );
-
-			WeaponAbility ability = WeaponAbility.GetCurrentAbility( attacker );
-
-			if ( ability != null )
-				ability.OnMiss( attacker, defender );
 
 			SpecialMove move = SpecialMove.GetCurrentMove( attacker );
 
@@ -2018,12 +1927,6 @@ namespace Server.Items
 			 * Capped at 100% total.
 			 */
 			int damageBonus = AosAttributes.GetValue( attacker, AosAttribute.WeaponDamage );
-
-			int defenseMasteryMalus = 0;
-
-			// Defense Mastery gives a -50%/-80% malus to damage.
-			if ( Server.Items.DefenseMastery.GetMalus( attacker, ref defenseMasteryMalus ) )
-				damageBonus -= defenseMasteryMalus;
 
 			int discordanceEffect = 0;
 
@@ -2832,15 +2735,6 @@ namespace Server.Items
 				case CraftResource.Agapite:			oreType = 1053103; break; // agapite
 				case CraftResource.Verite:			oreType = 1053102; break; // verite
 				case CraftResource.Valorite:		oreType = 1053101; break; // valorite
-				case CraftResource.SpinedLeather:	oreType = 1061118; break; // spined
-				case CraftResource.HornedLeather:	oreType = 1061117; break; // horned
-				case CraftResource.BarbedLeather:	oreType = 1061116; break; // barbed
-				case CraftResource.RedScales:		oreType = 1060814; break; // red
-				case CraftResource.YellowScales:	oreType = 1060818; break; // yellow
-				case CraftResource.BlackScales:		oreType = 1060820; break; // black
-				case CraftResource.GreenScales:		oreType = 1060819; break; // green
-				case CraftResource.WhiteScales:		oreType = 1060821; break; // white
-				case CraftResource.BlueScales:		oreType = 1060815; break; // blue
 				default: oreType = 0; break;
 			}
 

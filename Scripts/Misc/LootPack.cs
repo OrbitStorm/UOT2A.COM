@@ -559,13 +559,6 @@ namespace Server
 			set{ m_Items = value; }
 		}
 
-		#region Mondain's Legacy
-		private static bool IsMondain( Mobile m )
-		{
-			return MondainsLegacy.IsMLRegion( m.Region );
-		}
-		#endregion
-
 		public Item Construct( Mobile from, int luckChance, bool spawning )
 		{
 			if ( m_AtSpawnTime != spawning )
@@ -583,7 +576,7 @@ namespace Server
 				LootPackItem item = m_Items[i];
 
 				if ( rnd < item.Chance )
-					return Mutate( from, luckChance, item.Construct( false, IsMondain( from ) ) );
+					return Mutate( from, luckChance, item.Construct( false, false ) );
 
 				rnd -= item.Chance;
 			}
@@ -620,13 +613,6 @@ namespace Server
 		{
 			if ( item != null )
 			{
-				if ( item is BaseWeapon && 1 > Utility.Random( 100 ) )
-				{
-					item.Delete();
-					item = new FireHorn();
-					return item;
-				}
-
 				if ( item is BaseWeapon || item is BaseArmor || item is BaseJewel || item is BaseHat )
 				{
 					if ( Core.AOS )
@@ -803,29 +789,6 @@ namespace Server
 		}
 
 		private static Type[]   m_BlankTypes = new Type[]{ typeof( BlankScroll ) };
-		private static Type[][] m_NecroTypes = new Type[][]
-			{
-				new Type[] // low
-				{
-					typeof( AnimateDeadScroll ),		typeof( BloodOathScroll ),		typeof( CorpseSkinScroll ),	typeof( CurseWeaponScroll ),
-					typeof( EvilOmenScroll ),			typeof( HorrificBeastScroll ),	typeof( MindRotScroll ),	typeof( PainSpikeScroll ),
-					typeof( SummonFamiliarScroll ),		typeof( WraithFormScroll )
-				},
-				new Type[] // med
-				{
-					typeof( LichFormScroll ),			typeof( PoisonStrikeScroll ),	typeof( StrangleScroll ),	typeof( WitherScroll )
-				},
-
-				((Core.SE) ?
-				new Type[] // high
-				{
-					typeof( VengefulSpiritScroll ),		typeof( VampiricEmbraceScroll ), typeof( ExorcismScroll )
-				} :
-				new Type[] // high
-				{
-					typeof( VengefulSpiritScroll ),		typeof( VampiricEmbraceScroll )
-				})
-			};
 
 		public static Item RandomScroll( int index, int minCircle, int maxCircle )
 		{
@@ -837,20 +800,12 @@ namespace Server
 			if ( index == 0 )
 				scrollCount += m_BlankTypes.Length;
 
-			if ( Core.AOS )
-				scrollCount += m_NecroTypes[index].Length;
-
 			int rnd = Utility.Random( scrollCount );
 
 			if ( index == 0 && rnd < m_BlankTypes.Length )
 				return Loot.Construct( m_BlankTypes );
 			else if ( index == 0 )
 				rnd -= m_BlankTypes.Length;
-
-			if ( Core.AOS && rnd < m_NecroTypes.Length )
-				return Loot.Construct( m_NecroTypes[index] );
-			else if ( Core.AOS )
-				rnd -= m_NecroTypes[index].Length;
 
 			return Loot.RandomScroll( minCircle * 8, (maxCircle * 8) + 7, SpellbookType.Regular );
 		}

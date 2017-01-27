@@ -61,11 +61,6 @@ namespace Server.Misc
 		{
 			BankBox bank = m.BankBox;
 
-			// The new AOS bankboxes don't have powerscrolls, they are automatically 'applied':
-
-			for ( int i = 0; i < PowerScroll.Skills.Count; ++i )
-				m.Skills[PowerScroll.Skills[ i ]].Cap = 120.0;
-
 			m.StatCap = 250;
 
 
@@ -129,10 +124,6 @@ namespace Server.Misc
 			PlaceItemIn( cont, 73, 51, new RunicHammer( CraftResource.Verite, 1000 ) );
 			PlaceItemIn( cont, 79, 51, new RunicHammer( CraftResource.Valorite, 1000 ) );
 
-			PlaceItemIn( cont, 36, 55, new RunicSewingKit( CraftResource.SpinedLeather, 1000 ) );
-			PlaceItemIn( cont, 42, 55, new RunicSewingKit( CraftResource.HornedLeather, 1000 ) );
-			PlaceItemIn( cont, 48, 55, new RunicSewingKit( CraftResource.BarbedLeather, 1000 ) );
-
 			PlaceItemIn( bank, 118, 169, cont );
 			// End bag of tools
 
@@ -178,9 +169,6 @@ namespace Server.Misc
 			cont.Hue = 0x835;
 			cont.Name = "Raw Materials Bag";
 
-			PlaceItemIn( cont, 92, 60, new BarbedLeather( 5000 ) );
-			PlaceItemIn( cont, 92, 68, new HornedLeather( 5000 ) );
-			PlaceItemIn( cont, 92, 76, new SpinedLeather( 5000 ) );
 			PlaceItemIn( cont, 92, 84, new Leather( 5000 ) );
 
 			PlaceItemIn( cont, 30, 118, new Cloth( 5000 ) );
@@ -197,13 +185,6 @@ namespace Server.Misc
 			PlaceItemIn( cont, 79,  35, new ValoriteIngot( 5000 ) );
 			PlaceItemIn( cont, 86,  35, new IronIngot( 5000 ) );
 
-			PlaceItemIn( cont, 30,  59, new RedScales( 5000 ) );
-			PlaceItemIn( cont, 36,  59, new YellowScales( 5000 ) );
-			PlaceItemIn( cont, 42,  59, new BlackScales( 5000 ) );
-			PlaceItemIn( cont, 48,  59, new GreenScales( 5000 ) );
-			PlaceItemIn( cont, 54,  59, new WhiteScales( 5000 ) );
-			PlaceItemIn( cont, 60,  59, new BlueScales( 5000 ) );
-
 			PlaceItemIn( bank, 98, 169, cont );
 			// End bag of raw materials
 
@@ -214,10 +195,6 @@ namespace Server.Misc
 			cont.Name = "Spell Casting Stuff";
 
 			PlaceItemIn( cont, 45, 105, new Spellbook( UInt64.MaxValue ) );
-			PlaceItemIn( cont, 65, 105, new NecromancerSpellbook( (UInt64)0xFFFF ) );
-			PlaceItemIn( cont, 85, 105, new BookOfChivalry( (UInt64)0x3FF ) );
-			PlaceItemIn( cont, 105, 105, new BookOfBushido() );	//Default ctor = full
-			PlaceItemIn( cont, 125, 105, new BookOfNinjitsu() ); //Default ctor = full
 
 			Runebook runebook = new Runebook( 10 );
 			runebook.CurCharges = runebook.MaxCharges;
@@ -227,16 +204,8 @@ namespace Server.Misc
 			toHue.Hue = 0x2D;
 			PlaceItemIn( cont, 45, 150, toHue );
 
-			toHue = new BagOfNecroReagents( 150 );
-			toHue.Hue = 0x488;
-			PlaceItemIn( cont, 65, 150, toHue );
-
-			PlaceItemIn( cont, 140, 150, new BagOfAllReagents( 500 ) );
-
 			for ( int i = 0; i < 9; ++i )
 				PlaceItemIn( cont, 45 + (i * 10), 75, new RecallRune() );
-
-			PlaceItemIn( cont, 141, 74, new FireHorn() );
 
 			PlaceItemIn( bank, 78, 169, cont );
 			// End bag of spell casting stuff
@@ -259,116 +228,10 @@ namespace Server.Misc
 			PlaceItemIn( bank, 38, 124, cont );
 			// End bag of ethereals
 
-			// Begin second bag of artifacts
-			cont = new Backpack();
-			cont.Hue = 0x48F;
-			cont.Name = "Bag of Artifacts";
-
-			PlaceItemIn( cont, 45, 66, new GauntletsOfNobility() );
-			PlaceItemIn( cont, 69, 82, new MidnightBracers() );
-			PlaceItemIn( cont, 93, 99, new VoiceOfTheFallenKing() );
-			PlaceItemIn( cont, 117, 115, new OrnateCrownOfTheHarrower() );
-			PlaceItemIn( cont, 45, 132, new HelmOfInsight() );
-			PlaceItemIn( cont, 69, 66, new HolyKnightsBreastplate() );
-			PlaceItemIn( cont, 93, 82, new ArmorOfFortune() );
-			PlaceItemIn( cont, 117, 99, new TunicOfFire() );
-			PlaceItemIn( cont, 45, 115, new LeggingsOfBane() );
-			PlaceItemIn( cont, 69, 132, new ArcaneShield() );
-			PlaceItemIn( cont, 93, 66, new Aegis() );
-			PlaceItemIn( cont, 117, 82, new RingOfTheVile() );
-			PlaceItemIn( cont, 45, 99, new BraceletOfHealth() );
-			PlaceItemIn( cont, 69, 115, new RingOfTheElements() );
-			PlaceItemIn( cont, 93, 132, new OrnamentOfTheMagician() );
-			PlaceItemIn( cont, 117, 66, new DivineCountenance() );
-			PlaceItemIn( cont, 45, 82, new JackalsCollar() );
-			PlaceItemIn( cont, 69, 99, new HuntersHeaddress() );
-			PlaceItemIn( cont, 93, 115, new HatOfTheMagi() );
-			PlaceItemIn( cont, 117, 132, new ShadowDancerLeggings() );
-			PlaceItemIn( cont, 45, 66, new SpiritOfTheTotem() );
-			PlaceItemIn( cont, 69, 82, new BladeOfInsanity() );
-			PlaceItemIn( cont, 93, 99, new AxeOfTheHeavens() );
-			PlaceItemIn( cont, 117, 115, new TheBeserkersMaul() );
-			PlaceItemIn( cont, 45, 132, new Frostbringer() );
-			PlaceItemIn( cont, 69, 66, new BreathOfTheDead() );
-			PlaceItemIn( cont, 93, 82, new TheDragonSlayer() );
-			PlaceItemIn( cont, 117, 99, new BoneCrusher() );
-			PlaceItemIn( cont, 45, 115, new StaffOfTheMagi() );
-			PlaceItemIn( cont, 69, 132, new SerpentsFang() );
-			PlaceItemIn( cont, 93, 66, new LegacyOfTheDreadLord() );
-			PlaceItemIn( cont, 117, 82, new TheTaskmaster() );
-			PlaceItemIn( cont, 45, 99, new TheDryadBow() );
-
-			PlaceItemIn( bank, 78, 124, cont );
-			// End second bag of artifacts
-
-			// Begin bag of minor artifacts
-			cont = new Backpack();
-			cont.Hue = 0x48F;
-			cont.Name = "Bag of Minor Artifacts";
-
-
-			PlaceItemIn( cont, 45, 66, new LunaLance() );
-			PlaceItemIn( cont, 69, 82, new VioletCourage() );
-			PlaceItemIn( cont, 93, 99, new CavortingClub() );
-			PlaceItemIn( cont, 117, 115, new CaptainQuacklebushsCutlass() );
-			PlaceItemIn( cont, 45, 132, new NightsKiss() );
-			PlaceItemIn( cont, 69, 66, new ShipModelOfTheHMSCape() );
-			PlaceItemIn( cont, 93, 82, new AdmiralsHeartyRum() );
-			PlaceItemIn( cont, 117, 99, new CandelabraOfSouls() );
-			PlaceItemIn( cont, 45, 115, new IolosLute() );
-			PlaceItemIn( cont, 69, 132, new GwennosHarp() );
-			PlaceItemIn( cont, 93, 66, new ArcticDeathDealer() );
-			PlaceItemIn( cont, 117, 82, new EnchantedTitanLegBone() );
-			PlaceItemIn( cont, 45, 99, new NoxRangersHeavyCrossbow() );
-			PlaceItemIn( cont, 69, 115, new BlazeOfDeath() );
-			PlaceItemIn( cont, 93, 132, new DreadPirateHat() );
-			PlaceItemIn( cont, 117, 66, new BurglarsBandana() );
-			PlaceItemIn( cont, 45, 82, new GoldBricks() );
-			PlaceItemIn( cont, 69, 99, new AlchemistsBauble() );
-			PlaceItemIn( cont, 93, 115, new PhillipsWoodenSteed() );
-			PlaceItemIn( cont, 117, 132, new PolarBearMask() );
-			PlaceItemIn( cont, 45, 66, new BowOfTheJukaKing() );
-			PlaceItemIn( cont, 69, 82, new GlovesOfThePugilist() );
-			PlaceItemIn( cont, 93, 99, new OrcishVisage() );
-			PlaceItemIn( cont, 117, 115, new StaffOfPower() );
-			PlaceItemIn( cont, 45, 132, new ShieldOfInvulnerability() );
-			PlaceItemIn( cont, 69, 66, new HeartOfTheLion() );
-			PlaceItemIn( cont, 93, 82, new ColdBlood() );
-			PlaceItemIn( cont, 117, 99, new GhostShipAnchor() );
-			PlaceItemIn( cont, 45, 115, new SeahorseStatuette() );
-			PlaceItemIn( cont, 69, 132, new WrathOfTheDryad() );
-			PlaceItemIn( cont, 93, 66, new PixieSwatter() );
-
-			for( int i = 0; i < 10; i++ )
+    		for( int i = 0; i < 10; i++ )
 				PlaceItemIn( cont, 117, 128, new MessageInABottle( Map.Felucca, 4 ) );
 
 			PlaceItemIn( bank, 18, 124, cont );
-
-			if( Core.SE )	//This bag came only after SE.
-			{
-				cont = new Bag();
-				cont.Name = "Bag of Bows";
-
-				PlaceItemIn( cont, 31, 84, new Bow() );
-				PlaceItemIn( cont, 78, 74, new CompositeBow() );
-				PlaceItemIn( cont, 53, 71, new Crossbow() );
-				PlaceItemIn( cont, 56, 39, new HeavyCrossbow() );
-				PlaceItemIn( cont, 82, 72, new RepeatingCrossbow() );
-				PlaceItemIn( cont, 49, 45, new Yumi() );
-
-				for( int i = 0; i < cont.Items.Count; i++ )
-				{
-					BaseRanged bow = cont.Items[i] as BaseRanged;
-
-					if( bow != null )
-					{
-						bow.Attributes.WeaponSpeed = 35;
-						bow.Attributes.WeaponDamage = 35;
-					}
-				}
-
-				PlaceItemIn( bank, 108, 135, cont );
-			}
 		}
 
 		private static void FillBankbox( Mobile m )
@@ -389,22 +252,6 @@ namespace Server.Misc
 			book.Content = ulong.MaxValue;
 
 			bank.DropItem( book );
-
-			Bag bag = new Bag();
-
-			for ( int i = 0; i < 5; ++i )
-				bag.DropItem( new Moonstone( MoonstoneType.Felucca ) );
-
-			// Felucca moonstones
-			bank.DropItem( bag );
-
-			bag = new Bag();
-
-			for ( int i = 0; i < 5; ++i )
-				bag.DropItem( new Moonstone( MoonstoneType.Trammel ) );
-
-			// Trammel moonstones
-			bank.DropItem( bag );
 
 			// Treasure maps
 			bank.DropItem( new TreasureMap( 1, Map.Felucca) );
@@ -477,38 +324,17 @@ namespace Server.Misc
 			// 5 blank recall runes
 			for ( int i = 0; i < 5; ++i )
 				bank.DropItem( MakeNewbie( new RecallRune() ) );
-
-			AddPowerScrolls( bank );
-		}
-
-		private static void AddPowerScrolls( BankBox bank )
-		{
-			Bag bag = new Bag();
-
-			for ( int i = 0; i < PowerScroll.Skills.Count; ++i )
-				bag.DropItem( new PowerScroll( PowerScroll.Skills[i], 120.0 ) );
-
-			bag.DropItem( new StatCapScroll( 250 ) );
-
-			bank.DropItem( bag );
 		}
 
 		private static void AddShirt( Mobile m, int shirtHue )
 		{
 			int hue = Utility.ClipDyedHue( shirtHue & 0x3FFF );
 
-			if ( m.Race == Race.Elf )
+			switch ( Utility.Random( 3 ) )
 			{
-				EquipItem( new ElvenShirt( hue ), true );
-			}
-			else
-			{
-				switch ( Utility.Random( 3 ) )
-				{
-					case 0: EquipItem( new Shirt( hue ), true ); break;
-					case 1: EquipItem( new FancyShirt( hue ), true ); break;
-					case 2: EquipItem( new Doublet( hue ), true ); break;
-				}
+				case 0: EquipItem( new Shirt( hue ), true ); break;
+				case 1: EquipItem( new FancyShirt( hue ), true ); break;
+				case 2: EquipItem( new Doublet( hue ), true ); break;
 			}
 		}
 
@@ -516,37 +342,27 @@ namespace Server.Misc
 		{
 			int hue = Utility.ClipDyedHue( pantsHue & 0x3FFF );
 
-			if ( m.Race == Race.Elf )
+			if ( m.Female )
 			{
-				EquipItem( new ElvenPants( hue ), true );
+				switch ( Utility.Random( 2 ) )
+				{
+					case 0: EquipItem( new Skirt( hue ), true ); break;
+					case 1: EquipItem( new Kilt( hue ), true ); break;
+				}
 			}
 			else
 			{
-				if ( m.Female )
+				switch ( Utility.Random( 2 ) )
 				{
-					switch ( Utility.Random( 2 ) )
-					{
-						case 0: EquipItem( new Skirt( hue ), true ); break;
-						case 1: EquipItem( new Kilt( hue ), true ); break;
-					}
+					case 0: EquipItem( new LongPants( hue ), true ); break;
+					case 1: EquipItem( new ShortPants( hue ), true ); break;
 				}
-				else
-				{
-					switch ( Utility.Random( 2 ) )
-					{
-						case 0: EquipItem( new LongPants( hue ), true ); break;
-						case 1: EquipItem( new ShortPants( hue ), true ); break;
-					}
-				}
-			}
+			}			
 		}
 
 		private static void AddShoes( Mobile m )
 		{
-			if( m.Race == Race.Elf )
-				EquipItem( new ElvenBoots(), true );
-			else
-				EquipItem( new Shoes( Utility.RandomYellowHue() ), true );
+			EquipItem( new Shoes( Utility.RandomYellowHue() ), true );
 		}
 
 		private static Mobile CreateMobile( Account a )
@@ -890,142 +706,24 @@ namespace Server.Misc
 			{
 				case 1: // Warrior
 				{
-					if ( elf )
-						EquipItem( new LeafChest() );
-					else
-						EquipItem( new LeatherChest() );
+					EquipItem( new LeatherChest() );
 					break;
 				}
 				case 4: // Necromancer
 				{
-					Container regs = new BagOfNecroReagents( 50 );
-
-					if ( !Core.AOS )
-					{
-						foreach ( Item item in regs.Items )
-							item.LootType = LootType.Newbied;
-					}
-
-					PackItem( regs );
-
-					regs.LootType = LootType.Regular;
-
-					EquipItem( new BoneHelm() );
-
-					if ( elf )
-					{
-						EquipItem( new ElvenMachete() );
-						EquipItem( NecroHue( new LeafChest() ) );
-						EquipItem( NecroHue( new LeafArms() ) );
-						EquipItem( NecroHue( new LeafGloves() ) );
-						EquipItem( NecroHue( new LeafGorget() ) );
-						EquipItem( NecroHue( new LeafGorget() ) );
-						EquipItem( NecroHue( new ElvenPants() ) );	//TODO: Verify the pants
-						EquipItem( new ElvenBoots() );
-					}
-					else
-					{
-						EquipItem( new BoneHarvester() );
-						EquipItem( NecroHue( new LeatherChest() ) );
-						EquipItem( NecroHue( new LeatherArms() ) );
-						EquipItem( NecroHue( new LeatherGloves() ) );
-						EquipItem( NecroHue( new LeatherGorget() ) );
-						EquipItem( NecroHue( new LeatherLegs() ) );
-						EquipItem( NecroHue( new Skirt() ) );
-						EquipItem( new Sandals( 0x8FD ) );
-					}
-
-					Spellbook book = new NecromancerSpellbook( (ulong)0x8981 ); // animate dead, evil omen, pain spike, summon familiar, wraith form
-
-					PackItem( book );
-
-					book.LootType = LootType.Blessed;
-
-					addSkillItems = false;
-
 					break;
 				}
 				case 5: // Paladin
 				{
-					if ( elf )
-					{
-						EquipItem( new ElvenMachete() );
-						EquipItem( new WingedHelm() );
-						EquipItem( new LeafGorget() );
-						EquipItem( new LeafArms() );
-						EquipItem( new LeafChest() );
-						EquipItem( new LeafLegs() );
-						EquipItem( new ElvenBoots() );	//Verify hue
-					}
-					else
-					{
-						EquipItem( new Broadsword() );
-						EquipItem( new Helmet() );
-						EquipItem( new PlateGorget() );
-						EquipItem( new RingmailArms() );
-						EquipItem( new RingmailChest() );
-						EquipItem( new RingmailLegs() );
-						EquipItem( new ThighBoots( 0x748 ) );
-						EquipItem( new Cloak( 0xCF ) );
-						EquipItem( new BodySash( 0xCF ) );
-					}
-
-					Spellbook book = new BookOfChivalry( (ulong)0x3FF );
-
-					PackItem( book );
-
-					book.LootType = LootType.Blessed;
-
-					addSkillItems = false;
-
 					break;
 				}
 
 				case 6: // Samurai
 				{
-					addSkillItems = false;
-					EquipItem( new HakamaShita( 0x2C3 ) );
-					EquipItem( new Hakama( 0x2C3 ) );
-					EquipItem( new SamuraiTabi( 0x2C3 ) );
-					EquipItem( new TattsukeHakama( 0x22D ) );
-					EquipItem( new Bokuto() );
-
-					if ( elf )
-						EquipItem( new RavenHelm() );
-					else
-						EquipItem( new LeatherJingasa() );
-
-					PackItem( new Scissors() );
-					PackItem( new Bandage( 50 ) );
-
-					Spellbook book = new BookOfBushido();
-					PackItem( book );
-
 					break;
 				}
 				case 7: // Ninja
 				{
-					addSkillItems = false;
-					EquipItem( new Kasa() );
-					
-					int[] hues = new int[] { 0x1A8, 0xEC, 0x99, 0x90, 0xB5, 0x336, 0x89	};
-					//TODO: Verify that's ALL the hues for that above.
-
-					EquipItem( new TattsukeHakama( hues[Utility.Random(hues.Length)] ) );
-					
-					EquipItem( new HakamaShita( 0x2C3 ) );
-					EquipItem( new NinjaTabi( 0x2C3 ) );
-
-					if ( elf )
-						EquipItem( new AssassinSpike() );
-					else
-						EquipItem( new Tekagi() );
-
-					PackItem( new SmokeBomb() );
-
-					Spellbook book = new BookOfNinjitsu();
-					PackItem( book );
-
 					break;
 				}
 			}
@@ -1034,7 +732,7 @@ namespace Server.Misc
 			{
 				SkillNameValue snv = skills[i];
 
-				if ( snv.Value > 0 && ( snv.Name != SkillName.Stealth || prof == 7 ) && snv.Name != SkillName.RemoveTrap && snv.Name != SkillName.Spellweaving )
+				if ( snv.Value > 0 && ( snv.Name != SkillName.Stealth || prof == 7 ) && snv.Name != SkillName.RemoveTrap )
 				{
 					Skill skill = m.Skills[snv.Name];
 
@@ -1144,101 +842,43 @@ namespace Server.Misc
 				{
 					PackItem( new Bottle( 4 ) );
 					PackItem( new MortarPestle() );
-
 					int hue = Utility.RandomPinkHue();
-
-					if ( elf )
-					{
-						if ( m.Female )
-							EquipItem( new FemaleElvenRobe( hue ) );
-						else
-							EquipItem( new MaleElvenRobe( hue ) );
-					}
-					else
-					{
-						EquipItem( new Robe( Utility.RandomPinkHue() ) );
-					}
+					EquipItem( new Robe( hue ) );
 					break;
 				}
 				case SkillName.Anatomy:
 				{
 					PackItem( new Bandage( 3 ) );
-
 					int hue = Utility.RandomYellowHue();
-
-					if ( elf )
-					{
-						if ( m.Female )
-							EquipItem( new FemaleElvenRobe( hue ) );
-						else
-							EquipItem( new MaleElvenRobe( hue ) );
-					}
-					else
-					{
-						EquipItem( new Robe( hue ) );
-					}
+					EquipItem( new Robe( hue ) );
 					break;
 				}
 				case SkillName.AnimalLore:
 				{
 					int hue = Utility.RandomBlueHue();
-
-					if ( elf )
-					{
-						EquipItem( new WildStaff() );
-
-						if ( m.Female )
-							EquipItem( new FemaleElvenRobe( hue ) );
-						else
-							EquipItem( new MaleElvenRobe( hue ) );
-					}
-					else
-					{
-						EquipItem( new ShepherdsCrook() );
-						EquipItem( new Robe( hue ) );
-					}
+					EquipItem( new ShepherdsCrook() );
+					EquipItem( new Robe( hue ) );
 					break;
 				}
 				case SkillName.Archery:
-				{
-					PackItem( new Arrow( 25 ) );
-
-					if ( elf )
-						EquipItem( new ElvenCompositeLongbow() );
-					else
-						EquipItem( new Bow() );
-					
+			    {
+			        PackItem( new Arrow(25) );
+					EquipItem( new Bow() );
 					break;
 				}
 				case SkillName.ArmsLore:
 				{
-					if ( elf )
+					switch ( Utility.Random( 3 ) )
 					{
-						switch ( Utility.Random( 3 ) )
-						{
-							case 0: EquipItem( new Leafblade() ); break;
-							case 1: EquipItem( new RuneBlade() ); break;
-							case 2: EquipItem( new DiamondMace() ); break;
-						}
+						case 0: EquipItem( new Kryss() ); break;
+						case 1: EquipItem( new Katana() ); break;
+						case 2: EquipItem( new Club() ); break;
 					}
-					else
-					{
-						switch ( Utility.Random( 3 ) )
-						{
-							case 0: EquipItem( new Kryss() ); break;
-							case 1: EquipItem( new Katana() ); break;
-							case 2: EquipItem( new Club() ); break;
-						}
-					}
-
 					break;
 				}
 				case SkillName.Begging:
 				{
-					if ( elf )
-						EquipItem( new WildStaff() );
-					else
-						EquipItem( new GnarledStaff() );
+					EquipItem( new GnarledStaff() );
 					break;
 				}
 				case SkillName.Blacksmith:
@@ -1252,9 +892,6 @@ namespace Server.Misc
 				}
 				case SkillName.Bushido:
 				{
-					EquipItem( new Hakama() );
-					EquipItem( new Kasa() );
-					EquipItem( new BookOfBushido() );
 					break;
 				}
 				case SkillName.Fletching:
@@ -1298,9 +935,6 @@ namespace Server.Misc
 				}
 				case SkillName.Chivalry:
 				{
-					if( Core.ML )
-						PackItem( new BookOfChivalry( (ulong)0x3FF ) );
-
 					break;
 				}
 				case SkillName.DetectHidden:
@@ -1315,30 +949,14 @@ namespace Server.Misc
 				}
 				case SkillName.Fencing:
 				{
-					if ( elf )
-						EquipItem( new Leafblade() );
-					else
-						EquipItem( new Kryss() );
-
+					EquipItem( new Kryss() );
 					break;
 				}
 				case SkillName.Fishing:
 				{
 					EquipItem( new FishingPole() );
-
 					int hue = Utility.RandomYellowHue();
-
-					if ( elf )
-					{
-						Item i = new Circlet();
-						i.Hue = hue;
-						EquipItem( i );
-					}
-					else
-					{
-						EquipItem( new FloppyHat( hue ) );
-					}
-
+					EquipItem( new FloppyHat( hue ) );
 					break;
 				}
 				case SkillName.Healing:
@@ -1349,11 +967,7 @@ namespace Server.Misc
 				}
 				case SkillName.Herding:
 				{
-					if ( elf )
-						EquipItem( new WildStaff() );
-					else
-						EquipItem( new ShepherdsCrook() );
-
+					EquipItem( new ShepherdsCrook() );
 					break;
 				}
 				case SkillName.Hiding:
@@ -1369,10 +983,7 @@ namespace Server.Misc
 				}
 				case SkillName.ItemID:
 				{
-					if ( elf )
-						EquipItem( new WildStaff() );
-					else
-						EquipItem( new GnarledStaff() );
+					EquipItem( new GnarledStaff() );
 					break;
 				}
 				case SkillName.Lockpicking:
@@ -1387,22 +998,15 @@ namespace Server.Misc
 				}
 				case SkillName.Macing:
 				{
-					if ( elf )
-						EquipItem( new DiamondMace() );
-					else
-						EquipItem( new Club() );
-
+					EquipItem( new Club() );
 					break;
 				}
 				case SkillName.Magery:
 				{
 					BagOfReagents regs = new BagOfReagents( 30 );
 
-					if ( !Core.AOS )
-					{
-						foreach ( Item item in regs.Items )
-							item.LootType = LootType.Newbied;
-					}
+					foreach ( Item item in regs.Items )
+						item.LootType = LootType.Newbied;
 
 					PackItem( regs );
 
@@ -1418,21 +1022,8 @@ namespace Server.Misc
 
 					book.LootType = LootType.Blessed;
 
-					if ( elf )
-					{
-						EquipItem( new Circlet() );
-
-						if( m.Female )
-							EquipItem( new FemaleElvenRobe( Utility.RandomBlueHue() ) );
-						else
-							EquipItem( new MaleElvenRobe( Utility.RandomBlueHue() ) );
-					}
-					else
-					{
-						EquipItem( new WizardsHat() );
-						EquipItem( new Robe( Utility.RandomBlueHue() ) );
-					}
-
+					EquipItem( new WizardsHat() );
+					EquipItem( new Robe( Utility.RandomBlueHue() ) );
 					break;
 				}
 				case SkillName.Mining:
@@ -1447,22 +1038,10 @@ namespace Server.Misc
 				}
 				case SkillName.Necromancy:
 				{
-					if( Core.ML )
-					{
-						Container regs = new BagOfNecroReagents( 50 );
-
-						PackItem( regs );
-
-						regs.LootType = LootType.Regular;
-					}
-
 					break;
 				}
 				case SkillName.Ninjitsu:
 				{
-					EquipItem( new Hakama( 0x2C3 ) );	//Only ninjas get the hued one.
-					EquipItem( new Kasa() );
-					EquipItem( new BookOfNinjitsu() );
 					break;
 				}
 				case SkillName.Parry:
@@ -1503,20 +1082,12 @@ namespace Server.Misc
 				}
 				case SkillName.Swords:
 				{
-					if ( elf )
-						EquipItem( new RuneBlade() );
-					else
-						EquipItem( new Katana() );
-
+					EquipItem( new Katana() );
 					break;
 				}
 				case SkillName.Tactics:
 				{
-					if ( elf )
-						EquipItem( new RuneBlade() );
-					else
-						EquipItem( new Katana() );
-
+					EquipItem( new Katana() );
 					break;
 				}
 				case SkillName.Tailoring:
@@ -1536,12 +1107,7 @@ namespace Server.Misc
 					}
 
 					int hue = Utility.RandomYellowHue();
-
-					if ( elf )
-						EquipItem( new ElvenBoots( hue ) );
-					else
-						EquipItem( new Boots( hue ) );
-
+					EquipItem( new Boots( hue ) );
 					EquipItem( new SkinningKnife() );
 					break;
 				}
@@ -1553,11 +1119,7 @@ namespace Server.Misc
 				}
 				case SkillName.Wrestling:
 				{
-					if ( elf )
-						EquipItem( new LeafGloves() );
-					else
-						EquipItem( new LeatherGloves() );
-
+					EquipItem( new LeatherGloves() );
 					break;
 				}
 			}

@@ -9,9 +9,6 @@ namespace Server.Items
 		public override Type AmmoType{ get{ return typeof( Arrow ); } }
 		public override Item Ammo{ get{ return new Arrow(); } }
 
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.ParalyzingBlow; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.MortalStrike; } }
-
 		public override int AosStrengthReq{ get{ return 30; } }
 		public override int AosMinDamage{ get{ return Core.ML ? 15 : 16; } }
 		public override int AosMaxDamage{ get{ return Core.ML ? 19 : 18; } }

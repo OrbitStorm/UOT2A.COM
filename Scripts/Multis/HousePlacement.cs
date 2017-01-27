@@ -107,10 +107,7 @@ namespace Server.Multis
 						if ( reg.IsPartOf( typeof( TreasureRegion ) ) || reg.IsPartOf( typeof( HouseRegion ) ) )
 							return HousePlacementResult.BadRegionHidden;
 
-						if ( reg.IsPartOf( typeof( HouseRaffleRegion ) ) )
-							return HousePlacementResult.BadRegionRaffle;
-
-						return HousePlacementResult.BadRegion;
+                        return HousePlacementResult.BadRegion;
 					}
 
 					LandTile landTile = map.Tiles.GetLandTile( tileX, tileY );

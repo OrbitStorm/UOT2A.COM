@@ -94,11 +94,7 @@ namespace Server.Items
 
 					if ( tub.Redyable )
 					{
-						if( tub.MetallicHues )   /* OSI has three metallic tubs now */
-						{
-							from.SendGump( new MetallicHuePicker( from, new MetallicHuePicker.MetallicHuePickerCallback( SetTubHue ), tub ) );
-						}
-						else if( tub.CustomHuePicker != null )
+						if( tub.CustomHuePicker != null )
 						{
 							from.SendGump( new CustomHuePickerGump( from, tub.CustomHuePicker, new CustomHuePickerCallback( SetTubHue ), tub ) );
 						}

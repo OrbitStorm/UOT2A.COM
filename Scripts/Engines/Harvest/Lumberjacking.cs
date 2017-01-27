@@ -76,13 +76,7 @@ namespace Server.Engines.Harvest
 			{
 				res = new HarvestResource[]
 				{
-					new HarvestResource(  00.0, 00.0, 100.0, 1072540, typeof( Log ) ),
-					new HarvestResource(  65.0, 25.0, 105.0, 1072541, typeof( OakLog ) ),
-					new HarvestResource(  80.0, 40.0, 120.0, 1072542, typeof( AshLog ) ),
-					new HarvestResource(  95.0, 55.0, 135.0, 1072543, typeof( YewLog ) ),
-					new HarvestResource( 100.0, 60.0, 140.0, 1072544, typeof( HeartwoodLog ) ),
-					new HarvestResource( 100.0, 60.0, 140.0, 1072545, typeof( BloodwoodLog ) ),
-					new HarvestResource( 100.0, 60.0, 140.0, 1072546, typeof( FrostwoodLog ) ),
+					new HarvestResource(  00.0, 00.0, 100.0, 1072540, typeof( Log ) )
 				};
 
 
@@ -99,12 +93,7 @@ namespace Server.Engines.Harvest
 
 				lumber.BonusResources = new BonusHarvestResource[]
 				{
-					new BonusHarvestResource( 0, 83.9, null, null ),	//Nothing
-					new BonusHarvestResource( 100, 10.0, 1072548, typeof( BarkFragment ) ),
-					new BonusHarvestResource( 100, 03.0, 1072550, typeof( LuminescentFungi ) ),
-					new BonusHarvestResource( 100, 02.0, 1072547, typeof( SwitchItem ) ),
-					new BonusHarvestResource( 100, 01.0, 1072549, typeof( ParasiticPlant ) ),
-					new BonusHarvestResource( 100, 00.1, 1072551, typeof( BrilliantAmber ) )
+					new BonusHarvestResource( 0, 83.9, null, null )
 				};
 			}
 			else

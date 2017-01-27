@@ -48,10 +48,8 @@ namespace Server.Items
 
 		public override TimeSpan OnSwing( Mobile attacker, Mobile defender )
 		{
-			WeaponAbility a = WeaponAbility.GetCurrentAbility( attacker );
-
 			// Make sure we've been standing still for .25/.5/1 second depending on Era
-			if ( DateTime.Now > (attacker.LastMoveTime + TimeSpan.FromSeconds( Core.SE ? 0.25 : (Core.AOS ? 0.5 : 1.0) )) || (Core.AOS && WeaponAbility.GetCurrentAbility( attacker ) is MovingShot) )
+			if ( DateTime.Now > attacker.LastMoveTime + TimeSpan.FromSeconds( Core.SE ? 0.25 : (Core.AOS ? 0.5 : 1.0) ) )
 			{
 				bool canSwing = true;
 
@@ -155,22 +153,10 @@ namespace Server.Items
 		{
 			if ( attacker.Player )
 			{
-				BaseQuiver quiver = attacker.FindItemOnLayer( Layer.Cloak ) as BaseQuiver;
 				Container pack = attacker.Backpack;
 
-				if ( quiver == null || Utility.Random( 100 ) >= quiver.LowerAmmoCost )
-				{
-					// consume ammo
-					if ( quiver != null && quiver.ConsumeTotal( AmmoType, 1 ) )
-						quiver.InvalidateWeight();
-					else if ( pack == null || !pack.ConsumeTotal( AmmoType, 1 ) )
-						return false;
-				}
-				else if ( quiver.FindItemByType( AmmoType ) == null && ( pack == null || pack.FindItemByType( AmmoType ) == null ) )
-				{
-					// lower ammo cost should not work when we have no ammo at all
+				if ( pack == null || !pack.ConsumeTotal( AmmoType, 1 ) )
 					return false;
-				}
 			}
 
 			attacker.MovingEffect( defender, EffectID, 18, 1, false, false );

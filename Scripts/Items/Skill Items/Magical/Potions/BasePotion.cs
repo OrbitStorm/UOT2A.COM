@@ -26,18 +26,10 @@ namespace Server.Items
 		ExplosionLesser,
 		Explosion,
 		ExplosionGreater,
-		Conflagration,
-		ConflagrationGreater,
-		MaskOfDeath,		// Mask of Death is not available in OSI but does exist in cliloc files
-		MaskOfDeathGreater,	// included in enumeration for compatability if later enabled by OSI
-		ConfusionBlast,
-		ConfusionBlastGreater,
-		Invisibility,
-		Parasitic,
-		Darkglow,
+    	Invisibility
 	}
 
-	public abstract class BasePotion : Item, ICraftable, ICommodity
+	public abstract class BasePotion : Item, ICraftable
 	{
 		private PotionEffect m_PotionEffect;
 
@@ -53,9 +45,6 @@ namespace Server.Items
 				InvalidateProperties();
 			}
 		}
-
-		int ICommodity.DescriptionNumber { get { return LabelNumber; } }
-		bool ICommodity.IsDeedable { get { return (Core.ML); } }
 
 		public override int LabelNumber{ get{ return 1041314 + (int)m_PotionEffect; } }
 

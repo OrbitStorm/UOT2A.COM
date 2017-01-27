@@ -2,9 +2,6 @@ namespace Server.Items
 {
     public class MagicWand : BaseBashing
 	{
-		public override WeaponAbility PrimaryAbility { get { return WeaponAbility.Dismount; } }
-		public override WeaponAbility SecondaryAbility { get { return WeaponAbility.Disarm; } }
-
 		public override int AosStrengthReq{ get{ return 5; } }
 		public override int AosMinDamage{ get{ return 9; } }
 		public override int AosMaxDamage{ get{ return 11; } }

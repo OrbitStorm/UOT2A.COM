@@ -3,9 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0xE89, 0xE8a )]
 	public class QuarterStaff : BaseStaff
 	{
-		public override WeaponAbility PrimaryAbility{ get{ return WeaponAbility.DoubleStrike; } }
-		public override WeaponAbility SecondaryAbility{ get{ return WeaponAbility.ConcussionBlow; } }
-
 		public override int AosStrengthReq{ get{ return 30; } }
 		public override int AosMinDamage{ get{ return 11; } }
 		public override int AosMaxDamage{ get{ return 14; } }
