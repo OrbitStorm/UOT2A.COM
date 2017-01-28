@@ -135,19 +135,19 @@ namespace Server.Mobiles
 				Say("I see you already have an escort.");
 				return false;
 			}
-			else if (m is PlayerMobile && (((PlayerMobile)m).LastEscortTime + EscortDelay) >= DateTime.Now)
+			else if (m is PlayerMobile && (((PlayerMobile)m).LastEscortTime + EscortDelay) >= DateTime.UtcNow)
 			{
-				int minutes = (int)Math.Ceiling(((((PlayerMobile)m).LastEscortTime + EscortDelay) - DateTime.Now).TotalMinutes);
+				int minutes = (int)Math.Ceiling(((((PlayerMobile)m).LastEscortTime + EscortDelay) - DateTime.UtcNow).TotalMinutes);
 
 				Say("You must rest {0} minute{1} before we set out on this journey.", minutes, minutes == 1 ? "" : "s");
 				return false;
 			}
 			else if (SetControlMaster(m))
 			{
-				m_LastSeenEscorter = DateTime.Now;
+				m_LastSeenEscorter = DateTime.UtcNow;
 
 				if (m is PlayerMobile)
-					((PlayerMobile)m).LastEscortTime = DateTime.Now;
+					((PlayerMobile)m).LastEscortTime = DateTime.UtcNow;
 
 				Say("Lead on! Payment will be made when we arrive in {0}.", dest.Name);
 				m_EscortTable[m] = this;
@@ -257,7 +257,7 @@ namespace Server.Mobiles
 			{
 				StopFollow();
 
-				TimeSpan lastSeenDelay = DateTime.Now - m_LastSeenEscorter;
+				TimeSpan lastSeenDelay = DateTime.UtcNow - m_LastSeenEscorter;
 
 				if (lastSeenDelay >= AbandonDelay)
 				{
@@ -280,7 +280,7 @@ namespace Server.Mobiles
 			if (ControlOrder != OrderType.Follow)
 				StartFollow(master);
 
-			m_LastSeenEscorter = DateTime.Now;
+			m_LastSeenEscorter = DateTime.UtcNow;
 			return master;
 		}
 
@@ -289,9 +289,9 @@ namespace Server.Mobiles
 			if (m_DeleteTimer != null)
 				m_DeleteTimer.Stop();
 
-			m_DeleteTime = DateTime.Now + DeleteTime;
+			m_DeleteTime = DateTime.UtcNow + DeleteTime;
 
-			m_DeleteTimer = new DeleteTimer(this, m_DeleteTime - DateTime.Now);
+			m_DeleteTimer = new DeleteTimer(this, m_DeleteTime - DateTime.UtcNow);
 			m_DeleteTimer.Start();
 		}
 
@@ -381,7 +381,7 @@ namespace Server.Mobiles
 			if (reader.ReadBool())
 			{
 				m_DeleteTime = reader.ReadDeltaTime();
-				m_DeleteTimer = new DeleteTimer(this, m_DeleteTime - DateTime.Now);
+				m_DeleteTimer = new DeleteTimer(this, m_DeleteTime - DateTime.UtcNow);
 				m_DeleteTimer.Start();
 			}
 		}

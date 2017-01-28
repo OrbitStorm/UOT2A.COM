@@ -26,7 +26,7 @@ namespace Server.SkillHandlers
 			from.RevealingAction();
 			from.SendLocalizedMessage( 1049525 ); // Whom do you wish to calm?
 			from.Target = new InternalTarget( from, instrument );
-			from.NextSkillTime = DateTime.Now + TimeSpan.FromHours( 6.0 );
+			from.NextSkillTime = DateTime.UtcNow + TimeSpan.FromHours( 6.0 );
 		}
 
 		private class InternalTarget : Target
@@ -42,7 +42,7 @@ namespace Server.SkillHandlers
 			protected override void OnTargetFinish( Mobile from )
 			{
 				if ( m_SetSkillTime )
-					from.NextSkillTime = DateTime.Now;
+					from.NextSkillTime = DateTime.UtcNow;
 			}
 
 			protected override void OnTarget( Mobile from, object targeted )
@@ -60,7 +60,7 @@ namespace Server.SkillHandlers
 				else
 				{
 					m_SetSkillTime = false;
-					from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 10.0 );
+					from.NextSkillTime = DateTime.UtcNow + TimeSpan.FromSeconds( 10.0 );
 
 					if ( targeted == from )
 					{
@@ -80,7 +80,7 @@ namespace Server.SkillHandlers
 						}
 						else
 						{
-							from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 5.0 );
+							from.NextSkillTime = DateTime.UtcNow + TimeSpan.FromSeconds( 5.0 );
 							m_Instrument.PlayInstrumentWell( from );
 							m_Instrument.ConsumeUse( from );
 
@@ -104,7 +104,7 @@ namespace Server.SkillHandlers
 									m.Warmode = false;
 
 									if ( m is BaseCreature && !((BaseCreature)m).BardPacified )
-										((BaseCreature)m).Pacify( from, DateTime.Now + TimeSpan.FromSeconds( 1.0 ) );
+										((BaseCreature)m).Pacify( from, DateTime.UtcNow + TimeSpan.FromSeconds( 1.0 ) );
 								}
 
 								if ( !calmed )
@@ -138,7 +138,7 @@ namespace Server.SkillHandlers
 						else if ( !BaseInstrument.CheckMusicianship( from ) )
 						{
 							from.SendLocalizedMessage( 500612 ); // You play poorly, and there is no effect.
-							from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 5.0 );
+							from.NextSkillTime = DateTime.UtcNow + TimeSpan.FromSeconds( 5.0 );
 							m_Instrument.PlayInstrumentBadly( from );
 							m_Instrument.ConsumeUse( from );
 						}
@@ -161,7 +161,7 @@ namespace Server.SkillHandlers
 								m_Instrument.PlayInstrumentWell( from );
 								m_Instrument.ConsumeUse( from );
 
-								from.NextSkillTime = DateTime.Now + TimeSpan.FromSeconds( 5.0 );
+								from.NextSkillTime = DateTime.UtcNow + TimeSpan.FromSeconds( 5.0 );
 								if ( targ is BaseCreature )
 								{
 									BaseCreature bc = (BaseCreature)targ;
@@ -178,7 +178,7 @@ namespace Server.SkillHandlers
 									else if ( seconds < 10 )
 										seconds = 10;
 
-									bc.Pacify( from, DateTime.Now + TimeSpan.FromSeconds( seconds ) );
+									bc.Pacify( from, DateTime.UtcNow + TimeSpan.FromSeconds( seconds ) );
 								}
 								else
 								{

@@ -160,7 +160,7 @@ namespace Server.Multis
 				if ( canClaim && !BaseHouse.HasAccountHouse( from ) )
 				{
 					m_Owner.Owner = from;
-					m_Owner.LastTraded = DateTime.Now;
+					m_Owner.LastTraded = DateTime.UtcNow;
 				}
 			}
 

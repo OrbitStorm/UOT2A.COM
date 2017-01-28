@@ -49,7 +49,7 @@ namespace Server.Items
 		public override TimeSpan OnSwing( Mobile attacker, Mobile defender )
 		{
 			// Make sure we've been standing still for .25/.5/1 second depending on Era
-			if ( DateTime.Now > attacker.LastMoveTime + TimeSpan.FromSeconds( Core.SE ? 0.25 : (Core.AOS ? 0.5 : 1.0) ) )
+			if ( DateTime.UtcNow > attacker.LastMoveTime + TimeSpan.FromSeconds( Core.SE ? 0.25 : (Core.AOS ? 0.5 : 1.0) ) )
 			{
 				bool canSwing = true;
 

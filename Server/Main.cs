@@ -76,9 +76,9 @@ namespace Server
 				m_Profiling = value;
 
 				if( m_ProfileStart > DateTime.MinValue )
-					m_ProfileTime += DateTime.Now - m_ProfileStart;
+					m_ProfileTime += DateTime.UtcNow - m_ProfileStart;
 
-				m_ProfileStart = (m_Profiling ? DateTime.Now : DateTime.MinValue);
+				m_ProfileStart = (m_Profiling ? DateTime.UtcNow : DateTime.MinValue);
 			}
 		}
 
@@ -87,7 +87,7 @@ namespace Server
 			get
 			{
 				if( m_ProfileStart > DateTime.MinValue )
-					return m_ProfileTime + (DateTime.Now - m_ProfileStart);
+					return m_ProfileTime + (DateTime.UtcNow - m_ProfileStart);
 
 				return m_ProfileTime;
 			}
@@ -685,7 +685,7 @@ namespace Server
 			m_FileName = file;
 			using( StreamWriter writer = new StreamWriter( new FileStream( m_FileName, append ? FileMode.Append : FileMode.Create, FileAccess.Write, FileShare.Read ) ) )
 			{
-				writer.WriteLine( ">>>Logging started on {0}.", DateTime.Now.ToString( "f" ) ); //f = Tuesday, April 10, 2001 3:51 PM 
+				writer.WriteLine( ">>>Logging started on {0}.", DateTime.UtcNow.ToString( "f" ) ); //f = Tuesday, April 10, 2001 3:51 PM 
 			}
 			m_NewLine = true;
 		}
@@ -696,7 +696,7 @@ namespace Server
 			{
 				if( m_NewLine )
 				{
-					writer.Write( DateTime.Now.ToString( DateFormat ) );
+					writer.Write( DateTime.UtcNow.ToString( DateFormat ) );
 					m_NewLine = false;
 				}
 				writer.Write( ch );
@@ -709,7 +709,7 @@ namespace Server
 			{
 				if( m_NewLine )
 				{
-					writer.Write( DateTime.Now.ToString( DateFormat ) );
+					writer.Write( DateTime.UtcNow.ToString( DateFormat ) );
 					m_NewLine = false;
 				}
 				writer.Write( str );
@@ -721,7 +721,7 @@ namespace Server
 			using( StreamWriter writer = new StreamWriter( new FileStream( m_FileName, FileMode.Append, FileAccess.Write, FileShare.Read ) ) )
 			{
 				if( m_NewLine )
-					writer.Write( DateTime.Now.ToString( DateFormat ) );
+					writer.Write( DateTime.UtcNow.ToString( DateFormat ) );
 				writer.WriteLine( line );
 				m_NewLine = true;
 			}

@@ -116,7 +116,7 @@ namespace Server.Engines.Reports
 
 		public override void DeserializeChildren( PersistanceReader ip )
 		{
-			DateTime min = DateTime.Now - TimeSpan.FromDays( 8.0 );
+			DateTime min = DateTime.UtcNow - TimeSpan.FromDays( 8.0 );
 
 			while ( ip.HasChild )
 			{
@@ -228,7 +228,7 @@ namespace Server.Engines.Reports
 			int[] totals = new int[24];
 			int[] counts = new int[24];
 
-			DateTime max = DateTime.Now;
+			DateTime max = DateTime.UtcNow;
 			DateTime min = max - TimeSpan.FromDays( 7.0 );
 
 			for ( int i = 0; i < m_QueueStats.Count; ++i )
@@ -288,7 +288,7 @@ namespace Server.Engines.Reports
 			
 			DateTime[] dates = new DateTime[24];
 
-			DateTime max = DateTime.Now;
+			DateTime max = DateTime.UtcNow;
 			DateTime min = max - TimeSpan.FromDays( 7.0 );
 
 			bool sentStamp = ( res == PageResolution.None );
@@ -348,7 +348,7 @@ namespace Server.Engines.Reports
 
 		private Report ReportTotalPages( StaffInfo[] staff, TimeSpan ts, string title )
 		{
-			DateTime max = DateTime.Now;
+			DateTime max = DateTime.UtcNow;
 			DateTime min = max - ts;
 
 			Report report = new Report( title + " Staff Report", "400" );
@@ -364,7 +364,7 @@ namespace Server.Engines.Reports
 
 		private PieChart[] ChartTotalPages( StaffInfo[] staff, TimeSpan ts, string title, string fname )
 		{
-			DateTime max = DateTime.Now;
+			DateTime max = DateTime.UtcNow;
 			DateTime min = max - ts;
 
 			PieChart staffChart = new PieChart( title + " Staff Chart", fname + "_staff", true );

@@ -87,7 +87,7 @@ namespace Server.Mobiles
 			public int Count
 			{
 				get { return m_Count; }
-				set	{ m_Count = value; m_Stamp = DateTime.Now; }
+				set	{ m_Count = value; m_Stamp = DateTime.UtcNow; }
 			}
 		}
 
@@ -1016,9 +1016,9 @@ namespace Server.Mobiles
 
 			if ( pm != null )
 			{
-				pm.m_SessionStart = DateTime.Now;
+				pm.m_SessionStart = DateTime.UtcNow;
 				pm.BedrollLogout = false;
-				pm.LastOnline = DateTime.Now;
+				pm.LastOnline = DateTime.UtcNow;
 			}
 
 			DisguiseTimers.StartTimer( e.Mobile );
@@ -1066,9 +1066,9 @@ namespace Server.Mobiles
 
 			if ( pm != null )
 			{
-				pm.m_GameTime += (DateTime.Now - pm.m_SessionStart);
+				pm.m_GameTime += (DateTime.UtcNow - pm.m_SessionStart);
 				pm.m_SpeechLog = null;
-				pm.LastOnline = DateTime.Now;
+				pm.LastOnline = DateTime.UtcNow;
 			}
 
 			DisguiseTimers.StopTimer( from );
@@ -1890,7 +1890,7 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				TimeSpan ts = m_SavagePaintExpiration - DateTime.Now;
+				TimeSpan ts = m_SavagePaintExpiration - DateTime.UtcNow;
 
 				if ( ts < TimeSpan.Zero )
 					ts = TimeSpan.Zero;
@@ -1899,7 +1899,7 @@ namespace Server.Mobiles
 			}
 			set
 			{
-				m_SavagePaintExpiration = DateTime.Now + value;
+				m_SavagePaintExpiration = DateTime.UtcNow + value;
 			}
 		}
 
@@ -1908,7 +1908,7 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				TimeSpan ts = m_NextSmithBulkOrder - DateTime.Now;
+				TimeSpan ts = m_NextSmithBulkOrder - DateTime.UtcNow;
 
 				if ( ts < TimeSpan.Zero )
 					ts = TimeSpan.Zero;
@@ -1917,7 +1917,7 @@ namespace Server.Mobiles
 			}
 			set
 			{
-				try{ m_NextSmithBulkOrder = DateTime.Now + value; }
+				try{ m_NextSmithBulkOrder = DateTime.UtcNow + value; }
 				catch{}
 			}
 		}
@@ -1927,7 +1927,7 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				TimeSpan ts = m_NextTailorBulkOrder - DateTime.Now;
+				TimeSpan ts = m_NextTailorBulkOrder - DateTime.UtcNow;
 
 				if ( ts < TimeSpan.Zero )
 					ts = TimeSpan.Zero;
@@ -1936,7 +1936,7 @@ namespace Server.Mobiles
 			}
 			set
 			{
-				try{ m_NextTailorBulkOrder = DateTime.Now + value; }
+				try{ m_NextTailorBulkOrder = DateTime.UtcNow + value; }
 				catch{}
 			}
 		}
@@ -2102,7 +2102,7 @@ namespace Server.Mobiles
 			CountAndTimeStamp count = (CountAndTimeStamp)tbl[obj];
 			if ( count != null )
 			{
-				if ( count.TimeStamp + SkillCheck.AntiMacroExpire <= DateTime.Now )
+				if ( count.TimeStamp + SkillCheck.AntiMacroExpire <= DateTime.UtcNow )
 				{
 					count.Count = 1;
 					return true;
@@ -2318,7 +2318,7 @@ namespace Server.Mobiles
 				ArrayList remove = new ArrayList();
 				foreach ( CountAndTimeStamp time in t.Values )
 				{
-					if ( time.TimeStamp + SkillCheck.AntiMacroExpire <= DateTime.Now )
+					if ( time.TimeStamp + SkillCheck.AntiMacroExpire <= DateTime.UtcNow )
 						remove.Add( time );
 				}
 
@@ -2425,7 +2425,7 @@ namespace Server.Mobiles
 			get
 			{
 				if ( NetState != null )
-					return m_GameTime + (DateTime.Now - m_SessionStart);
+					return m_GameTime + (DateTime.UtcNow - m_SessionStart);
 				else
 					return m_GameTime;
 			}
@@ -2580,16 +2580,16 @@ namespace Server.Mobiles
 			if ( pm.m_NextMovementTime == DateTime.MinValue )
 			{
 				// has not yet moved
-				pm.m_NextMovementTime = DateTime.Now;
+				pm.m_NextMovementTime = DateTime.UtcNow;
 				return true;
 			}
 
-			TimeSpan ts = pm.m_NextMovementTime - DateTime.Now;
+			TimeSpan ts = pm.m_NextMovementTime - DateTime.UtcNow;
 
 			if ( ts < TimeSpan.Zero )
 			{
 				// been a while since we've last moved
-				pm.m_NextMovementTime = DateTime.Now;
+				pm.m_NextMovementTime = DateTime.UtcNow;
 				return true;
 			}
 
@@ -2750,9 +2750,9 @@ namespace Server.Mobiles
 			if( from is BaseCreature && ((BaseCreature)from).IgnoreYoungProtection )
 				return false;
 
-			if ( DateTime.Now - m_LastYoungMessage > TimeSpan.FromMinutes( 1.0 ) )
+			if ( DateTime.UtcNow - m_LastYoungMessage > TimeSpan.FromMinutes( 1.0 ) )
 			{
-				m_LastYoungMessage = DateTime.Now;
+				m_LastYoungMessage = DateTime.UtcNow;
 				SendLocalizedMessage( 1019067 ); // A monster looks at you menacingly but does not attack.  You would be under attack now if not for your status as a new citizen of Britannia.
 			}
 
@@ -2763,9 +2763,9 @@ namespace Server.Mobiles
 
 		public bool CheckYoungHealTime()
 		{
-			if ( DateTime.Now - m_LastYoungHeal > TimeSpan.FromMinutes( 5.0 ) )
+			if ( DateTime.UtcNow - m_LastYoungHeal > TimeSpan.FromMinutes( 5.0 ) )
 			{
-				m_LastYoungHeal = DateTime.Now;
+				m_LastYoungHeal = DateTime.UtcNow;
 				return true;
 			}
 
