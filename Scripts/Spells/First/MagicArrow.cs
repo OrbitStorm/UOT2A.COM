@@ -40,25 +40,16 @@ namespace Server.Spells.First
 
 				SpellHelper.CheckReflect( (int)this.Circle, ref source, ref m );
 
-				double damage;
-				
-				if ( Core.AOS )
+				double damage = Utility.Random( 4, 4 );
+
+				if ( CheckResisted( m ) )
 				{
-					damage = GetNewAosDamage( 10, 1, 4, m );
+					damage *= 0.75;
+
+					m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
 				}
-				else
-				{
-					damage = Utility.Random( 4, 4 );
 
-					if ( CheckResisted( m ) )
-					{
-						damage *= 0.75;
-
-						m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
-					}
-
-					damage *= GetDamageScalar( m );
-				}
+				damage *= GetDamageScalar( m );
 
 				source.MovingParticles( m, 0x36E4, 5, 0, false, false, 3006, 0, 0 );
 				source.PlaySound( 0x1E5 );

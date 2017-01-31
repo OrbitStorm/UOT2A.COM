@@ -30,268 +30,25 @@ namespace Server.Items
 		Wood
 	}
 
-	public class CraftAttributeInfo
-	{
-		private int m_WeaponFireDamage;
-		private int m_WeaponColdDamage;
-		private int m_WeaponPoisonDamage;
-		private int m_WeaponEnergyDamage;
-		private int m_WeaponChaosDamage;
-		private int m_WeaponDirectDamage;
-		private int m_WeaponDurability;
-		private int m_WeaponLuck;
-		private int m_WeaponGoldIncrease;
-		private int m_WeaponLowerRequirements;
-
-		private int m_ArmorPhysicalResist;
-		private int m_ArmorFireResist;
-		private int m_ArmorColdResist;
-		private int m_ArmorPoisonResist;
-		private int m_ArmorEnergyResist;
-		private int m_ArmorDurability;
-		private int m_ArmorLuck;
-		private int m_ArmorGoldIncrease;
-		private int m_ArmorLowerRequirements;
-
-		private int m_RunicMinAttributes;
-		private int m_RunicMaxAttributes;
-		private int m_RunicMinIntensity;
-		private int m_RunicMaxIntensity;
-
-		public int WeaponFireDamage{ get{ return m_WeaponFireDamage; } set{ m_WeaponFireDamage = value; } }
-		public int WeaponColdDamage{ get{ return m_WeaponColdDamage; } set{ m_WeaponColdDamage = value; } }
-		public int WeaponPoisonDamage{ get{ return m_WeaponPoisonDamage; } set{ m_WeaponPoisonDamage = value; } }
-		public int WeaponEnergyDamage{ get{ return m_WeaponEnergyDamage; } set{ m_WeaponEnergyDamage = value; } }
-		public int WeaponChaosDamage{ get{ return m_WeaponChaosDamage; } set{ m_WeaponChaosDamage = value; } }
-		public int WeaponDirectDamage{ get{ return m_WeaponDirectDamage; } set{ m_WeaponDirectDamage = value; } }
-		public int WeaponDurability{ get{ return m_WeaponDurability; } set{ m_WeaponDurability = value; } }
-		public int WeaponLuck{ get{ return m_WeaponLuck; } set{ m_WeaponLuck = value; } }
-		public int WeaponGoldIncrease{ get{ return m_WeaponGoldIncrease; } set{ m_WeaponGoldIncrease = value; } }
-		public int WeaponLowerRequirements{ get{ return m_WeaponLowerRequirements; } set{ m_WeaponLowerRequirements = value; } }
-
-		public int ArmorPhysicalResist{ get{ return m_ArmorPhysicalResist; } set{ m_ArmorPhysicalResist = value; } }
-		public int ArmorFireResist{ get{ return m_ArmorFireResist; } set{ m_ArmorFireResist = value; } }
-		public int ArmorColdResist{ get{ return m_ArmorColdResist; } set{ m_ArmorColdResist = value; } }
-		public int ArmorPoisonResist{ get{ return m_ArmorPoisonResist; } set{ m_ArmorPoisonResist = value; } }
-		public int ArmorEnergyResist{ get{ return m_ArmorEnergyResist; } set{ m_ArmorEnergyResist = value; } }
-		public int ArmorDurability{ get{ return m_ArmorDurability; } set{ m_ArmorDurability = value; } }
-		public int ArmorLuck{ get{ return m_ArmorLuck; } set{ m_ArmorLuck = value; } }
-		public int ArmorGoldIncrease{ get{ return m_ArmorGoldIncrease; } set{ m_ArmorGoldIncrease = value; } }
-		public int ArmorLowerRequirements{ get{ return m_ArmorLowerRequirements; } set{ m_ArmorLowerRequirements = value; } }
-
-		public int RunicMinAttributes{ get{ return m_RunicMinAttributes; } set{ m_RunicMinAttributes = value; } }
-		public int RunicMaxAttributes{ get{ return m_RunicMaxAttributes; } set{ m_RunicMaxAttributes = value; } }
-		public int RunicMinIntensity{ get{ return m_RunicMinIntensity; } set{ m_RunicMinIntensity = value; } }
-		public int RunicMaxIntensity{ get{ return m_RunicMaxIntensity; } set{ m_RunicMaxIntensity = value; } }
-
-		public CraftAttributeInfo()
-		{
-		}
-
-		public static readonly CraftAttributeInfo Blank;
-		public static readonly CraftAttributeInfo DullCopper, ShadowIron, Copper, Bronze, Golden, Agapite, Verite, Valorite;
-
-		static CraftAttributeInfo()
-		{
-			Blank = new CraftAttributeInfo();
-
-			CraftAttributeInfo dullCopper = DullCopper = new CraftAttributeInfo();
-
-			dullCopper.ArmorPhysicalResist = 6;
-			dullCopper.ArmorDurability = 50;
-			dullCopper.ArmorLowerRequirements = 20;
-			dullCopper.WeaponDurability = 100;
-			dullCopper.WeaponLowerRequirements = 50;
-			dullCopper.RunicMinAttributes = 1;
-			dullCopper.RunicMaxAttributes = 2;
-			if ( Core.ML )
-			{
-				dullCopper.RunicMinIntensity = 40;
-				dullCopper.RunicMaxIntensity = 100;
-			}
-			else
-			{
-				dullCopper.RunicMinIntensity = 10;
-				dullCopper.RunicMaxIntensity = 35;
-			}
-
-			CraftAttributeInfo shadowIron = ShadowIron = new CraftAttributeInfo();
-
-			shadowIron.ArmorPhysicalResist = 2;
-			shadowIron.ArmorFireResist = 1;
-			shadowIron.ArmorEnergyResist = 5;
-			shadowIron.ArmorDurability = 100;
-			shadowIron.WeaponColdDamage = 20;
-			shadowIron.WeaponDurability = 50;
-			shadowIron.RunicMinAttributes = 2;
-			shadowIron.RunicMaxAttributes = 2;
-			if ( Core.ML )
-			{
-				shadowIron.RunicMinIntensity = 45;
-				shadowIron.RunicMaxIntensity = 100;
-			}
-			else
-			{
-				shadowIron.RunicMinIntensity = 20;
-				shadowIron.RunicMaxIntensity = 45;
-			}
-
-			CraftAttributeInfo copper = Copper = new CraftAttributeInfo();
-
-			copper.ArmorPhysicalResist = 1;
-			copper.ArmorFireResist = 1;
-			copper.ArmorPoisonResist = 5;
-			copper.ArmorEnergyResist = 2;
-			copper.WeaponPoisonDamage = 10;
-			copper.WeaponEnergyDamage = 20;
-			copper.RunicMinAttributes = 2;
-			copper.RunicMaxAttributes = 3;
-			if ( Core.ML )
-			{
-				copper.RunicMinIntensity = 50;
-				copper.RunicMaxIntensity = 100;
-			}
-			else
-			{
-				copper.RunicMinIntensity = 25;
-				copper.RunicMaxIntensity = 50;
-			}
-
-			CraftAttributeInfo bronze = Bronze = new CraftAttributeInfo();
-
-			bronze.ArmorPhysicalResist = 3;
-			bronze.ArmorColdResist = 5;
-			bronze.ArmorPoisonResist = 1;
-			bronze.ArmorEnergyResist = 1;
-			bronze.WeaponFireDamage = 40;
-			bronze.RunicMinAttributes = 3;
-			bronze.RunicMaxAttributes = 3;
-			if ( Core.ML )
-			{
-				bronze.RunicMinIntensity = 55;
-				bronze.RunicMaxIntensity = 100;
-			}
-			else
-			{
-				bronze.RunicMinIntensity = 30;
-				bronze.RunicMaxIntensity = 65;
-			}
-
-			CraftAttributeInfo golden = Golden = new CraftAttributeInfo();
-
-			golden.ArmorPhysicalResist = 1;
-			golden.ArmorFireResist = 1;
-			golden.ArmorColdResist = 2;
-			golden.ArmorEnergyResist = 2;
-			golden.ArmorLuck = 40;
-			golden.ArmorLowerRequirements = 30;
-			golden.WeaponLuck = 40;
-			golden.WeaponLowerRequirements = 50;
-			golden.RunicMinAttributes = 3;
-			golden.RunicMaxAttributes = 4;
-			if ( Core.ML )
-			{
-				golden.RunicMinIntensity = 60;
-				golden.RunicMaxIntensity = 100;
-			}
-			else
-			{
-				golden.RunicMinIntensity = 35;
-				golden.RunicMaxIntensity = 75;
-			}
-
-			CraftAttributeInfo agapite = Agapite = new CraftAttributeInfo();
-
-			agapite.ArmorPhysicalResist = 2;
-			agapite.ArmorFireResist = 3;
-			agapite.ArmorColdResist = 2;
-			agapite.ArmorPoisonResist = 2;
-			agapite.ArmorEnergyResist = 2;
-			agapite.WeaponColdDamage = 30;
-			agapite.WeaponEnergyDamage = 20;
-			agapite.RunicMinAttributes = 4;
-			agapite.RunicMaxAttributes = 4;
-			if ( Core.ML )
-			{
-				agapite.RunicMinIntensity = 65;
-				agapite.RunicMaxIntensity = 100;
-			}
-			else
-			{
-				agapite.RunicMinIntensity = 40;
-				agapite.RunicMaxIntensity = 80;
-			}
-
-			CraftAttributeInfo verite = Verite = new CraftAttributeInfo();
-
-			verite.ArmorPhysicalResist = 3;
-			verite.ArmorFireResist = 3;
-			verite.ArmorColdResist = 2;
-			verite.ArmorPoisonResist = 3;
-			verite.ArmorEnergyResist = 1;
-			verite.WeaponPoisonDamage = 40;
-			verite.WeaponEnergyDamage = 20;
-			verite.RunicMinAttributes = 4;
-			verite.RunicMaxAttributes = 5;
-			if ( Core.ML )
-			{
-				verite.RunicMinIntensity = 70;
-				verite.RunicMaxIntensity = 100;
-			}
-			else
-			{
-				verite.RunicMinIntensity = 45;
-				verite.RunicMaxIntensity = 90;
-			}
-
-			CraftAttributeInfo valorite = Valorite = new CraftAttributeInfo();
-
-			valorite.ArmorPhysicalResist = 4;
-			valorite.ArmorColdResist = 3;
-			valorite.ArmorPoisonResist = 3;
-			valorite.ArmorEnergyResist = 3;
-			valorite.ArmorDurability = 50;
-			valorite.WeaponFireDamage = 10;
-			valorite.WeaponColdDamage = 20;
-			valorite.WeaponPoisonDamage = 10;
-			valorite.WeaponEnergyDamage = 20;
-			valorite.RunicMinAttributes = 5;
-			valorite.RunicMaxAttributes = 5;
-			if ( Core.ML )
-			{
-				valorite.RunicMinIntensity = 85;
-				valorite.RunicMaxIntensity = 100;
-			}
-			else
-			{
-				valorite.RunicMinIntensity = 50;
-				valorite.RunicMaxIntensity = 100;
-			}
-		}
-	}
-
 	public class CraftResourceInfo
 	{
 		private int m_Hue;
 		private int m_Number;
 		private string m_Name;
-		private CraftAttributeInfo m_AttributeInfo;
 		private CraftResource m_Resource;
 		private Type[] m_ResourceTypes;
 
 		public int Hue{ get{ return m_Hue; } }
 		public int Number{ get{ return m_Number; } }
 		public string Name{ get{ return m_Name; } }
-		public CraftAttributeInfo AttributeInfo{ get{ return m_AttributeInfo; } }
 		public CraftResource Resource{ get{ return m_Resource; } }
 		public Type[] ResourceTypes{ get{ return m_ResourceTypes; } }
 
-		public CraftResourceInfo( int hue, int number, string name, CraftAttributeInfo attributeInfo, CraftResource resource, params Type[] resourceTypes )
+		public CraftResourceInfo( int hue, int number, string name, CraftResource resource, params Type[] resourceTypes )
 		{
 			m_Hue = hue;
 			m_Number = number;
 			m_Name = name;
-			m_AttributeInfo = attributeInfo;
 			m_Resource = resource;
 			m_ResourceTypes = resourceTypes;
 
@@ -304,25 +61,25 @@ namespace Server.Items
 	{
 		private static CraftResourceInfo[] m_MetalInfo = new CraftResourceInfo[]
 			{
-				new CraftResourceInfo( 0x000, 1053109, "Iron",			CraftAttributeInfo.Blank,		CraftResource.Iron,				typeof( IronIngot ),		typeof( IronOre ) ),
-				new CraftResourceInfo( 0x973, 1053108, "Dull Copper",	CraftAttributeInfo.DullCopper,	CraftResource.DullCopper,		typeof( DullCopperIngot ),	typeof( DullCopperOre ) ),
-				new CraftResourceInfo( 0x966, 1053107, "Shadow Iron",	CraftAttributeInfo.ShadowIron,	CraftResource.ShadowIron,		typeof( ShadowIronIngot ),	typeof( ShadowIronOre ) ),
-				new CraftResourceInfo( 0x96D, 1053106, "Copper",		CraftAttributeInfo.Copper,		CraftResource.Copper,			typeof( CopperIngot ),		typeof( CopperOre ) ),
-				new CraftResourceInfo( 0x972, 1053105, "Bronze",		CraftAttributeInfo.Bronze,		CraftResource.Bronze,			typeof( BronzeIngot ),		typeof( BronzeOre ) ),
-				new CraftResourceInfo( 0x8A5, 1053104, "Gold",			CraftAttributeInfo.Golden,		CraftResource.Gold,				typeof( GoldIngot ),		typeof( GoldOre ) ),
-				new CraftResourceInfo( 0x979, 1053103, "Agapite",		CraftAttributeInfo.Agapite,		CraftResource.Agapite,			typeof( AgapiteIngot ),		typeof( AgapiteOre ) ),
-				new CraftResourceInfo( 0x89F, 1053102, "Verite",		CraftAttributeInfo.Verite,		CraftResource.Verite,			typeof( VeriteIngot ),		typeof( VeriteOre ) ),
-				new CraftResourceInfo( 0x8AB, 1053101, "Valorite",		CraftAttributeInfo.Valorite,	CraftResource.Valorite,			typeof( ValoriteIngot ),	typeof( ValoriteOre ) ),
+				new CraftResourceInfo( 0x000, 1053109, "Iron",			CraftResource.Iron,				typeof( IronIngot ),		typeof( IronOre ) ),
+				new CraftResourceInfo( 0x973, 1053108, "Dull Copper",	CraftResource.DullCopper,		typeof( DullCopperIngot ),	typeof( DullCopperOre ) ),
+				new CraftResourceInfo( 0x966, 1053107, "Shadow Iron",	CraftResource.ShadowIron,		typeof( ShadowIronIngot ),	typeof( ShadowIronOre ) ),
+				new CraftResourceInfo( 0x96D, 1053106, "Copper",		CraftResource.Copper,			typeof( CopperIngot ),		typeof( CopperOre ) ),
+				new CraftResourceInfo( 0x972, 1053105, "Bronze",		CraftResource.Bronze,			typeof( BronzeIngot ),		typeof( BronzeOre ) ),
+				new CraftResourceInfo( 0x8A5, 1053104, "Gold",			CraftResource.Gold,				typeof( GoldIngot ),		typeof( GoldOre ) ),
+				new CraftResourceInfo( 0x979, 1053103, "Agapite",		CraftResource.Agapite,			typeof( AgapiteIngot ),		typeof( AgapiteOre ) ),
+				new CraftResourceInfo( 0x89F, 1053102, "Verite",		CraftResource.Verite,			typeof( VeriteIngot ),		typeof( VeriteOre ) ),
+				new CraftResourceInfo( 0x8AB, 1053101, "Valorite",		CraftResource.Valorite,			typeof( ValoriteIngot ),	typeof( ValoriteOre ) ),
 			};
 
 		private static CraftResourceInfo[] m_LeatherInfo = new CraftResourceInfo[]
 			{
-				new CraftResourceInfo( 0x000, 1049353, "Normal",		CraftAttributeInfo.Blank,		CraftResource.RegularLeather,	typeof( Leather ),			typeof( Hides ) )
+				new CraftResourceInfo( 0x000, 1049353, "Normal",		CraftResource.RegularLeather,	typeof( Leather ),			typeof( Hides ) )
 			};
 
 		private static CraftResourceInfo[] m_WoodInfo = new CraftResourceInfo[]
 			{
-				new CraftResourceInfo( 0x000, 1011542, "Normal",		CraftAttributeInfo.Blank,		CraftResource.RegularWood,	typeof( Log ),			typeof( Board ) )
+				new CraftResourceInfo( 0x000, 1011542, "Normal",		CraftResource.RegularWood,	typeof( Log ),			typeof( Board ) )
 			};
 
 		/// <summary>

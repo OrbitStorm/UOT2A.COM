@@ -7,42 +7,6 @@ namespace Server
 {
     public class LootPack
 	{
-		public static int GetLuckChance( Mobile killer, Mobile victim )
-		{
-			if ( !Core.AOS )
-				return 0;
-
-			int luck = killer.Luck;
-
-			if ( luck < 0 )
-				return 0;
-
-			if ( !Core.SE && luck > 1200 )
-				luck = 1200;
-
-			return (int)(Math.Pow( luck, 1 / 1.8 ) * 100);
-		}
-
-		public static int GetLuckChanceForKiller( Mobile dead )
-		{
-			List<DamageStore> list = BaseCreature.GetLootingRights( dead.DamageEntries, dead.HitsMax );
-
-			DamageStore highest = null;
-
-			for ( int i = 0; i < list.Count; ++i )
-			{
-				DamageStore ds = list[i];
-
-				if ( ds.m_HasRight && (highest == null || ds.m_Damage > highest.m_Damage) )
-					highest = ds;
-			}
-
-			if ( highest == null )
-				return 0;
-
-			return GetLuckChance( highest.m_Mobile, dead );
-		}
-
 		public static bool CheckLuck( int chance )
 		{
 			return ( chance > Utility.Random( 10000 ) );
@@ -55,12 +19,10 @@ namespace Server
 			m_Entries = entries;
 		}
 
-		public void Generate( Mobile from, Container cont, bool spawning, int luckChance )
+		public void Generate( Mobile from, Container cont, bool spawning )
 		{
 			if ( cont == null )
 				return;
-
-			bool checkLuck = Core.AOS;
 
 			for ( int i = 0; i < m_Entries.Length; ++i )
 			{
@@ -68,18 +30,10 @@ namespace Server
 
 				bool shouldAdd = ( entry.Chance > Utility.Random( 10000 ) );
 
-				if ( !shouldAdd && checkLuck )
-				{
-					checkLuck = false;
-
-					if( LootPack.CheckLuck( luckChance ) )
-						shouldAdd = ( entry.Chance > Utility.Random( 10000 ) );
-				}
-
 				if ( !shouldAdd )
 					continue;
 
-				Item item = entry.Construct( from, luckChance, spawning );
+				Item item = entry.Construct( from, spawning );
 
 				if ( item != null )
 				{
@@ -559,7 +513,7 @@ namespace Server
 			set{ m_Items = value; }
 		}
 
-		public Item Construct( Mobile from, int luckChance, bool spawning )
+		public Item Construct( Mobile from, bool spawning )
 		{
 			if ( m_AtSpawnTime != spawning )
 				return null;
@@ -576,7 +530,7 @@ namespace Server
 				LootPackItem item = m_Items[i];
 
 				if ( rnd < item.Chance )
-					return Mutate( from, luckChance, item.Construct( false, false ) );
+					return Mutate( from, item.Construct( false, false ) );
 
 				rnd -= item.Chance;
 			}
@@ -609,38 +563,13 @@ namespace Server
 			return 5;
 		}
 
-		public Item Mutate( Mobile from, int luckChance, Item item )
+		public Item Mutate( Mobile from, Item item )
 		{
 			if ( item != null )
 			{
 				if ( item is BaseWeapon || item is BaseArmor || item is BaseJewel || item is BaseHat )
 				{
-					if ( Core.AOS )
-					{
-						int bonusProps = GetBonusProperties();
-						int min = m_MinIntensity;
-						int max = m_MaxIntensity;
 
-						if ( bonusProps < m_MaxProps && LootPack.CheckLuck( luckChance ) )
-							++bonusProps;
-
-						int props = 1 + bonusProps;
-
-						// Make sure we're not spawning items with 6 properties.
-						if ( props > m_MaxProps )
-							props = m_MaxProps;
-
-						if ( item is BaseWeapon )
-							BaseRunicTool.ApplyAttributesTo( (BaseWeapon)item, false, luckChance, props, m_MinIntensity, m_MaxIntensity );
-						else if ( item is BaseArmor )
-							BaseRunicTool.ApplyAttributesTo( (BaseArmor)item, false, luckChance, props, m_MinIntensity, m_MaxIntensity );
-						else if ( item is BaseJewel )
-							BaseRunicTool.ApplyAttributesTo( (BaseJewel)item, false, luckChance, props, m_MinIntensity, m_MaxIntensity );
-						else if ( item is BaseHat )
-							BaseRunicTool.ApplyAttributesTo( (BaseHat)item, false, luckChance, props, m_MinIntensity, m_MaxIntensity );
-					}
-					else // not aos
-					{
 						if ( item is BaseWeapon )
 						{
 							BaseWeapon weapon = (BaseWeapon)item;
@@ -670,16 +599,13 @@ namespace Server
 							if ( 40 > Utility.Random( 100 ) )
 								armor.Durability = (ArmorDurabilityLevel)GetRandomOldBonus();
 						}
-					}
+
 				}
 				else if ( item is BaseInstrument )
 				{
 					SlayerName slayer = SlayerName.None;
 
-					if ( Core.AOS )
-						slayer = BaseRunicTool.GetRandomSlayer();
-					else
-						slayer = SlayerGroup.GetLootSlayerType( from.GetType() );
+					slayer = SlayerGroup.GetLootSlayerType( from.GetType() );
 
 					if ( slayer == SlayerName.None )
 					{

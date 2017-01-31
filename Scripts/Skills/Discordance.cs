@@ -58,9 +58,7 @@ namespace Server.SkillHandlers
 				{
 					object mod = m_Mods[i];
 
-					if ( mod is ResistanceMod )
-						m_Creature.AddResistanceMod( (ResistanceMod) mod );
-					else if ( mod is StatMod )
+					if ( mod is StatMod )
 						m_Creature.AddStatMod( (StatMod) mod );
 					else if ( mod is SkillMod )
 						m_Creature.AddSkillMod( (SkillMod) mod );
@@ -73,9 +71,7 @@ namespace Server.SkillHandlers
 				{
 					object mod = m_Mods[i];
 
-					if ( mod is ResistanceMod )
-						m_Creature.RemoveResistanceMod( (ResistanceMod) mod );
-					else if ( mod is StatMod )
+					if ( mod is StatMod )
 						m_Creature.RemoveStatMod( ((StatMod) mod).Name );
 					else if ( mod is SkillMod )
 						m_Creature.RemoveSkillMod( (SkillMod) mod );
@@ -207,12 +203,6 @@ namespace Server.SkillHandlers
 									effect /= 2;
 
 								scalar = effect * 0.01;
-
-								mods.Add( new ResistanceMod( ResistanceType.Physical, effect ) );
-								mods.Add( new ResistanceMod( ResistanceType.Fire, effect ) );
-								mods.Add( new ResistanceMod( ResistanceType.Cold, effect ) );
-								mods.Add( new ResistanceMod( ResistanceType.Poison, effect ) );
-								mods.Add( new ResistanceMod( ResistanceType.Energy, effect ) );
 
 								for ( int i = 0; i < targ.Skills.Length; ++i )
 								{

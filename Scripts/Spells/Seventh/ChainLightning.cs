@@ -46,8 +46,6 @@ namespace Server.Spells.Seventh
 
 				Map map = Caster.Map;
 
-				bool playerVsPlayer = false;
-
 				if ( map != null )
 				{
 					IPooledEnumerable eable = map.GetMobilesInRange( new Point3D( p ), 2 );
@@ -63,21 +61,13 @@ namespace Server.Spells.Seventh
 								continue;
 
 							targets.Add( m );
-
-							if ( m.Player )
-								playerVsPlayer = true;
 						}
 					}
 
 					eable.Free();
 				}
 
-				double damage;
-
-				if ( Core.AOS )
-					damage = GetNewAosDamage( 51, 1, 5, playerVsPlayer );
-				else
-					damage = Utility.Random( 27, 22 );
+				double damage = Utility.Random( 27, 22 );
 
 				if ( targets.Count > 0 )
 				{

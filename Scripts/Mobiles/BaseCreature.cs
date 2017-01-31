@@ -205,14 +205,6 @@ namespace Server.Mobiles
 		private int			m_DamageMin = -1;
 		private int			m_DamageMax = -1;
 
-		private int			m_PhysicalResistance, m_PhysicalDamage = 100;
-		private int			m_FireResistance, m_FireDamage;
-		private int			m_ColdResistance, m_ColdDamage;
-		private int			m_PoisonResistance, m_PoisonDamage;
-		private int			m_EnergyResistance, m_EnergyDamage;
-		private int			m_ChaosDamage;
-		private int			m_DirectDamage;
-
 		private List<Mobile> m_Owners;
 		private List<Mobile> m_Friends;
 
@@ -416,52 +408,6 @@ namespace Server.Mobiles
 
 		#endregion
 
-		#region Elemental Resistance/Damage
-
-		public override int BasePhysicalResistance{ get{ return m_PhysicalResistance; } }
-		public override int BaseFireResistance{ get{ return m_FireResistance; } }
-		public override int BaseColdResistance{ get{ return m_ColdResistance; } }
-		public override int BasePoisonResistance{ get{ return m_PoisonResistance; } }
-		public override int BaseEnergyResistance{ get{ return m_EnergyResistance; } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int PhysicalResistanceSeed{ get{ return m_PhysicalResistance; } set{ m_PhysicalResistance = value; UpdateResistances(); } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int FireResistSeed{ get{ return m_FireResistance; } set{ m_FireResistance = value; UpdateResistances(); } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int ColdResistSeed{ get{ return m_ColdResistance; } set{ m_ColdResistance = value; UpdateResistances(); } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int PoisonResistSeed{ get{ return m_PoisonResistance; } set{ m_PoisonResistance = value; UpdateResistances(); } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int EnergyResistSeed{ get{ return m_EnergyResistance; } set{ m_EnergyResistance = value; UpdateResistances(); } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int PhysicalDamage{ get{ return m_PhysicalDamage; } set{ m_PhysicalDamage = value; } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int FireDamage{ get{ return m_FireDamage; } set{ m_FireDamage = value; } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int ColdDamage{ get{ return m_ColdDamage; } set{ m_ColdDamage = value; } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int PoisonDamage{ get{ return m_PoisonDamage; } set{ m_PoisonDamage = value; } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int EnergyDamage{ get{ return m_EnergyDamage; } set{ m_EnergyDamage = value; } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int ChaosDamage{ get{ return m_ChaosDamage; } set{ m_ChaosDamage = value; } }
-
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int DirectDamage{ get{ return m_DirectDamage; } set{ m_DirectDamage = value; } }
-
-		#endregion
-
 		public virtual bool HasManaOveride { get { return false; } }
 
 		public virtual FoodType FavoriteFood{ get{ return FoodType.Meat; } }
@@ -639,7 +585,8 @@ namespace Server.Mobiles
             }
             else
             {
-                AOS.Damage(target, this, BreathComputeDamage(), physDamage, fireDamage, coldDamage, poisDamage, nrgyDamage);
+//              AOS.Damage(target, this, BreathComputeDamage(), physDamage, fireDamage, coldDamage, poisDamage, nrgyDamage);
+                target.Damage(BreathComputeDamage(), this);
             }
         }
 
@@ -1426,22 +1373,6 @@ namespace Server.Mobiles
 			writer.Write( (int) m_DamageMin );
 			writer.Write( (int) m_DamageMax );
 
-			// Version 7
-			writer.Write( (int) m_PhysicalResistance );
-			writer.Write( (int) m_PhysicalDamage );
-
-			writer.Write( (int) m_FireResistance );
-			writer.Write( (int) m_FireDamage );
-
-			writer.Write( (int) m_ColdResistance );
-			writer.Write( (int) m_ColdDamage );
-
-			writer.Write( (int) m_PoisonResistance );
-			writer.Write( (int) m_PoisonDamage );
-
-			writer.Write( (int) m_EnergyResistance );
-			writer.Write( (int) m_EnergyDamage );
-
 			// Version 8
 			writer.Write( m_Owners, true );
 
@@ -1601,24 +1532,6 @@ namespace Server.Mobiles
 				m_ManaMax = reader.ReadInt();
 				m_DamageMin = reader.ReadInt();
 				m_DamageMax = reader.ReadInt();
-			}
-
-			if ( version >= 7 )
-			{
-				m_PhysicalResistance = reader.ReadInt();
-				m_PhysicalDamage = reader.ReadInt();
-
-				m_FireResistance = reader.ReadInt();
-				m_FireDamage = reader.ReadInt();
-
-				m_ColdResistance = reader.ReadInt();
-				m_ColdDamage = reader.ReadInt();
-
-				m_PoisonResistance = reader.ReadInt();
-				m_PoisonDamage = reader.ReadInt();
-
-				m_EnergyResistance = reader.ReadInt();
-				m_EnergyDamage = reader.ReadInt();
 			}
 
 			if ( version >= 8 )
@@ -3351,42 +3264,6 @@ namespace Server.Mobiles
 			Mana = ManaMax;
 		}
 
-		public void SetDamageType( ResistanceType type, int min, int max )
-		{
-			SetDamageType( type, Utility.RandomMinMax( min, max ) );
-		}
-
-		public void SetDamageType( ResistanceType type, int val )
-		{
-			switch ( type )
-			{
-				case ResistanceType.Physical: m_PhysicalDamage = val; break;
-				case ResistanceType.Fire: m_FireDamage = val; break;
-				case ResistanceType.Cold: m_ColdDamage = val; break;
-				case ResistanceType.Poison: m_PoisonDamage = val; break;
-				case ResistanceType.Energy: m_EnergyDamage = val; break;
-			}
-		}
-
-		public void SetResistance( ResistanceType type, int min, int max )
-		{
-			SetResistance( type, Utility.RandomMinMax( min, max ) );
-		}
-
-		public void SetResistance( ResistanceType type, int val )
-		{
-			switch ( type )
-			{
-				case ResistanceType.Physical: m_PhysicalResistance = val; break;
-				case ResistanceType.Fire: m_FireResistance = val; break;
-				case ResistanceType.Cold: m_ColdResistance = val; break;
-				case ResistanceType.Poison: m_PoisonResistance = val; break;
-				case ResistanceType.Energy: m_EnergyResistance = val; break;
-			}
-
-			UpdateResistances();
-		}
-
 		public void SetSkill( SkillName name, double val )
 		{
 			Skills[name].BaseFixedPoint = (int)(val * 10);
@@ -3505,14 +3382,10 @@ namespace Server.Mobiles
 		}
 
 		protected bool m_Spawning;
-		protected int m_KillersLuck;
 
 		public virtual void GenerateLoot( bool spawning )
 		{
 			m_Spawning = spawning;
-
-			if ( !spawning )
-				m_KillersLuck = LootPack.GetLuckChanceForKiller( this );
 
 			GenerateLoot();
 
@@ -3531,7 +3404,6 @@ namespace Server.Mobiles
 			}
 
 			m_Spawning = false;
-			m_KillersLuck = 0;
 		}
 
 		public virtual void GenerateLoot()
@@ -3560,7 +3432,7 @@ namespace Server.Mobiles
 				AddItem( backpack );
 			}
 
-			pack.Generate( this, backpack, m_Spawning, m_KillersLuck );
+			pack.Generate( this, backpack, m_Spawning );
 		}
 
 		public bool PackArmor( int minLevel, int maxLevel )
@@ -3576,35 +3448,15 @@ namespace Server.Mobiles
 			Cap( ref minLevel, 0, 5 );
 			Cap( ref maxLevel, 0, 5 );
 
-			if ( Core.AOS )
-			{
-				Item item = Loot.RandomArmorOrShieldOrJewelry();
+			BaseArmor armor = Loot.RandomArmorOrShield();
 
-				if ( item == null )
-					return false;
+			if ( armor == null )
+				return false;
 
-				int attributeCount, min, max;
-				GetRandomAOSStats( minLevel, maxLevel, out attributeCount, out min, out max );
+			armor.ProtectionLevel = (ArmorProtectionLevel)RandomMinMaxScaled( minLevel, maxLevel );
+			armor.Durability = (ArmorDurabilityLevel)RandomMinMaxScaled( minLevel, maxLevel );
 
-				if ( item is BaseArmor )
-					BaseRunicTool.ApplyAttributesTo( (BaseArmor)item, attributeCount, min, max );
-				else if ( item is BaseJewel )
-					BaseRunicTool.ApplyAttributesTo( (BaseJewel)item, attributeCount, min, max );
-
-				PackItem( item );
-			}
-			else
-			{
-				BaseArmor armor = Loot.RandomArmorOrShield();
-
-				if ( armor == null )
-					return false;
-
-				armor.ProtectionLevel = (ArmorProtectionLevel)RandomMinMaxScaled( minLevel, maxLevel );
-				armor.Durability = (ArmorDurabilityLevel)RandomMinMaxScaled( minLevel, maxLevel );
-
-				PackItem( armor );
-			}
+			PackItem( armor );
 
 			return true;
 		}
@@ -3735,39 +3587,19 @@ namespace Server.Mobiles
 			Cap( ref minLevel, 0, 5 );
 			Cap( ref maxLevel, 0, 5 );
 
-			if ( Core.AOS )
-			{
-				Item item = Loot.RandomWeaponOrJewelry();
+			BaseWeapon weapon = Loot.RandomWeapon();
 
-				if ( item == null )
-					return false;
+			if ( weapon == null )
+				return false;
 
-				int attributeCount, min, max;
-				GetRandomAOSStats( minLevel, maxLevel, out attributeCount, out min, out max );
+			if ( 0.05 > Utility.RandomDouble() )
+				weapon.Slayer = SlayerName.Silver;
 
-				if ( item is BaseWeapon )
-					BaseRunicTool.ApplyAttributesTo( (BaseWeapon)item, attributeCount, min, max );
-				else if ( item is BaseJewel )
-					BaseRunicTool.ApplyAttributesTo( (BaseJewel)item, attributeCount, min, max );
+			weapon.DamageLevel = (WeaponDamageLevel)RandomMinMaxScaled( minLevel, maxLevel );
+			weapon.AccuracyLevel = (WeaponAccuracyLevel)RandomMinMaxScaled( minLevel, maxLevel );
+			weapon.DurabilityLevel = (WeaponDurabilityLevel)RandomMinMaxScaled( minLevel, maxLevel );
 
-				PackItem( item );
-			}
-			else
-			{
-				BaseWeapon weapon = Loot.RandomWeapon();
-
-				if ( weapon == null )
-					return false;
-
-				if ( 0.05 > Utility.RandomDouble() )
-					weapon.Slayer = SlayerName.Silver;
-
-				weapon.DamageLevel = (WeaponDamageLevel)RandomMinMaxScaled( minLevel, maxLevel );
-				weapon.AccuracyLevel = (WeaponAccuracyLevel)RandomMinMaxScaled( minLevel, maxLevel );
-				weapon.DurabilityLevel = (WeaponDurabilityLevel)RandomMinMaxScaled( minLevel, maxLevel );
-
-				PackItem( weapon );
-			}
+			PackItem( weapon );
 
 			return true;
 		}
@@ -4628,8 +4460,9 @@ namespace Server.Mobiles
 
 			foreach ( Mobile m in list )
 			{
-				AOS.Damage( m, this, AuraBaseDamage, AuraPhysicalDamage, AuraFireDamage, AuraColdDamage, AuraPoisonDamage, AuraEnergyDamage, AuraChaosDamage );
-				AuraEffect( m );
+//				AOS.Damage( m, this, AuraBaseDamage, AuraPhysicalDamage, AuraFireDamage, AuraColdDamage, AuraPoisonDamage, AuraEnergyDamage, AuraChaosDamage );
+                m.Damage(AuraBaseDamage, this);
+                AuraEffect( m );
 			}
 		}
 

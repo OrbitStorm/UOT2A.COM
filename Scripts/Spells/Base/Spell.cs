@@ -106,54 +106,6 @@ namespace Server.Spells
 			m_Info = info;
 		}
 
-		public virtual int GetNewAosDamage( int bonus, int dice, int sides, Mobile singleTarget )
-		{
-			if( singleTarget != null )
-			{
-				return GetNewAosDamage( bonus, dice, sides, (Caster.Player && singleTarget.Player), GetDamageScalar( singleTarget ) );
-			}
-			else
-			{
-				return GetNewAosDamage( bonus, dice, sides, false );
-			}
-		}
-
-		public virtual int GetNewAosDamage( int bonus, int dice, int sides, bool playerVsPlayer )
-		{
-			return GetNewAosDamage( bonus, dice, sides, playerVsPlayer, 1.0 );
-		}
-
-		public virtual int GetNewAosDamage( int bonus, int dice, int sides, bool playerVsPlayer, double scalar )
-		{
-			int damage = Utility.Dice( dice, sides, bonus ) * 100;
-			int damageBonus = 0;
-
-			int inscribeSkill = GetInscribeFixed( m_Caster );
-			int inscribeBonus = (inscribeSkill + (1000 * (inscribeSkill / 1000))) / 200;
-			damageBonus += inscribeBonus;
-
-			int intBonus = Caster.Int / 10;
-			damageBonus += intBonus;
-
-			int sdiBonus = AosAttributes.GetValue( m_Caster, AosAttribute.SpellDamage );
-			// PvP spell damage increase cap of 15% from an item’s magic property
-			if ( playerVsPlayer && sdiBonus > 15 )
-				sdiBonus = 15;
-
-			damageBonus += sdiBonus;
-
-			damage = AOS.Scale( damage, 100 + damageBonus );
-
-			int evalSkill = GetDamageFixed( m_Caster );
-			int evalScale = 30 + ((9 * evalSkill) / 100);
-
-			damage = AOS.Scale( damage, evalScale );
-
-			damage = AOS.Scale( damage, (int)(scalar*100) );
-
-			return damage / 100;
-		}
-
 		public virtual bool IsCasting{ get{ return m_State == SpellState.Casting; } }
 
 		public virtual void OnCasterHurt()
@@ -223,9 +175,6 @@ namespace Server.Spells
 		public virtual bool ConsumeReagents()
 		{
 			if ( m_Scroll != null || !m_Caster.Player )
-				return true;
-
-			if ( AosAttributes.GetValue( m_Caster, AosAttribute.LowerRegCost ) > Utility.Random( 100 ) )
 				return true;
 
 			Container pack = m_Caster.Backpack;
@@ -490,7 +439,7 @@ namespace Server.Spells
 			{
 				m_Caster.SendLocalizedMessage( 1072060 ); // You cannot cast a spell while calmed.
 			}
-			else if ( m_Caster.Mana >= ScaleMana( GetMana() ) )
+			else if ( m_Caster.Mana >= GetMana() )
 			{
 				if ( m_Caster.Spell == null && m_Caster.CheckSpellCast( this ) && CheckCast() && m_Caster.Region.OnBeginSpellCast( m_Caster, this ) )
 				{
@@ -578,20 +527,6 @@ namespace Server.Spells
 
 		public abstract int GetMana();
 
-		public virtual int ScaleMana( int mana )
-		{
-			double scalar = 1.0;
-
-			// Lower Mana Cost = 40%
-			int lmc = AosAttributes.GetValue( m_Caster, AosAttribute.LowerManaCost );
-			if ( lmc > 40 )
-				lmc = 40;
-
-			scalar -= (double)lmc / 100;
-
-			return (int)(mana * scalar);
-		}
-
 		public virtual TimeSpan GetDisturbRecovery()
 		{
 			if ( Core.AOS )
@@ -612,19 +547,7 @@ namespace Server.Spells
 
 		public virtual TimeSpan GetCastRecovery()
 		{
-			if ( !Core.AOS )
-				return NextSpellDelay;
-
-			int fcr = AosAttributes.GetValue( m_Caster, AosAttribute.CastRecovery );
-
-			int fcrDelay = -(CastRecoveryFastScalar * fcr);
-
-			int delay = CastRecoveryBase + fcrDelay;
-
-			if ( delay < CastRecoveryMinimum )
-				delay = CastRecoveryMinimum;
-
-			return TimeSpan.FromSeconds( (double)delay / CastRecoveryPerSecond );
+			return NextSpellDelay;
 		}
 
 		public abstract TimeSpan CastDelayBase { get; }
@@ -641,28 +564,11 @@ namespace Server.Spells
 		public virtual TimeSpan GetCastDelay()
 		{
 			if ( m_Scroll is BaseWand )
-				return Core.ML ? CastDelayBase : TimeSpan.Zero; // TODO: Should FC apply to wands?
-
-			// Faster casting cap of 2 (if not using the protection spell) 
-			// Faster casting cap of 0 (if using the protection spell) 
-			// Paladin spells are subject to a faster casting cap of 4 
-			// Paladins with magery of 70.0 or above are subject to a faster casting cap of 2 
-			int fcMax = 4;
-
-			if ( CastSkill == SkillName.Magery || CastSkill == SkillName.Necromancy || ( CastSkill == SkillName.Chivalry && m_Caster.Skills[SkillName.Magery].Value >= 70.0 ) )
-				fcMax = 2;
-
-			int fc = AosAttributes.GetValue( m_Caster, AosAttribute.CastSpeed );
-
-			if ( fc > fcMax )
-				fc = fcMax;
-
-			if ( ProtectionSpell.Registry.Contains( m_Caster ) )
-				fc -= 2;
+				return TimeSpan.Zero;
 
 			TimeSpan baseDelay = CastDelayBase;
 
-			TimeSpan fcDelay = TimeSpan.FromSeconds( -(CastDelayFastScalar * fc * CastDelaySecondsPerTick) );
+			TimeSpan fcDelay = TimeSpan.FromSeconds( -(CastDelayFastScalar * CastDelaySecondsPerTick) );
 
 			//int delay = CastDelayBase + circleDelay + fcDelay;
 			TimeSpan delay = baseDelay + fcDelay;
@@ -689,7 +595,7 @@ namespace Server.Spells
 
 		public virtual bool CheckSequence()
 		{
-			int mana = ScaleMana( GetMana() );
+			int mana = GetMana();
 
 			if ( m_Caster.Deleted || !m_Caster.Alive || m_Caster.Spell != this || m_State != SpellState.Sequencing )
 			{

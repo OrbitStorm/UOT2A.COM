@@ -3042,23 +3042,8 @@ namespace Server.Network
 			string name = m.Name;
 			if ( name == null ) name = "";
 
-			int type;
-
-			if ( Core.HS && ns != null && ns.ExtendedStatus )
-			{
-				type = 6;
-				EnsureCapacity( 121 );
-			}
-			else if ( Core.ML && ns != null && ns.SupportsExpansion( Expansion.ML ) )
-			{
-				type = 5;
-				EnsureCapacity( 91 );
-			}
-			else
-			{
-				type = Core.AOS ? 4 : 3;
-				EnsureCapacity( 88 );
-			}
+            int type = 3;
+			EnsureCapacity( 88 );
 
 			m_Stream.Write( (int) m.Serial );
 			m_Stream.WriteAsciiFixed( name, 30 );
@@ -3083,46 +3068,13 @@ namespace Server.Network
 			m_Stream.Write( (short) m.ManaMax );
 
 			m_Stream.Write( (int) m.TotalGold );
-			m_Stream.Write( (short) (Core.AOS ? m.PhysicalResistance : (int)(m.ArmorRating + 0.5)) );
+			m_Stream.Write( (short) (int)(m.ArmorRating + 0.5) );
 			m_Stream.Write( (short) (Mobile.BodyWeight + m.TotalWeight) );
-
-			if ( type >= 5 )
-			{
-				m_Stream.Write( (short)m.MaxWeight );
-				m_Stream.Write( (byte)(m.Race.RaceID + 1));	// Would be 0x00 if it's a non-ML enabled account but...
-			}
 
 			m_Stream.Write( (short) m.StatCap );
 
 			m_Stream.Write( (byte) m.Followers );
 			m_Stream.Write( (byte) m.FollowersMax );
-
-			if ( type >= 4 )
-			{
-				m_Stream.Write( (short) m.FireResistance ); // Fire
-				m_Stream.Write( (short) m.ColdResistance ); // Cold
-				m_Stream.Write( (short) m.PoisonResistance ); // Poison
-				m_Stream.Write( (short) m.EnergyResistance ); // Energy
-				m_Stream.Write( (short) m.Luck ); // Luck
-
-				IWeapon weapon = m.Weapon;
-
-				int min = 0, max = 0;
-
-				if ( weapon != null )
-					weapon.GetStatusDamage( m, out min, out max );
-
-				m_Stream.Write( (short) min ); // Damage min
-				m_Stream.Write( (short) max ); // Damage max
-
-				m_Stream.Write( (int) m.TithingPoints );
-			}
-
-			if ( type >= 6 )
-			{
-				for ( int i = 0; i < 15; ++i )
-					m_Stream.Write( (short) m.GetAOSStatus( i ) );
-			}
 		}
 	}
 
@@ -3144,19 +3096,9 @@ namespace Server.Network
 				type = 0;
 				EnsureCapacity( 43 );
 			}
-			else if ( Core.HS && ns != null && ns.ExtendedStatus )
-			{
-				type = 6;
-				EnsureCapacity( 121 );
-			}
-			else if ( Core.ML && ns != null && ns.SupportsExpansion( Expansion.ML ) )
-			{
-				type = 5;
-				EnsureCapacity( 91 );
-			}
 			else
 			{
-				type = Core.AOS ? 4 : 3;
+				type = 3;
 				EnsureCapacity( 88 );
 			}
 
@@ -3185,46 +3127,13 @@ namespace Server.Network
 				WriteAttr( beheld.Mana, beheld.ManaMax );
 
 				m_Stream.Write( (int) beheld.TotalGold );
-				m_Stream.Write( (short) (Core.AOS ? beheld.PhysicalResistance : (int)(beheld.ArmorRating + 0.5)) );
+				m_Stream.Write( (short) (beheld.ArmorRating + 0.5) );
 				m_Stream.Write( (short) (Mobile.BodyWeight + beheld.TotalWeight) );
-
-				if ( type >= 5 )
-				{
-					m_Stream.Write( (short)beheld.MaxWeight );
-					m_Stream.Write( (byte)(beheld.Race.RaceID + 1) );	// Would be 0x00 if it's a non-ML enabled account but...
-				}
 
 				m_Stream.Write( (short) beheld.StatCap );
 
 				m_Stream.Write( (byte) beheld.Followers );
 				m_Stream.Write( (byte) beheld.FollowersMax );
-
-				if ( type >= 4 )
-				{
-					m_Stream.Write( (short) beheld.FireResistance ); // Fire
-					m_Stream.Write( (short) beheld.ColdResistance ); // Cold
-					m_Stream.Write( (short) beheld.PoisonResistance ); // Poison
-					m_Stream.Write( (short) beheld.EnergyResistance ); // Energy
-					m_Stream.Write( (short) beheld.Luck ); // Luck
-
-					IWeapon weapon = beheld.Weapon;
-
-					int min = 0, max = 0;
-
-					if ( weapon != null )
-						weapon.GetStatusDamage( beheld, out min, out max );
-
-					m_Stream.Write( (short) min ); // Damage min
-					m_Stream.Write( (short) max ); // Damage max
-
-					m_Stream.Write( (int) beheld.TithingPoints );
-				}
-
-				if ( type >= 6 )
-				{
-					for ( int i = 0; i < 15; ++i )
-						m_Stream.Write( (short) beheld.GetAOSStatus( i ) );
-				}
 			}
 		}
 

@@ -3,12 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0xF47, 0xF48 )]
 	public class BattleAxe : BaseAxe
 	{
-		public override int AosStrengthReq{ get{ return 35; } }
-		public override int AosMinDamage{ get{ return 15; } }
-		public override int AosMaxDamage{ get{ return 17; } }
-		public override int AosSpeed{ get{ return 31; } }
-		public override float MlSpeed{ get{ return 3.50f; } }
-
 		public override int OldStrengthReq{ get{ return 40; } }
 		public override int OldMinDamage{ get{ return 6; } }
 		public override int OldMaxDamage{ get{ return 38; } }

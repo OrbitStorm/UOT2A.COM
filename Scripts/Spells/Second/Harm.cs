@@ -44,25 +44,16 @@ namespace Server.Spells.Second
 
 				SpellHelper.CheckReflect( (int)this.Circle, Caster, ref m );
 
-				double damage;
-				
-				if ( Core.AOS )
+				double damage = Utility.Random( 1, 15 );
+
+				if ( CheckResisted( m ) )
 				{
-					damage = GetNewAosDamage( 17, 1, 5, m );
+					damage *= 0.75;
+
+					m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
 				}
-				else
-				{
-					damage = Utility.Random( 1, 15 );
 
-					if ( CheckResisted( m ) )
-					{
-						damage *= 0.75;
-
-						m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
-					}
-
-					damage *= GetDamageScalar( m );
-				}
+				damage *= GetDamageScalar( m );
 
 				if ( !m.InRange( Caster, 2 ) )
 					damage *= 0.25; // 1/4 damage at > 2 tile range

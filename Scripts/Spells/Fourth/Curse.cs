@@ -33,13 +33,6 @@ namespace Server.Spells.Fourth
 			Mobile m = (Mobile)state;
 
 			m_UnderEffect.Remove( m );
-
-			m.UpdateResistances();
-		}
-
-		public static bool UnderEffect( Mobile m )
-		{
-			return m_UnderEffect.Contains( m );
 		}
 
 		public void Target( Mobile m )
@@ -64,7 +57,6 @@ namespace Server.Spells.Fourth
 				{
 					TimeSpan duration = SpellHelper.GetDuration( Caster, m );
 					m_UnderEffect[m] = t = Timer.DelayCall( duration, new TimerStateCallback( RemoveEffect ), m );
-					m.UpdateResistances();
 				}
 
 				if ( m.Spell != null )

@@ -23,14 +23,6 @@ namespace Server.Mobiles
 
 			SetDamage( 4, 14 );
 
-			SetDamageType( ResistanceType.Physical, 100 );
-
-			SetResistance( ResistanceType.Physical, 25, 35 );
-			SetResistance( ResistanceType.Fire, 30, 40 );
-			SetResistance( ResistanceType.Cold, 20, 30 );
-			SetResistance( ResistanceType.Poison, 30, 40 );
-			SetResistance( ResistanceType.Energy, 30, 40 );
-
 			SetSkill( SkillName.EvalInt, 60.1, 72.5 );
 			SetSkill( SkillName.Magery, 60.1, 72.5 );
 			SetSkill( SkillName.MagicResist, 60.1, 75.0 );
@@ -80,8 +72,10 @@ namespace Server.Mobiles
 
 			if ( item is OrcishKinMask )
 			{
-				AOS.Damage( aggressor, 50, 0, 100, 0, 0, 0 );
-				item.Delete();
+//				AOS.Damage( aggressor, 50, 0, 100, 0, 0, 0 );
+                aggressor.Damage(50, this);
+
+                item.Delete();
 				aggressor.FixedParticles( 0x36BD, 20, 10, 5044, EffectLayer.Head );
 				aggressor.PlaySound( 0x307 );
 			}

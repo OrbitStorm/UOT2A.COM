@@ -147,7 +147,6 @@
     <Compile Include=".\Engines\Craft\Core\CraftSubResCol.cs" />
     <Compile Include=".\Engines\Craft\Core\CraftSystem.cs" />
     <Compile Include=".\Engines\Craft\Core\CustomCraft.cs" />
-    <Compile Include=".\Engines\Craft\Core\Enhance.cs" />
     <Compile Include=".\Engines\Craft\Core\QueryMakersMarkGump.cs" />
     <Compile Include=".\Engines\Craft\Core\Recipes.cs" />
     <Compile Include=".\Engines\Craft\Core\Repair.cs" />
@@ -1027,7 +1026,6 @@
     <Compile Include=".\Items\Skill Items\Tinkering\Springs.cs" />
     <Compile Include=".\Items\Skill Items\Tinkering\Spyglass.cs" />
     <Compile Include=".\Items\Skill Items\Tinkering\Utensils.cs" />
-    <Compile Include=".\Items\Skill Items\Tools\BaseRunicTool.cs" />
     <Compile Include=".\Items\Skill Items\Tools\BaseTool.cs" />
     <Compile Include=".\Items\Skill Items\Tools\DovetailSaw.cs" />
     <Compile Include=".\Items\Skill Items\Tools\DrawKnife.cs" />
@@ -1042,10 +1040,6 @@
     <Compile Include=".\Items\Skill Items\Tools\MouldingPlane.cs" />
     <Compile Include=".\Items\Skill Items\Tools\Nails.cs" />
     <Compile Include=".\Items\Skill Items\Tools\RollingPin.cs" />
-    <Compile Include=".\Items\Skill Items\Tools\RunicDovetailSaw.cs" />
-    <Compile Include=".\Items\Skill Items\Tools\RunicFletcherTool.cs" />
-    <Compile Include=".\Items\Skill Items\Tools\RunicHammer.cs" />
-    <Compile Include=".\Items\Skill Items\Tools\RunicSewingKit.cs" />
     <Compile Include=".\Items\Skill Items\Tools\Saw.cs" />
     <Compile Include=".\Items\Skill Items\Tools\Scorp.cs" />
     <Compile Include=".\Items\Skill Items\Tools\ScribesPen.cs" />
@@ -1134,7 +1128,6 @@
     <Compile Include=".\Items\Weapons\BaseMeleeWeapon.cs" />
     <Compile Include=".\Items\Weapons\BaseWeapon.cs" />
     <Compile Include=".\Items\Weapons\Fists.cs" />
-    <Compile Include=".\Items\Weapons\HitLower.cs" />
     <Compile Include=".\Items\Weapons\Knives\BaseKnife.cs" />
     <Compile Include=".\Items\Weapons\Knives\ButcherKnife.cs" />
     <Compile Include=".\Items\Weapons\Knives\Cleaver.cs" />
@@ -1182,7 +1175,6 @@
     <Compile Include=".\Items\Weapons\WeaponEnums.cs" />
     <Compile Include=".\Misc\AccountPrompt.cs" />
     <Compile Include=".\Misc\Animations.cs" />
-    <Compile Include=".\Misc\AOS.cs" />
     <Compile Include=".\Misc\AttackMessage.cs" />
     <Compile Include=".\Misc\AutoRestart.cs" />
     <Compile Include=".\Misc\AutoSave.cs" />
@@ -1652,7 +1644,6 @@
     <Compile Include=".\SpecialSystems\Items\SupplyBags\TailorBag.cs" />
     <Compile Include=".\Spells\Base\DisturbType.cs" />
     <Compile Include=".\Spells\Base\MagerySpell.cs" />
-    <Compile Include=".\Spells\Base\SpecialMove.cs" />
     <Compile Include=".\Spells\Base\Spell.cs" />
     <Compile Include=".\Spells\Base\SpellCircle.cs" />
     <Compile Include=".\Spells\Base\SpellHelper.cs" />

@@ -115,15 +115,6 @@ namespace Server.Misc
 			PlaceItemIn( cont, 60, 118, new FletcherTools( 1000 ) );
 			PlaceItemIn( cont, 90, 118, new SewingKit( 1000 ) );
 
-			PlaceItemIn( cont, 36, 51, new RunicHammer( CraftResource.DullCopper, 1000 ) );
-			PlaceItemIn( cont, 42, 51, new RunicHammer( CraftResource.ShadowIron, 1000 ) );
-			PlaceItemIn( cont, 48, 51, new RunicHammer( CraftResource.Copper, 1000 ) );
-			PlaceItemIn( cont, 54, 51, new RunicHammer( CraftResource.Bronze, 1000 ) );
-			PlaceItemIn( cont, 61, 51, new RunicHammer( CraftResource.Gold, 1000 ) );
-			PlaceItemIn( cont, 67, 51, new RunicHammer( CraftResource.Agapite, 1000 ) );
-			PlaceItemIn( cont, 73, 51, new RunicHammer( CraftResource.Verite, 1000 ) );
-			PlaceItemIn( cont, 79, 51, new RunicHammer( CraftResource.Valorite, 1000 ) );
-
 			PlaceItemIn( bank, 118, 169, cont );
 			// End bag of tools
 

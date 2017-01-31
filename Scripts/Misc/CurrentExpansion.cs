@@ -22,12 +22,8 @@ namespace Server
 
 			if ( Enabled )
 			{
-				AOS.DisableStatInfluences();
-
 				if ( ObjectPropertyList.Enabled )
 					PacketHandlers.SingleClickProps = true; // single click for everything is overriden to check object property list
-
-				Mobile.AOSStatusHandler = new AOSStatusHandler( AOS.GetStatus );
 			}
 		}
 	}

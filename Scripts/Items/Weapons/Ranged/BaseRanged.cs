@@ -21,23 +21,7 @@ namespace Server.Items
 		public override SkillName AccuracySkill{ get{ return SkillName.Archery; } }
 
 		private Timer m_RecoveryTimer; // so we don't start too many timers
-		private bool m_Balanced;
-		private int m_Velocity;
 		
-		[CommandProperty( AccessLevel.GameMaster )]
-		public bool Balanced
-		{
-			get{ return m_Balanced; }
-			set{ m_Balanced = value; InvalidateProperties(); }
-		}
-		
-		[CommandProperty( AccessLevel.GameMaster )]
-		public int Velocity
-		{
-			get{ return m_Velocity; }
-			set{ m_Velocity = value; InvalidateProperties(); }
-		}
-
 		public BaseRanged( int itemID ) : base( itemID )
 		{
 		}
@@ -96,22 +80,6 @@ namespace Server.Items
 			if ( attacker.Player && !defender.Player && (defender.Body.IsAnimal || defender.Body.IsMonster) && 0.4 >= Utility.RandomDouble() )
 				defender.AddToBackpack( Ammo );
 
-			if ( Core.ML && m_Velocity > 0 )
-			{
-				int bonus = (int) attacker.GetDistanceToSqrt( defender );
-
-				if ( bonus > 0 && m_Velocity > Utility.Random( 100 ) )
-				{
-					AOS.Damage( defender, attacker, bonus * 3, 100, 0, 0, 0, 0 );
-
-					if ( attacker.Player )
-						attacker.SendLocalizedMessage( 1072794 ); // Your arrow hits its mark with velocity!
-
-					if ( defender.Player )
-						defender.SendLocalizedMessage( 1072795 ); // You have been hit by an arrow with velocity!
-				}
-			}
-
 			base.OnHit( attacker, defender, damageBonus );
 		}
 
@@ -168,10 +136,7 @@ namespace Server.Items
 		{
 			base.Serialize( writer );
 
-			writer.Write( (int) 3 ); // version
-
-			writer.Write( (bool) m_Balanced );
-			writer.Write( (int) m_Velocity );
+			writer.Write( (int) 0 ); // version
 		}
 
 		public override void Deserialize( GenericReader reader )
@@ -179,33 +144,6 @@ namespace Server.Items
 			base.Deserialize( reader );
 
 			int version = reader.ReadInt();
-
-			switch ( version )
-			{
-				case 3:
-				{
-					m_Balanced = reader.ReadBool();
-					m_Velocity = reader.ReadInt();
-
-					goto case 2;
-				}
-				case 2:
-				case 1:
-				{
-					break;
-				}
-				case 0:
-				{
-					/*m_EffectID =*/ reader.ReadInt();
-					break;
-				}
-			}
-
-			if ( version < 2 )
-			{
-				WeaponAttributes.MageWeapon = 0;
-				WeaponAttributes.UseBestSkill = 0;
-			}
 		}
 	}
 }

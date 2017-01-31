@@ -45,26 +45,6 @@ namespace Server.Items
 			return 100;
 		}
 
-		public override void UnscaleDurability()
-		{
-			base.UnscaleDurability();
-
-			int scale = GetUsesScalar();
-
-			m_UsesRemaining = ((m_UsesRemaining * 100) + (scale - 1)) / scale;
-			InvalidateProperties();
-		}
-
-		public override void ScaleDurability()
-		{
-			base.ScaleDurability();
-
-			int scale = GetUsesScalar();
-
-			m_UsesRemaining = ((m_UsesRemaining * scale) + 99) / 100;
-			InvalidateProperties();
-		}
-
 		public BaseAxe( int itemID ) : base( itemID )
 		{
 			m_UsesRemaining = 150;

@@ -198,7 +198,8 @@ namespace Server.Spells.Fourth
 						m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
 					}
 
-					AOS.Damage( m, m_Caster, damage, 0, 100, 0, 0, 0 );
+//					AOS.Damage( m, m_Caster, damage, 0, 100, 0, 0, 0 );
+                    m.Damage(damage, m_Caster );
 					m.PlaySound( 0x208 );
 
 					if ( m is BaseCreature )
@@ -278,8 +279,9 @@ namespace Server.Spells.Fourth
 									m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
 								}
 
-								AOS.Damage( m, caster, damage, 0, 100, 0, 0, 0 );
-								m.PlaySound( 0x208 );
+//								AOS.Damage( m, caster, damage, 0, 100, 0, 0, 0 );
+                                m.Damage(damage, caster);
+                                m.PlaySound( 0x208 );
 
 								if ( m is BaseCreature )
 									((BaseCreature) m).OnHarmfulSpell( caster );

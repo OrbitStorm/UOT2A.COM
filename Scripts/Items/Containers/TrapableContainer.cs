@@ -110,10 +110,11 @@ namespace Server.Items
 							else
 								damage = m_TrapPower;
 
-							AOS.Damage( from, damage, 0, 100, 0, 0, 0 );
+//							AOS.Damage( from, damage, 0, 100, 0, 0, 0 );
+                           from.Damage(damage);
 
-							// Your skin blisters from the heat!
-							from.LocalOverheadMessage( Network.MessageType.Regular, 0x2A, 503000 );
+                            // Your skin blisters from the heat!
+                            from.LocalOverheadMessage( Network.MessageType.Regular, 0x2A, 503000 );
 						}
 
 						Effects.SendLocationEffect( loc, facet, 0x36BD, 15, 10 );
@@ -152,10 +153,11 @@ namespace Server.Items
 							else
 								damage = m_TrapPower;
 
-							AOS.Damage( from, damage, 100, 0, 0, 0, 0 );
+//							AOS.Damage( from, damage, 100, 0, 0, 0, 0 );
+                            from.Damage(damage);
 
-							// A dart imbeds itself in your flesh!
-							from.LocalOverheadMessage( Network.MessageType.Regular, 0x62, 502998 );
+                            // A dart imbeds itself in your flesh!
+                            from.LocalOverheadMessage( Network.MessageType.Regular, 0x62, 502998 );
 						}
 
 						Effects.PlaySound( loc, facet, 0x223 );
@@ -176,8 +178,9 @@ namespace Server.Items
 							}
 							else
 							{
-								AOS.Damage( from, m_TrapPower, 0, 0, 0, 100, 0 );
-								poison = Poison.Greater;
+//								AOS.Damage( from, m_TrapPower, 0, 0, 0, 100, 0 );
+                                from.Damage(m_TrapPower);
+                                poison = Poison.Greater;
 							}
 
 							from.ApplyPoison( from, poison );

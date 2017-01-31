@@ -39,23 +39,16 @@ namespace Server.Spells.Seventh
 
 				double damage;
 
-				if ( Core.AOS )
+				damage = Utility.Random( 27, 22 );
+
+				if ( CheckResisted( m ) )
 				{
-					damage = GetNewAosDamage( 48, 1, 5, m );
+					damage *= 0.6;
+
+					m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
 				}
-				else
-				{
-					damage = Utility.Random( 27, 22 );
 
-					if ( CheckResisted( m ) )
-					{
-						damage *= 0.6;
-
-						m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
-					}
-
-					damage *= GetDamageScalar( m );
-				}
+				damage *= GetDamageScalar( m );
 
 				m.FixedParticles( 0x3709, 10, 30, 5052, EffectLayer.LeftFoot );
 				m.PlaySound( 0x208 );

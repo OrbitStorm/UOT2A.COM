@@ -268,8 +268,8 @@ namespace Server.Items
 
 			eable.Free();
 
-			int min = Scale( from, MinDamage );
-			int max = Scale( from, MaxDamage );
+			int min = MinDamage;
+			int max = MaxDamage;
 
 			for ( int i = 0; i < toExplode.Count; ++i )
 			{
@@ -291,8 +291,9 @@ namespace Server.Items
 					else if ( Core.AOS && toDamage > 2 )
 						damage /= toDamage - 1;
 
-					AOS.Damage( m, from, damage, 0, 100, 0, 0, 0 );
-				}
+//					AOS.Damage( m, from, damage, 0, 100, 0, 0, 0 );
+                    m.Damage(damage, from);
+                }
 				else if ( o is BaseExplosionPotion )
 				{
 					BaseExplosionPotion pot = (BaseExplosionPotion)o;

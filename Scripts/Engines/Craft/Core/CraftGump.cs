@@ -601,13 +601,6 @@ namespace Server.Engines.Craft
 
 							break;
 						}
-						case 8: // Enhance item
-						{
-							if ( system.CanEnhance )
-								Enhance.BeginTarget( m_From, system, m_Tool );
-
-							break;
-						}
 					}
 
 					break;

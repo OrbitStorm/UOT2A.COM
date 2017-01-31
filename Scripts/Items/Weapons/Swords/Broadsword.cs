@@ -3,12 +3,6 @@ namespace Server.Items
     [FlipableAttribute( 0xF5E, 0xF5F )]
 	public class Broadsword : BaseSword
 	{
-		public override int AosStrengthReq{ get{ return 30; } }
-		public override int AosMinDamage{ get{ return 14; } }
-		public override int AosMaxDamage{ get{ return 15; } }
-		public override int AosSpeed{ get{ return 33; } }
-		public override float MlSpeed{ get{ return 3.25f; } }
-
 		public override int OldStrengthReq{ get{ return 25; } }
 		public override int OldMinDamage{ get{ return 5; } }
 		public override int OldMaxDamage{ get{ return 29; } }

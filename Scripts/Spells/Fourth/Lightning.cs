@@ -37,25 +37,16 @@ namespace Server.Spells.Fourth
 
 				SpellHelper.CheckReflect( (int)this.Circle, Caster, ref m );
 
-				double damage;
+				double damage = Utility.Random( 12, 9 );
 
-				if ( Core.AOS )
+				if ( CheckResisted( m ) )
 				{
-					damage = GetNewAosDamage( 23, 1, 4, m );
+					damage *= 0.75;
+
+					m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
 				}
-				else
-				{
-					damage = Utility.Random( 12, 9 );
 
-					if ( CheckResisted( m ) )
-					{
-						damage *= 0.75;
-
-						m.SendLocalizedMessage( 501783 ); // You feel yourself resisting magical energy.
-					}
-
-					damage *= GetDamageScalar( m );
-				}
+				damage *= GetDamageScalar( m );
 
 				m.BoltEffect( 0 );
 

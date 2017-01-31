@@ -175,21 +175,9 @@ namespace Server.Items
 					{
 						BaseWeapon weapon = (BaseWeapon)item;
 
-						if ( Core.AOS )
-						{
-							int attributeCount;
-							int min, max;
-
-							GetRandomAOSStats( out attributeCount, out min, out max );
-
-							BaseRunicTool.ApplyAttributesTo( weapon, attributeCount, min, max );
-						}
-						else
-						{
-							weapon.DamageLevel = (WeaponDamageLevel)Utility.Random( 6 );
-							weapon.AccuracyLevel = (WeaponAccuracyLevel)Utility.Random( 6 );
-							weapon.DurabilityLevel = (WeaponDurabilityLevel)Utility.Random( 6 );
-						}
+						weapon.DamageLevel = (WeaponDamageLevel)Utility.Random( 6 );
+						weapon.AccuracyLevel = (WeaponAccuracyLevel)Utility.Random( 6 );
+						weapon.DurabilityLevel = (WeaponDurabilityLevel)Utility.Random( 6 );
 
 						cont.DropItem( item );
 					}
@@ -197,37 +185,14 @@ namespace Server.Items
 					{
 						BaseArmor armor = (BaseArmor)item;
 
-						if ( Core.AOS )
-						{
-							int attributeCount;
-							int min, max;
-
-							GetRandomAOSStats( out attributeCount, out min, out max );
-
-							BaseRunicTool.ApplyAttributesTo( armor, attributeCount, min, max );
-						}
-						else
-						{
-							armor.ProtectionLevel = (ArmorProtectionLevel)Utility.Random( 6 );
-							armor.Durability = (ArmorDurabilityLevel)Utility.Random( 6 );
-						}
+						armor.ProtectionLevel = (ArmorProtectionLevel)Utility.Random( 6 );
+						armor.Durability = (ArmorDurabilityLevel)Utility.Random( 6 );
 
 						cont.DropItem( item );
 					}
 					else if( item is BaseHat )
 					{
 						BaseHat hat = (BaseHat)item;
-
-						if( Core.AOS )
-						{
-							int attributeCount;
-							int min, max;
-
-							GetRandomAOSStats( out attributeCount, out min, out  max );
-
-							BaseRunicTool.ApplyAttributesTo( hat, attributeCount, min, max );
-						}
-
 						cont.DropItem( item );
 					}
 					else if( item is BaseJewel )
@@ -236,9 +201,6 @@ namespace Server.Items
 						int min, max;
 
 						GetRandomAOSStats( out attributeCount, out min, out max );
-
-						BaseRunicTool.ApplyAttributesTo( (BaseJewel)item, attributeCount, min, max );
-
 						cont.DropItem( item );
 					}
 				}

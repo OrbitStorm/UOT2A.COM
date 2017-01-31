@@ -32,29 +32,7 @@ namespace Server.SkillHandlers
 
 		public static int GetArmorRating( Mobile m )
 		{
-			if( !Core.AOS )
-				return (int)m.ArmorRating;
-
-			int ar = 0;
-
-			for( int i = 0; i < m.Items.Count; i++ )
-			{
-				BaseArmor armor = m.Items[i] as BaseArmor;
-
-				if( armor == null )
-					continue;
-
-				int materialType = (int)armor.MaterialType;
-				int bodyPosition = (int)armor.BodyPosition;
-
-				if( materialType >= m_ArmorTable.GetLength( 0 ) || bodyPosition >= m_ArmorTable.GetLength( 1 ) )
-					continue;
-
-				if( armor.ArmorAttributes.MageArmor == 0 )
-					ar += m_ArmorTable[materialType, bodyPosition];
-			}
-
-			return ar;
+			return (int)m.ArmorRating;
 		}
 
 		public static TimeSpan OnUse( Mobile m )
