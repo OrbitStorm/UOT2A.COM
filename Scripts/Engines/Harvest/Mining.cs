@@ -104,8 +104,8 @@ namespace Server.Engines.Harvest
 			oreAndStone.Resources = res;
 			oreAndStone.Veins = veins;
 
-			oreAndStone.RaceBonus = Core.ML;
-			oreAndStone.RandomizeVeins = Core.ML;
+			oreAndStone.RaceBonus = false;
+			oreAndStone.RandomizeVeins = false;
 
 			Definitions.Add( oreAndStone );
 			#endregion
@@ -182,14 +182,6 @@ namespace Server.Engines.Harvest
 
 			from.SendLocalizedMessage( 503033 ); // Where do you wish to dig?
 			return true;
-		}
-
-		public override void OnHarvestStarted( Mobile from, Item tool, HarvestDefinition def, object toHarvest )
-		{
-			base.OnHarvestStarted( from, tool, def, toHarvest );
-
-			if ( Core.ML )
-				from.RevealingAction();
 		}
 
 		public override void OnBadHarvestTarget( Mobile from, Item tool, object toHarvest )

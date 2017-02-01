@@ -54,9 +54,6 @@ namespace Server.Spells.Seventh
 					{
 						if ( Caster != m && SpellHelper.ValidIndirectTarget( Caster, m ) && Caster.CanBeHarmful( m, false ) )
 						{
-							if ( Core.AOS && !Caster.InLOS( m ) )
-								continue;
-
 							targets.Add( m );
 						}
 					}
@@ -70,10 +67,7 @@ namespace Server.Spells.Seventh
 				{
 					Effects.PlaySound( p, Caster.Map, 0x160 );
 
-					if ( Core.AOS && targets.Count > 2 )
-						damage = (damage * 2) / targets.Count;
-					else if ( !Core.AOS )
-						damage /= targets.Count;
+					damage /= targets.Count;
 						
 					double toDeal;
 					for ( int i = 0; i < targets.Count; ++i )
@@ -82,7 +76,7 @@ namespace Server.Spells.Seventh
 
 						toDeal  = damage;
 
-						if ( !Core.AOS && CheckResisted( m ) )
+						if ( CheckResisted( m ) )
 						{
 							damage *= 0.5;
 
@@ -104,7 +98,7 @@ namespace Server.Spells.Seventh
 		{
 			private MeteorSwarmSpell m_Owner;
 
-			public InternalTarget( MeteorSwarmSpell owner ) : base( Core.ML ? 10 : 12, true, TargetFlags.None )
+			public InternalTarget( MeteorSwarmSpell owner ) : base( 12, true, TargetFlags.None )
 			{
 				m_Owner = owner;
 			}

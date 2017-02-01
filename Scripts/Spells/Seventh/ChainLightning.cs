@@ -52,14 +52,8 @@ namespace Server.Spells.Seventh
 
 					foreach ( Mobile m in eable )
 					{
-						if ( Core.AOS && m == Caster )
-							continue;
-
 						if ( SpellHelper.ValidIndirectTarget( Caster, m ) && Caster.CanBeHarmful( m, false ) )
 						{
-							if ( Core.AOS && !Caster.InLOS( m ) )
-								continue;
-
 							targets.Add( m );
 						}
 					}
@@ -71,10 +65,7 @@ namespace Server.Spells.Seventh
 
 				if ( targets.Count > 0 )
 				{
-					if ( Core.AOS && targets.Count > 2 )
-						damage = (damage * 2) / targets.Count;
-					else if ( !Core.AOS )
-						damage /= targets.Count;
+					damage /= targets.Count;
 
 					double toDeal;
 					for ( int i = 0; i < targets.Count; ++i )
@@ -82,7 +73,7 @@ namespace Server.Spells.Seventh
 						toDeal = damage;
 						Mobile m = targets[i];
 
-						if ( !Core.AOS && CheckResisted( m ) )
+						if ( CheckResisted( m ) )
 						{
 							toDeal *= 0.5;
 
@@ -108,7 +99,7 @@ namespace Server.Spells.Seventh
 		{
 			private ChainLightningSpell m_Owner;
 
-			public InternalTarget( ChainLightningSpell owner ) : base( Core.ML ? 10 : 12, true, TargetFlags.None )
+			public InternalTarget( ChainLightningSpell owner ) : base( 12, true, TargetFlags.None )
 			{
 				m_Owner = owner;
 			}

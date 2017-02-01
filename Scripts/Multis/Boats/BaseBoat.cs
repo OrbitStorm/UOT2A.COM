@@ -432,16 +432,14 @@ namespace Server.Multis
 		 * 'walking' in piloting mode has a 1s interval, speed 0x2
 		 */
 
-		private static bool NewBoatMovement { get { return Core.HS; } }
-
-		private static TimeSpan SlowInterval = TimeSpan.FromSeconds( NewBoatMovement ? 0.50 : 0.75 );
-		private static TimeSpan FastInterval = TimeSpan.FromSeconds( NewBoatMovement ? 0.25 : 0.75 );
+		private static TimeSpan SlowInterval = TimeSpan.FromSeconds( 0.75 );
+		private static TimeSpan FastInterval = TimeSpan.FromSeconds( 0.75 );
 
 		private static int SlowSpeed = 1;
-		private static int FastSpeed = NewBoatMovement ? 1 : 3;
+		private static int FastSpeed = 3;
 
-		private static TimeSpan SlowDriftInterval = TimeSpan.FromSeconds( NewBoatMovement ? 0.50 : 1.50 );
-		private static TimeSpan FastDriftInterval = TimeSpan.FromSeconds( NewBoatMovement ? 0.25 : 0.75 );
+		private static TimeSpan SlowDriftInterval = TimeSpan.FromSeconds( 1.50 );
+		private static TimeSpan FastDriftInterval = TimeSpan.FromSeconds( 0.75 );
 
 		private static int SlowDriftSpeed = 1;
 		private static int FastDriftSpeed = 1;
@@ -1478,61 +1476,7 @@ namespace Server.Multis
 				}
 			}
 
-			if ( !NewBoatMovement || Math.Abs( xOffset ) > 1 || Math.Abs( yOffset ) > 1 )
-			{
-				Teleport( xOffset, yOffset, 0 );
-			}
-			else
-			{
-				List<IEntity> toMove = GetMovingEntities();
-
-				SafeAdd( m_TillerMan, toMove );
-				SafeAdd( m_Hold, toMove );
-				SafeAdd( m_PPlank, toMove );
-				SafeAdd( m_SPlank, toMove );
-
-				// Packet must be sent before actual locations are changed
-				foreach ( NetState ns in Map.GetClientsInRange( Location, GetMaxUpdateRange() ) )
-				{
-					Mobile m = ns.Mobile;
-
-					if ( ns.HighSeas && m.CanSee( this ) && m.InRange( Location, GetUpdateRange( m ) ) )
-						ns.Send( new MoveBoatHS( m, this, d, clientSpeed, toMove, xOffset, yOffset ) );
-				}
-
-				foreach ( IEntity e in toMove )
-				{
-					if ( e is Item )
-					{
-						Item item = (Item)e;
-
-						item.NoMoveHS = true;
-
-						if ( !( item is TillerMan || item is Hold || item is Plank ) )
-							item.Location = new Point3D( item.X + xOffset, item.Y + yOffset, item.Z );
-					}
-					else if ( e is Mobile )
-					{
-						Mobile m = (Mobile)e;
-
-						m.NoMoveHS = true;
-						m.Location = new Point3D( m.X + xOffset, m.Y + yOffset, m.Z );
-					}
-				}
-
-				NoMoveHS = true;
-				Location = new Point3D( X + xOffset, Y + yOffset, Z );
-
-				foreach ( IEntity e in toMove )
-				{
-					if ( e is Item )
-						((Item)e).NoMoveHS = false;
-					else if ( e is Mobile )
-						((Mobile)e).NoMoveHS = false;
-				}
-
-				NoMoveHS = false;
-			}
+			Teleport( xOffset, yOffset, 0 );
 
 			return true;
 		}

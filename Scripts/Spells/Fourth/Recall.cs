@@ -32,14 +32,6 @@ namespace Server.Spells.Fourth
 			m_Book = book;
 		}
 
-		public override void GetCastSkills( out double min, out double max )
-		{
-			if( Core.SE && m_Book != null )	//recall using Runebook charge
-				min = max = 0;
-			else
-				base.GetCastSkills( out min, out max );
-		}
-
 		public override void OnCast()
 		{
 			if ( m_Entry == null )
@@ -71,7 +63,7 @@ namespace Server.Spells.Fourth
 
 		public void Effect( Point3D loc, Map map, bool checkMulti )
 		{
-			if ( map == null || (!Core.AOS && Caster.Map != map) )
+			if ( map == null || (Caster.Map != map) )
 			{
 				Caster.SendLocalizedMessage( 1005569 ); // You can not recall to another facet.
 			}
@@ -132,7 +124,7 @@ namespace Server.Spells.Fourth
 		{
 			private RecallSpell m_Owner;
 
-			public InternalTarget( RecallSpell owner ) : base( Core.ML ? 10 : 12, false, TargetFlags.None )
+			public InternalTarget( RecallSpell owner ) : base( 12, false, TargetFlags.None )
 			{
 				m_Owner = owner;
 

@@ -12,37 +12,6 @@ namespace Server.Items
 		public SlayerName Name{ get{ return m_Name; } }
 		public Type[] Types{ get{ return m_Types; } }
 
-		private static int[] m_AosTitles = new int[]
-			{
-				1060479, // undead slayer
-				1060470, // orc slayer
-				1060480, // troll slayer
-				1060468, // ogre slayer
-				1060472, // repond slayer
-				1060462, // dragon slayer
-				1060478, // terathan slayer
-				1060475, // snake slayer
-				1060467, // lizardman slayer
-				1060473, // reptile slayer
-				1060460, // demon slayer
-				1060466, // gargoyle slayer
-				1017396, // Balron Damnation
-				1060461, // demon slayer
-				1060469, // ophidian slayer
-				1060477, // spider slayer
-				1060474, // scorpion slayer
-				1060458, // arachnid slayer
-				1060465, // fire elemental slayer
-				1060481, // water elemental slayer
-				1060457, // air elemental slayer
-				1060471, // poison elemental slayer
-				1060463, // earth elemental slayer
-				1060459, // blood elemental slayer
-				1060476, // snow elemental slayer
-				1060464, // elemental slayer
-				1070855  // fey slayer
-			};
-
 		private static int[] m_OldTitles = new int[]
 			{
 				1017384, // Silver
@@ -78,7 +47,7 @@ namespace Server.Items
 		{
 			get
 			{
-				int[] titles = ( Core.AOS ? m_AosTitles : m_OldTitles );
+				int[] titles = ( m_OldTitles );
 
 				return titles[(int)m_Name - 1];
 			}

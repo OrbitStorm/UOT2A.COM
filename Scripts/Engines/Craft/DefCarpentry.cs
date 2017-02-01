@@ -85,13 +85,6 @@ namespace Server.Engines.Craft
 		{
 			int index = -1;
 
-			// Other Items
-			if ( Core.Expansion == Expansion.AOS || Core.Expansion == Expansion.SE )
-			{
-				index =	AddCraft( typeof( Board ),				1044294, 1027127,	 0.0,   0.0,	typeof( Log ), 1044466,  1, 1044465 );
-				SetUseAllRes( index, true );
-			}
-
 			AddCraft( typeof( BarrelStaves ),				1044294, 1027857,	00.0,  25.0,	typeof( Log ), 1044041,  5, 1044351 );
 			AddCraft( typeof( BarrelLid ),					1044294, 1027608,	11.0,  36.0,	typeof( Log ), 1044041,  4, 1044351 );
 			AddCraft( typeof( ShortMusicStand ),			1044294, 1044313,	78.9, 103.9,	typeof( Log ), 1044041, 15, 1044351 );
@@ -128,12 +121,12 @@ namespace Server.Engines.Craft
 			AddRes( index, typeof( BarrelLid ), 1044251, 1, 1044253 );
 
 			// Staves and Shields
-			AddCraft( typeof( ShepherdsCrook ), Core.ML ? 1044566 : 1044295, 1023713, 78.9, 103.9, typeof( Log ), 1044041, 7, 1044351 );
-			AddCraft( typeof( QuarterStaff ), Core.ML ? 1044566 : 1044295, 1023721, 73.6, 98.6, typeof( Log ), 1044041, 6, 1044351 );
-			AddCraft( typeof( GnarledStaff ), Core.ML ? 1044566 : 1044295, 1025112, 78.9, 103.9, typeof( Log ), 1044041, 7, 1044351 );
-			AddCraft( typeof( WoodenShield ), Core.ML ? 1062760 : 1044295, 1027034, 52.6, 77.6, typeof( Log ), 1044041, 9, 1044351 );
+			AddCraft( typeof( ShepherdsCrook ), 1044295, 1023713, 78.9, 103.9, typeof( Log ), 1044041, 7, 1044351 );
+			AddCraft( typeof( QuarterStaff ), 1044295, 1023721, 73.6, 98.6, typeof( Log ), 1044041, 6, 1044351 );
+			AddCraft( typeof( GnarledStaff ), 1044295, 1025112, 78.9, 103.9, typeof( Log ), 1044041, 7, 1044351 );
+			AddCraft( typeof( WoodenShield ), 1044295, 1027034, 52.6, 77.6, typeof( Log ), 1044041, 9, 1044351 );
 
-			index = AddCraft( typeof( FishingPole ), Core.ML ? 1044294 : 1044295, 1023519, 68.4, 93.4, typeof( Log ), 1044041, 5, 1044351 ); //This is in the categor of Other during AoS
+			index = AddCraft( typeof( FishingPole ), 1044295, 1023519, 68.4, 93.4, typeof( Log ), 1044041, 5, 1044351 ); //This is in the categor of Other during AoS
 			AddSkill( index, SkillName.Tailoring, 40.0, 45.0 );
 			AddRes( index, typeof( Cloth ), 1044286, 5, 1044287 );
 
@@ -234,23 +227,23 @@ namespace Server.Engines.Craft
 			AddRes( index, typeof( Cloth ), 1044286, 25, 1044287 );
 
 			// Cooking
-			index = AddCraft( typeof( StoneOvenEastDeed ), Core.ML ? 1044298 : 1044299, 1044345, 68.4, 93.4, typeof( Log ), 1044041, 85, 1044351 );
+			index = AddCraft( typeof( StoneOvenEastDeed ), 1044299, 1044345, 68.4, 93.4, typeof( Log ), 1044041, 85, 1044351 );
 			AddSkill( index, SkillName.Tinkering, 50.0, 55.0 );
 			AddRes( index, typeof( IronIngot ), 1044036, 125, 1044037 );
-			index = AddCraft( typeof( StoneOvenSouthDeed ), Core.ML ? 1044298 : 1044299, 1044346, 68.4, 93.4, typeof( Log ), 1044041, 85, 1044351 );
+			index = AddCraft( typeof( StoneOvenSouthDeed ), 1044299, 1044346, 68.4, 93.4, typeof( Log ), 1044041, 85, 1044351 );
 			AddSkill( index, SkillName.Tinkering, 50.0, 55.0 );
 			AddRes( index, typeof( IronIngot ), 1044036, 125, 1044037 );
-			index = AddCraft( typeof( FlourMillEastDeed ), Core.ML ? 1044298 : 1044299, 1044347, 94.7, 119.7, typeof( Log ), 1044041, 100, 1044351 );
+			index = AddCraft( typeof( FlourMillEastDeed ), 1044299, 1044347, 94.7, 119.7, typeof( Log ), 1044041, 100, 1044351 );
 			AddSkill( index, SkillName.Tinkering, 50.0, 55.0 );
 			AddRes( index, typeof( IronIngot ), 1044036, 50, 1044037 );
-			index = AddCraft( typeof( FlourMillSouthDeed ), Core.ML ? 1044298 : 1044299, 1044348, 94.7, 119.7, typeof( Log ), 1044041, 100, 1044351 );
+			index = AddCraft( typeof( FlourMillSouthDeed ), 1044299, 1044348, 94.7, 119.7, typeof( Log ), 1044041, 100, 1044351 );
 			AddSkill( index, SkillName.Tinkering, 50.0, 55.0 );
 			AddRes( index, typeof( IronIngot ), 1044036, 50, 1044037 );
-			AddCraft( typeof( WaterTroughEastDeed ), Core.ML ? 1044298 : 1044299, 1044349, 94.7, 119.7, typeof( Log ), 1044041, 150, 1044351 );
-			AddCraft( typeof( WaterTroughSouthDeed ), Core.ML ? 1044298 : 1044299, 1044350, 94.7, 119.7, typeof( Log ), 1044041, 150, 1044351 );
+			AddCraft( typeof( WaterTroughEastDeed ), 1044299, 1044349, 94.7, 119.7, typeof( Log ), 1044041, 150, 1044351 );
+			AddCraft( typeof( WaterTroughSouthDeed ), 1044299, 1044350, 94.7, 119.7, typeof( Log ), 1044041, 150, 1044351 );
 
 			MarkOption = true;
-			Repair = Core.AOS;
+			Repair = false;
 
 			SetSubRes( typeof( Log ), 1072643 );
 

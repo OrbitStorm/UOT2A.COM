@@ -86,12 +86,6 @@ namespace Server.Mobiles
 				Add( new GenericBuyInfo( typeof( Backgammon ), 2, 20, 0xE1C, 0 ) );
 				Add( new GenericBuyInfo( typeof( Dices ), 2, 20, 0xFA7, 0 ) );
 
-				if ( Core.AOS )
-				{
-					Add( new GenericBuyInfo( typeof( SmallBagBall ), 3, 20, 0x2256, 0 ) );
-					Add( new GenericBuyInfo( typeof( LargeBagBall ), 3, 20, 0x2257, 0 ) );
-				}
-
 				Add( new GenericBuyInfo( "1041055", typeof( GuildDeed ), 12450, 20, 0x14F0, 0 ) );
 			}
 		}

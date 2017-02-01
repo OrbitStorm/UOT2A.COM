@@ -533,7 +533,7 @@ namespace Server.Mobiles
 				}
 			}
 
-			if( !Core.AOS && SmartAI && !m_Mobile.StunReady && m_Mobile.Skills[ SkillName.Wrestling ].Value >= 80.0 && m_Mobile.Skills[ SkillName.Anatomy ].Value >= 80.0 )
+			if( SmartAI && !m_Mobile.StunReady && m_Mobile.Skills[ SkillName.Wrestling ].Value >= 80.0 && m_Mobile.Skills[ SkillName.Anatomy ].Value >= 80.0 )
 				EventSink.InvokeStunRequest( new StunRequestEventArgs( m_Mobile ) );
 
 			if( !m_Mobile.InRange( c, m_Mobile.RangePerception ) )
@@ -592,7 +592,7 @@ namespace Server.Mobiles
 				}
 			}
 
-			if( m_Mobile.Spell == null && DateTime.UtcNow > m_NextCastTime && m_Mobile.InRange( c, Core.ML ? 10 : 12 ) )
+			if( m_Mobile.Spell == null && DateTime.UtcNow > m_NextCastTime && m_Mobile.InRange( c, 12 ) )
 			{
 				// We are ready to cast a spell
 
@@ -631,7 +631,7 @@ namespace Server.Mobiles
 				{
 					if( m_Mobile.InRange( toDispel, 10 ) )
 						RunFrom( toDispel );
-					else if( !m_Mobile.InRange( toDispel, Core.ML ? 10 : 12 ) )
+					else if( !m_Mobile.InRange( toDispel, 12 ) )
 						RunTo( toDispel );
 				}
 				else
@@ -663,7 +663,7 @@ namespace Server.Mobiles
 			{
 				Map map = m_Mobile.Map;
 
-				if( map == null || !m_Mobile.InRange( m_LastTargetLoc, Core.ML ? 10 : 12 ) )
+				if( map == null || !m_Mobile.InRange( m_LastTargetLoc, 12 ) )
 				{
 					m_LastTarget = null;
 				}
@@ -751,7 +751,7 @@ namespace Server.Mobiles
 
 				Mobile comb = m_Mobile.Combatant;
 
-				if( comb != null && !comb.Deleted && comb.Alive && !comb.IsDeadBondedPet && m_Mobile.InRange( comb, Core.ML ? 10 : 12 ) && CanDispel( comb ) )
+				if( comb != null && !comb.Deleted && comb.Alive && !comb.IsDeadBondedPet && m_Mobile.InRange( comb, 12 ) && CanDispel( comb ) )
 				{
 					active = comb;
 					activePrio = m_Mobile.GetDistanceToSqrt( comb );
@@ -765,7 +765,7 @@ namespace Server.Mobiles
 					AggressorInfo info = aggressed[ i ];
 					Mobile m = info.Defender;
 
-					if( m != comb && m.Combatant == m_Mobile && m_Mobile.InRange( m, Core.ML ? 10 : 12 ) && CanDispel( m ) )
+					if( m != comb && m.Combatant == m_Mobile && m_Mobile.InRange( m, 12 ) && CanDispel( m ) )
 					{
 						double prio = m_Mobile.GetDistanceToSqrt( m );
 
@@ -785,7 +785,7 @@ namespace Server.Mobiles
 					AggressorInfo info = aggressors[ i ];
 					Mobile m = info.Attacker;
 
-					if( m != comb && m.Combatant == m_Mobile && m_Mobile.InRange( m, Core.ML ? 10 : 12 ) && CanDispel( m ) )
+					if( m != comb && m.Combatant == m_Mobile && m_Mobile.InRange( m, 12 ) && CanDispel( m ) )
 					{
 						double prio = m_Mobile.GetDistanceToSqrt( m );
 
@@ -819,7 +819,7 @@ namespace Server.Mobiles
 						actPrio = inactPrio = m_Mobile.GetDistanceToSqrt( comb );
 					}
 
-					foreach( Mobile m in m_Mobile.GetMobilesInRange( Core.ML ? 10 : 12 ) )
+					foreach( Mobile m in m_Mobile.GetMobilesInRange( 12 ) )
 					{
 						if( m != m_Mobile && CanDispel( m ) )
 						{
@@ -1003,7 +1003,7 @@ namespace Server.Mobiles
 				int teleRange = targ.Range;
 
 				if( teleRange < 0 )
-					teleRange = Core.ML ? 11 : 12;
+					teleRange = 12;
 
 				for( int i = 0; i < 10; ++i )
 				{

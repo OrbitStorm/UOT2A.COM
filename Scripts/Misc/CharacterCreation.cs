@@ -34,8 +34,7 @@ namespace Server.Misc
 
 		private static Item MakeNewbie( Item item )
 		{
-			if ( !Core.AOS )
-				item.LootType = LootType.Newbied;
+			item.LootType = LootType.Newbied;
 
 			return item;
 		}
@@ -227,12 +226,6 @@ namespace Server.Misc
 
 		private static void FillBankbox( Mobile m )
 		{
-			if ( Core.AOS )
-			{
-				FillBankAOS( m );
-				return;
-			}
-
 			BankBox bank = m.BankBox;
 
 			bank.DropItem( new BankCheck( 1000000 ) );
@@ -472,10 +465,6 @@ namespace Server.Misc
 			if ( profession < 0 )
 				return false;
 			else if ( profession < 4 )
-				return true;
-			else if ( Core.AOS && profession < 6 )
-				return true;
-			else if ( Core.SE && profession < 8 )
 				return true;
 			else
 				return false;
@@ -745,8 +734,7 @@ namespace Server.Misc
 
 		private static void EquipItem( Item item, bool mustEquip )
 		{
-			if ( !Core.AOS )
-				item.LootType = LootType.Newbied;
+			item.LootType = LootType.Newbied;
 
 			if ( m_Mobile != null && m_Mobile.EquipItem( item ) )
 				return;
@@ -761,8 +749,7 @@ namespace Server.Misc
 
 		private static void PackItem( Item item )
 		{
-			if ( !Core.AOS )
-				item.LootType = LootType.Newbied;
+			item.LootType = LootType.Newbied;
 
 			Container pack = m_Mobile.Backpack;
 

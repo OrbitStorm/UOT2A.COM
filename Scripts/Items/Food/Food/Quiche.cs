@@ -7,7 +7,7 @@ namespace Server.Items
         [Constructable]
         public Quiche() : base( 0x1041 )
         {
-            Stackable = Core.ML;
+            Stackable = false;
             this.Weight = 1.0;
             this.FillFactor = 5;
         }

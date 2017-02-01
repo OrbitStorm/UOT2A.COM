@@ -186,8 +186,8 @@ namespace Server.Engines.Craft
 			AddSubRes( typeof( Leather ),		1049150, 00.0, 1044462, 1049311 );
 
 			MarkOption = true;
-			Repair = Core.AOS;
-			CanEnhance = Core.AOS;
+			Repair = false;
+			CanEnhance = false;
 		}
 	}
 }

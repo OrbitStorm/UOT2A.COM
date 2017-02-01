@@ -450,7 +450,7 @@ namespace Server.Mobiles
 		public virtual bool HasBreath{ get{ return false; } }
 
 		// Base damage given is: CurrentHitPoints * BreathDamageScalar
-		public virtual double BreathDamageScalar{ get{ return (Core.AOS ? 0.16 : 0.05); } }
+		public virtual double BreathDamageScalar{ get{ return 0.05; } }
 
 		// Min/max seconds until next breath
 		public virtual double BreathMinDelay{ get{ return 30.0; } }
@@ -760,34 +760,14 @@ namespace Server.Mobiles
 			int lore = (int)((useBaseSkill ? m.Skills[SkillName.AnimalLore].Base : m.Skills[SkillName.AnimalLore].Value )* 10);
 			int bonus = 0, chance = 700;
 
-			if( Core.ML )
-			{
-				int SkillBonus = taming - (int)(dMinTameSkill * 10);
-				int LoreBonus = lore - (int)(dMinTameSkill * 10);
+			int difficulty = (int)(dMinTameSkill * 10);
+			int weighted = ((taming * 4) + lore) / 5;
+			bonus = weighted - difficulty;
 
-				int SkillMod = 6, LoreMod = 6;
-
-				if( SkillBonus < 0 )
-					SkillMod = 28;
-				if( LoreBonus < 0 )
-					LoreMod = 14;
-
-				SkillBonus *= SkillMod;
-				LoreBonus *= LoreMod;
-
-				bonus = (SkillBonus + LoreBonus ) / 2;
-			}
+			if ( bonus <= 0 )
+				bonus *= 14;
 			else
-			{
-				int difficulty = (int)(dMinTameSkill * 10);
-				int weighted = ((taming * 4) + lore) / 5;
-				bonus = weighted - difficulty;
-
-				if ( bonus <= 0 )
-					bonus *= 14;
-				else
-					bonus *= 6;
-			}
+				bonus *= 6;
 
 			chance += bonus;
 
@@ -830,9 +810,6 @@ namespace Server.Mobiles
 		{
 			int oldHits = this.Hits;
 
-			if ( Core.AOS && !this.Summoned && this.Controlled && 0.2 > Utility.RandomDouble() )
-				amount = (int)(amount * BonusPetDamageScalar);
-
 			base.Damage( amount, from );
 
 			if ( SubdueBeforeTame && !Controlled )
@@ -846,7 +823,7 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				return !Core.AOS && m_bSummoned;
+				return m_bSummoned;
 			}
 		}
 
@@ -1056,7 +1033,7 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				return Core.AOS || this.Body.IsMonster;
+				return this.Body.IsMonster;
 			}
 		}
 
@@ -1075,7 +1052,7 @@ namespace Server.Mobiles
 			BardPacified = false;
 		}
 
-		public virtual bool CanBeDistracted { get { return !Core.ML ; } }
+		public virtual bool CanBeDistracted { get { return true ; } }
 
 		public virtual void CheckDistracted( Mobile from )
 		{
@@ -1093,14 +1070,7 @@ namespace Server.Mobiles
 			if ( BardPacified && (HitsMax - Hits) * 0.001 > Utility.RandomDouble() )
 				Unpacify();
 
-			int disruptThreshold;
-			//NPCs can use bandages too!
-			if( !Core.AOS )
-				disruptThreshold = 0;
-			else if( from != null && from.Player )
-				disruptThreshold = 18;
-			else
-				disruptThreshold = 25;
+			int disruptThreshold = 0;
 
 			if( amount > disruptThreshold )
 			{
@@ -1285,8 +1255,7 @@ namespace Server.Mobiles
 			if ( speechType != null )
 				speechType.OnConstruct( this );
 
-			if ( IsInvulnerable && !Core.AOS )
-				NameHue = 0x35;
+			NameHue = 0x35;
 
 			GenerateLoot( true );
 		}
@@ -1612,9 +1581,6 @@ namespace Server.Mobiles
 			if ( version >= 18 )
 				m_CorpseNameOverride = reader.ReadString();
 
-			if ( Core.AOS && NameHue == 0x35 )
-				NameHue = -1;
-
 			CheckStatTimers();
 
 			ChangeAIType(m_CurrentAI);
@@ -1780,21 +1746,11 @@ namespace Server.Mobiles
 						if ( stamGain > 0 )
 							Stam += stamGain;
 
-						if ( Core.SE )
+						for ( int i = 0; i < amount; ++i )
 						{
-							if ( m_Loyalty < MaxLoyalty )
+							if ( m_Loyalty < MaxLoyalty && 0.5 >= Utility.RandomDouble() )
 							{
-								m_Loyalty = MaxLoyalty;
-							}
-						}
-						else
-						{
-							for ( int i = 0; i < amount; ++i )
-							{
-								if ( m_Loyalty < MaxLoyalty && 0.5 >= Utility.RandomDouble() )
-								{
-									m_Loyalty += 10;
-								}
+								m_Loyalty += 10;
 							}
 						}
 
@@ -1812,7 +1768,7 @@ namespace Server.Mobiles
 
 							if ( master != null && master == from )	//So friends can't start the bonding process
 							{
-								if ( m_dMinTameSkill <= 29.1 || master.Skills[SkillName.AnimalTaming].Base >= m_dMinTameSkill || OverrideBondingReqs() || (Core.ML && master.Skills[SkillName.AnimalTaming].Value >= m_dMinTameSkill) )
+								if ( m_dMinTameSkill <= 29.1 || master.Skills[SkillName.AnimalTaming].Base >= m_dMinTameSkill || OverrideBondingReqs() )
 								{
 									if ( BondingBegin == DateTime.MinValue )
 									{
@@ -1824,10 +1780,6 @@ namespace Server.Mobiles
 										BondingBegin = DateTime.MinValue;
 										from.SendLocalizedMessage( 1049666 ); // Your pet has bonded with you!
 									}
-								}
-								else if( Core.ML )
-								{
-									from.SendLocalizedMessage( 1075268 ); // Your pet cannot form a bond with you until your animal taming ability has risen.
 								}
 							}
 						}
@@ -2421,7 +2373,7 @@ namespace Server.Mobiles
 		#endregion
 
 		public virtual bool AutoDispel{ get{ return false; } }
-		public virtual double AutoDispelChance{ get { return ((Core.SE) ? .10 : 1.0); } }
+		public virtual double AutoDispelChance{ get { return 1.0; } }
 
 		public virtual bool IsScaryToPets{ get{ return false; } }
 		public virtual bool IsScaredOfScaryThings{ get{ return true; } }
@@ -2592,7 +2544,7 @@ namespace Server.Mobiles
 			if ( skill == SkillName.RemoveTrap && (from.Skills[SkillName.Lockpicking].Base < 50.0 || from.Skills[SkillName.DetectHidden].Base < 50.0) )
 				return false;
 
-			if ( !Core.AOS && (skill == SkillName.Focus || skill == SkillName.Chivalry || skill == SkillName.Necromancy) )
+			if ( (skill == SkillName.Focus || skill == SkillName.Chivalry || skill == SkillName.Necromancy) )
 				return false;
 
 			return true;
@@ -2786,23 +2738,14 @@ namespace Server.Mobiles
 
 			if ( m_AI != null )
 			{
-				if( !Core.ML || ( ct != OrderType.Follow && ct != OrderType.Stop && ct != OrderType.Stay ) )
-				{
-					m_AI.OnAggressiveAction( aggressor );
-				}
-				else
-				{
-					DebugSay( "I'm being attacked but my master told me not to fight." );
-					Warmode = false;
-					return;
-				}
+				m_AI.OnAggressiveAction( aggressor );
 			}
 
 			StopFlee();
 
 			ForceReacquire();
 
-			if ( aggressor.ChangingCombatant && (m_bControlled || m_bSummoned) && (ct == OrderType.Come || ( !Core.ML && ct == OrderType.Stay ) || ct == OrderType.Stop || ct == OrderType.None || ct == OrderType.Follow) )
+			if ( aggressor.ChangingCombatant && (m_bControlled || m_bSummoned) && (ct == OrderType.Come || ( ct == OrderType.Stay ) || ct == OrderType.Stop || ct == OrderType.None || ct == OrderType.Follow) )
 			{
 				ControlTarget = aggressor;
 				ControlOrder = OrderType.Attack;
@@ -3185,7 +3128,7 @@ namespace Server.Mobiles
 
 		public void SetHits( int val )
 		{
-			if ( val < 1000 && !Core.AOS )
+			if ( val < 1000 )
 				val = (val * 100) / 60;
 
 			m_HitsMax = val;
@@ -3194,7 +3137,7 @@ namespace Server.Mobiles
 
 		public void SetHits( int min, int max )
 		{
-			if ( min < 1000 && !Core.AOS )
+			if ( min < 1000 )
 			{
 				min = (min * 100) / 60;
 				max = (max * 100) / 60;
@@ -3270,9 +3213,6 @@ namespace Server.Mobiles
 
 			if ( Skills[name].Base > Skills[name].Cap )
 			{
-				if ( Core.SE )
-					this.SkillsCap += ( Skills[name].BaseFixedPoint - Skills[name].CapFixedPoint );
-
 				Skills[name].Cap = Skills[name].Base;
 			}
 		}
@@ -3286,9 +3226,6 @@ namespace Server.Mobiles
 
 			if ( Skills[name].Base > Skills[name].Cap )
 			{
-				if ( Core.SE )
-					this.SkillsCap += ( Skills[name].BaseFixedPoint - Skills[name].CapFixedPoint );
-
 				Skills[name].Cap = Skills[name].Base;
 			}
 		}
@@ -3560,7 +3497,7 @@ namespace Server.Mobiles
 					PackItem( instrument );
 				}
 			}
-			else if ( !Core.AOS )
+			else 
 			{
 				BaseWeapon weapon = Loot.RandomWeapon();
 
@@ -3725,15 +3662,6 @@ namespace Server.Mobiles
 		public override void AddNameProperties( ObjectPropertyList list )
 		{
 			base.AddNameProperties( list );
-
-			if ( Core.ML )
-			{
-				if ( DisplayWeight )
-					list.Add( TotalWeight == 1 ? 1072788 : 1072789, TotalWeight.ToString() ); // Weight: ~1_WEIGHT~ stones
-
-				if ( m_ControlOrder == OrderType.Guard )
-					list.Add( 1080078 ); // guarding
-			}
 
 			if ( Controlled && Commandable )
 			{
@@ -4442,7 +4370,7 @@ namespace Server.Mobiles
 
 			foreach ( Mobile m in GetMobilesInRange( AuraRange ) )
 			{
-				if ( m == this || !CanBeHarmful( m, false ) || ( Core.AOS && !InLOS( m ) ) )
+				if ( m == this || !CanBeHarmful( m, false ) )
 					continue;
 
 				if ( m is BaseCreature )
@@ -4617,10 +4545,7 @@ namespace Server.Mobiles
 		{
 			BardProvoked = true;
 
-			if ( !Core.ML )
-			{
-				this.PublicOverheadMessage( MessageType.Emote, EmoteHue, false, "*looks furious*" );
-			}
+			this.PublicOverheadMessage( MessageType.Emote, EmoteHue, false, "*looks furious*" );
 
 			if ( bSuccess )
 			{

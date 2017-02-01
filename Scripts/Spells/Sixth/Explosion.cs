@@ -20,7 +20,7 @@ namespace Server.Spells.Sixth
 		{
 		}
 
-		public override bool DelayedDamageStacking { get { return !Core.AOS; } }
+		public override bool DelayedDamageStacking { get { return true; } }
 
 		public override void OnCast()
 		{
@@ -57,7 +57,7 @@ namespace Server.Spells.Sixth
 			private Mobile m_Attacker, m_Defender;
 
 			public InternalTimer( MagerySpell spell, Mobile attacker, Mobile defender, Mobile target )
-				: base( TimeSpan.FromSeconds( Core.AOS ? 3.0 : 2.5 ) )
+				: base( TimeSpan.FromSeconds( 2.5 ) )
 			{
 				m_Spell = spell;
 				m_Attacker = attacker;
@@ -102,8 +102,7 @@ namespace Server.Spells.Sixth
 		{
 			private ExplosionSpell m_Owner;
 
-			public InternalTarget( ExplosionSpell owner )
-				: base( Core.ML ? 10 : 12, false, TargetFlags.Harmful )
+			public InternalTarget( ExplosionSpell owner ) : base( 12, false, TargetFlags.Harmful )
 			{
 				m_Owner = owner;
 			}

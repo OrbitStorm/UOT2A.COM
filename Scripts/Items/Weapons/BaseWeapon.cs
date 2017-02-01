@@ -425,7 +425,7 @@ namespace Server.Items
 			}
 		}
 
-		public virtual bool UseSkillMod{ get{ return !Core.AOS; } }
+		public virtual bool UseSkillMod{ get{ return true; } }
 
 		public override bool OnEquip( Mobile from )
 		{
@@ -727,9 +727,6 @@ namespace Server.Items
 
 		public virtual int AbsorbDamage( Mobile attacker, Mobile defender, int damage )
 		{
-			if ( Core.AOS )
-				return AbsorbDamageAOS( attacker, defender, damage );
-
 			BaseShield shield = defender.FindItemOnLayer( Layer.TwoHanded ) as BaseShield;
 			if ( shield != null )
 				damage = shield.OnHit( this, damage );
@@ -928,7 +925,7 @@ namespace Server.Items
 
 			damage = AbsorbDamage( attacker, defender, damage );
 
-			if ( !Core.AOS && damage < 1 )
+			if ( damage < 1 )
 				damage = 1;
 
 			AddBlood( attacker, defender, damage );
@@ -1096,21 +1093,18 @@ namespace Server.Items
 			if ( atkSlayer != null && atkSlayer.Slays( defender )  || atkSlayer2 != null && atkSlayer2.Slays( defender ) )
 				return CheckSlayerResult.Slayer;
 
-			if ( !Core.SE )
+			ISlayer defISlayer = Spellbook.FindEquippedSpellbook( defender );
+
+			if( defISlayer == null )
+				defISlayer = defender.Weapon as ISlayer;
+
+			if( defISlayer != null )
 			{
-				ISlayer defISlayer = Spellbook.FindEquippedSpellbook( defender );
+				SlayerEntry defSlayer = SlayerGroup.GetEntryByName( defISlayer.Slayer );
+				SlayerEntry defSlayer2 = SlayerGroup.GetEntryByName( defISlayer.Slayer2 );
 
-				if( defISlayer == null )
-					defISlayer = defender.Weapon as ISlayer;
-
-				if( defISlayer != null )
-				{
-					SlayerEntry defSlayer = SlayerGroup.GetEntryByName( defISlayer.Slayer );
-					SlayerEntry defSlayer2 = SlayerGroup.GetEntryByName( defISlayer.Slayer2 );
-
-					if( defSlayer != null && defSlayer.Group.OppositionSuperSlays( attacker ) || defSlayer2 != null && defSlayer2.Group.OppositionSuperSlays( attacker ) )
-						return CheckSlayerResult.Opposition;
-				}
+				if( defSlayer != null && defSlayer.Group.OppositionSuperSlays( attacker ) || defSlayer2 != null && defSlayer2.Group.OppositionSuperSlays( attacker ) )
+					return CheckSlayerResult.Opposition;
 			}
 
 			return CheckSlayerResult.None;
@@ -1122,7 +1116,7 @@ namespace Server.Items
 			{
 				new Blood().MoveToWorld( defender.Location, defender.Map );
 
-				int extraBlood = (Core.SE ? Utility.RandomMinMax( 3, 4 ) : Utility.RandomMinMax( 0, 1 ) );
+				int extraBlood = Utility.RandomMinMax( 0, 1 );
 
 				for( int i = 0; i < extraBlood; i++ )
 				{
@@ -1173,8 +1167,6 @@ namespace Server.Items
 			GetBaseDamageRange( attacker, out min, out max );
 
 			int damage = Utility.RandomMinMax( min, max );
-
-			if ( Core.AOS ) return damage;
 
 			/* Apply damage level offset
 			 * : Regular : 0
@@ -1228,16 +1220,8 @@ namespace Server.Items
 
 			GetBaseDamageRange( from, out baseMin, out baseMax );
 
-			if ( Core.AOS )
-			{
-				min = Math.Max( (int)ScaleDamageAOS( from, baseMin, false ), 1 );
-				max = Math.Max( (int)ScaleDamageAOS( from, baseMax, false ), 1 );
-			}
-			else
-			{
-				min = Math.Max( (int)ScaleDamageOld( from, baseMin, false ), 1 );
-				max = Math.Max( (int)ScaleDamageOld( from, baseMax, false ), 1 );
-			}
+			min = Math.Max( (int)ScaleDamageOld( from, baseMin, false ), 1 );
+			max = Math.Max( (int)ScaleDamageOld( from, baseMax, false ), 1 );
 		}
 
 		public virtual double ScaleDamageAOS( Mobile attacker, double damage, bool checkSkills )
@@ -1341,9 +1325,6 @@ namespace Server.Items
 
 		public virtual int ComputeDamage( Mobile attacker, Mobile defender )
 		{
-			if ( Core.AOS )
-				return ComputeDamageAOS( attacker, defender );
-
 			int damage = (int)ScaleDamageOld( attacker, GetBaseDamage( attacker ), true );
 
 			// pre-AOS, halve damage if the defender is a player or the attacker is not a player

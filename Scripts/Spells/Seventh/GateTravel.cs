@@ -76,7 +76,7 @@ namespace Server.Spells.Seventh
 
 		public void Effect( Point3D loc, Map map, bool checkMulti )
 		{
-			if ( map == null || (!Core.AOS && Caster.Map != map) )
+			if ( map == null || (Caster.Map != map) )
 			{
 				Caster.SendLocalizedMessage( 1005570 ); // You can not gate to another facet.
 			}
@@ -110,10 +110,6 @@ namespace Server.Spells.Seventh
 			{
 				Caster.SendLocalizedMessage( 501942 ); // That location is blocked.
 			}
-			else if ( Core.SE && ( GateExistsAt( map, loc ) || GateExistsAt( Caster.Map, Caster.Location ) ) ) // SE restricted stacking gates
-			{
-				Caster.SendLocalizedMessage( 1071242 ); // There is already a gate there.
-			}
 			else if ( CheckSequence() )
 			{
 				Caster.SendLocalizedMessage( 501024 ); // You open a magical gate to another location
@@ -135,7 +131,7 @@ namespace Server.Spells.Seventh
 		[DispellableField]
 		private class InternalItem : Moongate
 		{
-			public override bool ShowFeluccaWarning{ get{ return Core.AOS; } }
+			public override bool ShowFeluccaWarning{ get{ return false; } }
 
 			public InternalItem( Point3D target, Map map ) : base( target, map )
 			{

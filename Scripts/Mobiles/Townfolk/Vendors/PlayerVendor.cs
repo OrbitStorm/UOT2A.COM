@@ -35,9 +35,6 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				if ( Core.ML )
-					return m_Price.ToString( "N0", CultureInfo.GetCultureInfo( "en-US" ) );
-
 				return m_Price.ToString();
 			}
 		}
@@ -267,8 +264,7 @@ namespace Server.Mobiles
 
 			CantWalk = true;
 
-			if ( !Core.AOS )
-				NameHue = 0x35;
+			NameHue = 0x35;
 
 			InitStats( 100, 100, 25 );
 			InitBody();
@@ -395,9 +391,6 @@ namespace Server.Mobiles
 			m_PayTimer.Start();
 
 			Blessed = false;
-
-			if ( Core.AOS && NameHue == 0x35 )
-				NameHue = -1;
 		}
 
 		private void UpgradeFromVersion0( object newVendorSystem )
@@ -432,8 +425,7 @@ namespace Server.Mobiles
 			Hue = Utility.RandomSkinHue();
 			SpeechHue = 0x3B2;
 
-			if ( !Core.AOS )
-				NameHue = 0x35;
+			NameHue = 0x35;
 
 			if ( this.Female = Utility.RandomBool() )
 			{

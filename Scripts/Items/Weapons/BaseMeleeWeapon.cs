@@ -14,9 +14,6 @@ namespace Server.Items
 		{
 			damage = base.AbsorbDamage( attacker, defender, damage );
 
-			if ( Core.AOS )
-				return damage;
-
 			int absorb = defender.MeleeDamageAbsorb;
 
 			if ( absorb > 0 )

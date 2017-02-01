@@ -393,18 +393,6 @@ namespace Server.Items
 
 		public override void OnRemoved( object parent )
 		{
-			if ( Core.AOS && parent is Mobile )
-			{
-				Mobile from = (Mobile)parent;
-
-				string modName = this.Serial.ToString();
-
-				from.RemoveStatMod( modName + "Str" );
-				from.RemoveStatMod( modName + "Dex" );
-				from.RemoveStatMod( modName + "Int" );
-
-				from.CheckStatTimers();
-			}
 		}
 
 		public bool HasSpell( int spellID )
@@ -450,20 +438,10 @@ namespace Server.Items
 			else
 				to.Send( new DisplaySpellbook( this ) );
 
-			if ( Core.AOS ) {
-				if ( ns.NewSpellbook ) {
-					to.Send( new NewSpellbookContent( this, ItemID, BookOffset + 1, m_Content ) );
-				} else {
-					to.Send( new SpellbookContent( m_Count, BookOffset + 1, m_Content, this ) );
-				}
-			}
-			else {
-				if ( ns.ContainerGridLines ) {
-					to.Send( new SpellbookContent6017( m_Count, BookOffset + 1, m_Content, this ) );
-				} else {
-					to.Send( new SpellbookContent( m_Count, BookOffset + 1, m_Content, this ) );
-				}
-			}
+			if ( ns.ContainerGridLines )
+				to.Send( new SpellbookContent6017( m_Count, BookOffset + 1, m_Content, this ) );
+			else
+				to.Send( new SpellbookContent( m_Count, BookOffset + 1, m_Content, this ) );
 		}
 
 		private Mobile m_Crafter;
@@ -475,7 +453,7 @@ namespace Server.Items
 			set{ m_Crafter = value; InvalidateProperties(); }
 		}
 
-		public override bool DisplayLootType{ get{ return Core.AOS; } }
+		public override bool DisplayLootType{ get{ return false; } }
 
 		public override void GetProperties( ObjectPropertyList list )
 		{

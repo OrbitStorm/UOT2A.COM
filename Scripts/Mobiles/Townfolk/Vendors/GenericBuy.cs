@@ -311,17 +311,7 @@ namespace Server.Mobiles
 					and the stackable items are not found to be over 20 items, this is
 					changed until there is a better solution.
 				*/
-
-				object Obj_Disp = GetDisplayEntity();
-
-				if( Core.ML && Obj_Disp is Item && !( Obj_Disp as Item ).Stackable )
-				{
-					m_MaxAmount = Math.Min( 20, m_MaxAmount );
-				}
-				else
-				{
-					m_MaxAmount = Math.Min( 999, m_MaxAmount * 2 );
-				}
+				m_MaxAmount = Math.Min( 999, m_MaxAmount * 2 );
 			}
 			else
 			{

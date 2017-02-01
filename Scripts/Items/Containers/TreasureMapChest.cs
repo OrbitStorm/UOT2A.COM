@@ -56,61 +56,30 @@ namespace Server.Items
 		{
 			int rnd = Utility.Random( 15 );
 			
-			if ( Core.SE )
+			if ( rnd < 1 )
 			{
-				if ( rnd < 1 )
-				{
-					attributeCount = Utility.RandomMinMax( 3, 5 );
-					min = 50; max = 100;
-				}
-				else if ( rnd < 3 )
-				{
-					attributeCount = Utility.RandomMinMax( 2, 5 );
-					min = 40; max = 80;
-				}
-				else if ( rnd < 6 )
-				{
-					attributeCount = Utility.RandomMinMax( 2, 4 );
-					min = 30; max = 60;
-				}
-				else if ( rnd < 10 )
-				{
-					attributeCount = Utility.RandomMinMax( 1, 3 );
-					min = 20; max = 40;
-				}
-				else
-				{
-					attributeCount = 1;
-					min = 10; max = 20;
-				}
+				attributeCount = Utility.RandomMinMax( 2, 5 );
+				min = 20; max = 70;
+			}
+			else if ( rnd < 3 )
+			{
+				attributeCount = Utility.RandomMinMax( 2, 4 );
+				min = 20; max = 50;
+			}
+			else if ( rnd < 6 )
+			{
+				attributeCount = Utility.RandomMinMax( 2, 3 );
+				min = 20; max = 40;
+			}
+			else if ( rnd < 10 )
+			{
+				attributeCount = Utility.RandomMinMax( 1, 2 );
+				min = 10; max = 30;
 			}
 			else
 			{
-				if ( rnd < 1 )
-				{
-					attributeCount = Utility.RandomMinMax( 2, 5 );
-					min = 20; max = 70;
-				}
-				else if ( rnd < 3 )
-				{
-					attributeCount = Utility.RandomMinMax( 2, 4 );
-					min = 20; max = 50;
-				}
-				else if ( rnd < 6 )
-				{
-					attributeCount = Utility.RandomMinMax( 2, 3 );
-					min = 20; max = 40;
-				}
-				else if ( rnd < 10 )
-				{
-					attributeCount = Utility.RandomMinMax( 1, 2 );
-					min = 10; max = 30;
-				}
-				else
-				{
-					attributeCount = 1;
-					min = 10; max = 20;
-				}
+				attributeCount = 1;
+				min = 10; max = 20;
 			}
 		}
 
@@ -136,40 +105,16 @@ namespace Server.Items
 
 				cont.LockLevel = cont.RequiredSkill - 10;
 				cont.MaxLockLevel = cont.RequiredSkill + 40;
-				
-				//Publish 67 gold change
-				//if ( Core.SA )
-				//	cont.DropItem( new Gold( level * 5000 ) );
-				//else					
-					cont.DropItem( new Gold( level * 1000 ) );
+				cont.DropItem( new Gold( level * 1000 ) );
 
 				for ( int i = 0; i < level * 5; ++i )
 					cont.DropItem( Loot.RandomScroll( 0, 63, SpellbookType.Regular ) );
 
-				if ( Core.SE)
-				{
-					switch ( level )
-					{
-						case 1: numberItems = 5; break;
-						case 2: numberItems = 10; break;
-						case 3: numberItems = 15; break;
-						case 4: numberItems = 38; break;
-						case 5: numberItems = 50; break;
-						case 6: numberItems = 60; break;
-						default: numberItems = 0; break;
-					};
-				}
-				else
-					numberItems = level * 6;
+				numberItems = level * 6;
 				
 				for ( int i = 0; i < numberItems; ++i )
 				{
-					Item item;
-
-					if ( Core.AOS )
-						item = Loot.RandomArmorOrShieldOrWeaponOrJewelry();
-					else
-						item = Loot.RandomArmorOrShieldOrWeapon();
+					Item item = Loot.RandomArmorOrShieldOrWeapon();
 
 					if ( item is BaseWeapon )
 					{

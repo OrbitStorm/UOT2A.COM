@@ -11,18 +11,9 @@ namespace Server.Mobiles
 			"Wrong"
 		};
 
-		private static string[] m_MLDestinations = new string[]
-		{
-			"Cove", "Serpent's Hold", "Jhelom",		// ML List
-			"Nujel'm"
-		};
-
 		public override string[] GetPossibleDestinations()
 		{
-			if ( Core.ML )
-				return m_MLDestinations;
-			else
-				return m_Dungeons;
+			return m_Dungeons;
 		}
 
 		[Constructable]

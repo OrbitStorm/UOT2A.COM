@@ -42,7 +42,7 @@ namespace Server.Items
 		{
 			double damage = base.GetBaseDamage( attacker );
 
-			if ( !Core.AOS && (attacker.Player || attacker.Body.IsHuman) && Layer == Layer.TwoHanded && (attacker.Skills[SkillName.Anatomy].Value / 400.0) >= Utility.RandomDouble() )
+			if ( (attacker.Player || attacker.Body.IsHuman) && Layer == Layer.TwoHanded && (attacker.Skills[SkillName.Anatomy].Value / 400.0) >= Utility.RandomDouble() )
 			{
 				damage *= 1.5;
 

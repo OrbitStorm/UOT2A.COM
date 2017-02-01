@@ -33,23 +33,9 @@ namespace Server.Items
 		public override TimeSpan OnSwing( Mobile attacker, Mobile defender )
 		{
 			// Make sure we've been standing still for .25/.5/1 second depending on Era
-			if ( DateTime.UtcNow > attacker.LastMoveTime + TimeSpan.FromSeconds( Core.SE ? 0.25 : (Core.AOS ? 0.5 : 1.0) ) )
+			if ( DateTime.UtcNow > attacker.LastMoveTime + TimeSpan.FromSeconds( 1.0 ) )
 			{
-				bool canSwing = true;
-
-				if ( Core.AOS )
-				{
-					canSwing = ( !attacker.Paralyzed && !attacker.Frozen );
-
-					if ( canSwing )
-					{
-						Spell sp = attacker.Spell as Spell;
-
-						canSwing = ( sp == null || !sp.IsCasting || !sp.BlocksMovement );
-					}
-				}
-
-				if ( canSwing && attacker.HarmfulCheck( defender ) )
+				if ( attacker.HarmfulCheck( defender ) )
 				{
 					attacker.DisruptiveAction();
 					attacker.Send( new Swing( 0, attacker, defender ) );
@@ -87,31 +73,7 @@ namespace Server.Items
 		{
 			if ( attacker.Player && 0.4 >= Utility.RandomDouble() )
 			{
-				if ( Core.SE )
-				{
-					PlayerMobile p = attacker as PlayerMobile;
-
-					if ( p != null )
-					{
-						Type ammo = AmmoType;
-
-						if ( p.RecoverableAmmo.ContainsKey( ammo ) )
-							p.RecoverableAmmo[ ammo ]++;
-						else
-							p.RecoverableAmmo.Add( ammo, 1 );
-
-						if ( !p.Warmode )
-						{
-							if ( m_RecoveryTimer == null )
-								m_RecoveryTimer = Timer.DelayCall( TimeSpan.FromSeconds( 10 ), new TimerCallback( p.RecoverAmmo ) );
-
-							if ( !m_RecoveryTimer.Running )
-								m_RecoveryTimer.Start();
-						}
-					}
-				} else {
-					Ammo.MoveToWorld( new Point3D( defender.X + Utility.RandomMinMax( -1, 1 ), defender.Y + Utility.RandomMinMax( -1, 1 ), defender.Z ), defender.Map );
-				}
+				Ammo.MoveToWorld( new Point3D( defender.X + Utility.RandomMinMax( -1, 1 ), defender.Y + Utility.RandomMinMax( -1, 1 ), defender.Z ), defender.Map );
 			}
 
 			base.OnMiss( attacker, defender );

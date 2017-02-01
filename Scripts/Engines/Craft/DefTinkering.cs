@@ -275,7 +275,7 @@ namespace Server.Engines.Craft
 
 			MarkOption = true;
 			Repair = true;
-			CanEnhance = Core.AOS;
+			CanEnhance = false;
 		}
 	}
 

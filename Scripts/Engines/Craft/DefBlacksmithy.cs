@@ -298,7 +298,7 @@ namespace Server.Engines.Craft
 			Resmelt = true;
 			Repair = true;
 			MarkOption = true;
-			CanEnhance = Core.AOS;
+			CanEnhance = false;
 		}
 	}
 

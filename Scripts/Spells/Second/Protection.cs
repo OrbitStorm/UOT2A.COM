@@ -25,10 +25,7 @@ namespace Server.Spells.Second
 
 		public override bool CheckCast()
 		{
-			if ( Core.AOS )
-				return true;
-
-			if ( m_Registry.ContainsKey( Caster ) )
+    		if ( m_Registry.ContainsKey( Caster ) )
 			{
 				Caster.SendLocalizedMessage( 1005559 ); // This spell is already in effect.
 				return false;

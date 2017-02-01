@@ -81,10 +81,7 @@ namespace Server.SkillHandlers
 					}
 					else // Target can't be poisoned
 					{
-						if ( Core.AOS )
-							from.SendLocalizedMessage( 1060204 ); // You cannot poison that! You can only poison infectious weapons, food or drink.
-						else
-							from.SendLocalizedMessage( 502145 ); // You cannot poison that! You can only poison bladed or piercing weapons, food or drink.
+						from.SendLocalizedMessage( 502145 ); // You cannot poison that! You can only poison bladed or piercing weapons, food or drink.
 					}
 				}
 

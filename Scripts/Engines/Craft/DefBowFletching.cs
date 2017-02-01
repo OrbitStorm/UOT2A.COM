@@ -108,7 +108,7 @@ namespace Server.Engines.Craft
 			AddCraft( typeof( HeavyCrossbow ), 1044566, 1025117, 80.0, 120.0, typeof( Log ), 1044041, 10, 1044351 );
 
 			MarkOption = true;
-			Repair = Core.AOS;
+			Repair = false;
 		}
 	}
 }

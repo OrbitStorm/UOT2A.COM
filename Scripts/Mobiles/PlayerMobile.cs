@@ -377,49 +377,6 @@ namespace Server.Mobiles
 
 		public void RecoverAmmo()
 		{
-			if ( Core.SE && Alive )
-			{
-				foreach ( KeyValuePair<Type, int> kvp in m_RecoverableAmmo )
-				{
-					if ( kvp.Value > 0 )
-					{
-						Item ammo = null;
-
-						try
-						{
-							ammo = Activator.CreateInstance( kvp.Key ) as Item;
-						}
-						catch
-						{
-						}
-
-						if ( ammo != null )
-						{
-							string name = ammo.Name;
-							ammo.Amount = kvp.Value;
-
-							if ( name == null )
-							{
-								if ( ammo is Arrow )
-									name = "arrow";
-								else if ( ammo is Bolt )
-									name = "bolt";
-							}
-
-							if ( name != null && ammo.Amount > 1 )
-								name = String.Format( "{0}s", name );
-
-							if ( name == null )
-								name = String.Format( "#{0}", ammo.LabelNumber );
-
-							PlaceInBackpack( ammo );
-							SendLocalizedMessage( 1073504, String.Format( "{0}\t{1}", ammo.Amount, name ) ); // You recover ~1_NUM~ ~2_AMMO~.
-						}
-					}
-				}
-
-				m_RecoverableAmmo.Clear();
-			}
 		}
 
 		#endregion
@@ -494,22 +451,6 @@ namespace Server.Mobiles
 		{
 			if ( !base.OnDroppedItemToWorld( item, location ) )
 				return false;
-
-			if ( Core.AOS )
-			{
-				IPooledEnumerable mobiles = Map.GetMobilesInRange( location, 0 );
-
-				foreach ( Mobile m in mobiles )
-				{
-					if ( m.Z >= location.Z && m.Z < location.Z + 16 && ( !m.Hidden || m.AccessLevel == AccessLevel.Player ) )
-					{
-						mobiles.Free();
-						return false;
-					}
-				}
-
-				mobiles.Free();
-			}
 
 			BounceInfo bi = item.GetBounce();
 
@@ -613,30 +554,8 @@ namespace Server.Mobiles
 			EventSink.Logout += new LogoutEventHandler( OnLogout );
 			EventSink.Connected += new ConnectedEventHandler( EventSink_Connected );
 			EventSink.Disconnected += new DisconnectedEventHandler( EventSink_Disconnected );
-
-			if( Core.SE )
-			{
-				Timer.DelayCall( TimeSpan.Zero, new TimerCallback( CheckPets ) );
-			}
 		}
-
-		private static void CheckPets()
-		{
-			foreach( Mobile m in World.Mobiles.Values )
-			{
-				if( m is PlayerMobile )
-				{
-					PlayerMobile pm = (PlayerMobile)m;
-
-					if((( !pm.Mounted || ( pm.Mount != null && pm.Mount is EtherealMount )) && ( pm.AllFollowers.Count > pm.AutoStabled.Count )) ||
-						( pm.Mounted && ( pm.AllFollowers.Count  > ( pm.AutoStabled.Count +1 ))))
-					{
-						pm.AutoStablePets(); /* autostable checks summons, et al: no need here */
-					}
-				}
-			}
-		}
-
+        
 		private MountBlock m_MountBlock;
 
 		public BlockMountType MountBlockReason
@@ -751,9 +670,6 @@ namespace Server.Mobiles
 				from.SendGump( new NoticeGump( 1060637, 30720, notice, 0xFFC000, 300, 140, null, null ) );
 				return;
 			}
-
-			if( from is PlayerMobile )
-				((PlayerMobile)from).ClaimAutoStabledPets();
 		}
 
 		private bool m_NoDeltaRecursion;
@@ -945,8 +861,6 @@ namespace Server.Mobiles
 
 		private static void OnLogout( LogoutEventArgs e )
 		{
-			if( e.Mobile is PlayerMobile )
-				((PlayerMobile)e.Mobile).AutoStablePets();
 		}
 
 		private static void EventSink_Connected( ConnectedEventArgs e )
@@ -1160,9 +1074,6 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				if( Core.ML && this.AccessLevel == AccessLevel.Player )
-					return Math.Min( base.Str, 150 );
-
 				return base.Str;
 			}
 			set
@@ -1176,9 +1087,6 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				if( Core.ML && this.AccessLevel == AccessLevel.Player )
-					return Math.Min( base.Int, 150 );
-
 				return base.Int;
 			}
 			set
@@ -1192,9 +1100,6 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				if( Core.ML && this.AccessLevel == AccessLevel.Player )
-					return Math.Min( base.Dex, 150 );
-
 				return base.Dex;
 			}
 			set
@@ -1572,14 +1477,7 @@ namespace Server.Mobiles
 
 		public override void OnDamage( int amount, Mobile from, bool willKill )
 		{
-			int disruptThreshold;
-
-			if ( !Core.AOS )
-				disruptThreshold = 0;
-			else if ( from != null && from.Player )
-				disruptThreshold = 18;
-			else
-				disruptThreshold = 25;
+			int disruptThreshold = 0;
 
 			if ( amount > disruptThreshold )
 			{
@@ -1616,9 +1514,6 @@ namespace Server.Mobiles
 		{
 			get
 			{
-				if( Core.ML && this.Race == Race.Human )
-					return 20.0;
-
 				return 0;
 			}
 		}
@@ -1656,16 +1551,6 @@ namespace Server.Mobiles
 				state.CancelAllTrades();
 
 			DropHolding();
-
-			if (Core.AOS && Backpack != null && !Backpack.Deleted)
-			{
-				List<Item> ilist = Backpack.FindItemsByType<Item>(FindItems_Callback);
-
-				for (int i = 0; i < ilist.Count; i++)
-				{
-					Backpack.AddItem(ilist[i]);
-				}
-			}
 
 			m_EquipSnapshot = new List<Item>( this.Items );
 
@@ -1881,20 +1766,6 @@ namespace Server.Mobiles
 			if ( Alive )
 				return false;
 
-			if ( Core.ML && Skills[SkillName.SpiritSpeak].Value >= 100.0 )
-				return false;
-
-			if ( Core.AOS )
-			{
-				for ( int i = 0; i < hears.Count; ++i )
-				{
-					Mobile m = hears[i];
-
-					if ( m != this && m.Skills[SkillName.SpiritSpeak].Value >= 100.0 )
-						return false;
-				}
-			}
-
 			return base.MutateSpeech( hears, ref text, ref context );
 		}
 
@@ -1985,9 +1856,6 @@ namespace Server.Mobiles
 			}
 
 			if ( target is BaseCreature && ((BaseCreature)target).InitialInnocent && !((BaseCreature)target).Controlled )
-				return false;
-
-			if ( Core.ML && target is BaseCreature && ((BaseCreature)target).Controlled && this == ((BaseCreature)target).ControlMaster )
 				return false;
 
 			return base.IsHarmfulCriminal( target );
@@ -2370,58 +2238,6 @@ namespace Server.Mobiles
 			BaseHouse.HandleDeletion( this );
 
 			DisguiseTimers.RemoveTimer( this );
-		}
-
-		public override void GetProperties( ObjectPropertyList list )
-		{
-			base.GetProperties( list );
-
-			if ( Core.ML )
-			{
-				for ( int i = AllFollowers.Count - 1; i >= 0; i-- )
-				{
-					BaseCreature c = AllFollowers[ i ] as BaseCreature;
-
-					if ( c != null && c.ControlOrder == OrderType.Guard )
-					{
-						list.Add( 501129 ); // guarded
-						break;
-					}
-				}
-			}
-		}
-
-		protected override bool OnMove( Direction d )
-		{
-			if( !Core.SE )
-				return base.OnMove( d );
-
-			if( AccessLevel != AccessLevel.Player )
-				return true;
-
-			if( Hidden && DesignContext.Find( this ) == null )	//Hidden & NOT customizing a house
-			{
-				if( !Mounted && Skills.Stealth.Value >= 25.0 )
-				{
-					bool running = (d & Direction.Running) != 0;
-
-					if( running )
-					{
-						if( (AllowedStealthSteps -= 2) <= 0 )
-							RevealingAction();
-					}
-					else if( AllowedStealthSteps-- <= 0 )
-					{
-						Server.SkillHandlers.Stealth.OnUse( this );
-					}
-				}
-				else
-				{
-					RevealingAction();
-				}
-			}
-
-			return true;
 		}
 
 		private bool m_BedrollLogout;
@@ -2849,108 +2665,5 @@ namespace Server.Mobiles
 		}
 
 		#endregion
-
-		public void AutoStablePets()
-		{
-			if ( Core.SE && AllFollowers.Count > 0 )
-			{
-				for ( int i = m_AllFollowers.Count - 1; i >= 0; --i )
-				{
-					BaseCreature pet = AllFollowers[i] as BaseCreature;
-
-					if (pet == null || pet.ControlMaster == null)
-						continue;
-
-					if (pet.Summoned)
-					{
-						if (pet.Map != Map)
-						{
-							pet.PlaySound( pet.GetAngerSound() );
-							Timer.DelayCall( TimeSpan.Zero, new TimerCallback( pet.Delete ) );
-						}
-						continue;
-					}
-
-					if ( pet is IMount && ((IMount)pet).Rider != null )
-						continue;
-
-					if ( (pet is PackLlama || pet is PackHorse ) && (pet.Backpack != null && pet.Backpack.Items.Count > 0) )
-						continue;
-
-					if ( pet is BaseEscortable )
-						continue;
-
-					pet.ControlTarget = null;
-					pet.ControlOrder = OrderType.Stay;
-					pet.Internalize();
-
-					pet.SetControlMaster( null );
-					pet.SummonMaster = null;
-
-					pet.IsStabled = true;
-					pet.StabledBy = this;
-
-					pet.Loyalty = BaseCreature.MaxLoyalty; // Wonderfully happy
-
-					Stabled.Add( pet );
-					m_AutoStabled.Add( pet );
-				}
-			}
-		}
-
-		public void ClaimAutoStabledPets()
-		{
-			if ( !Core.SE || m_AutoStabled.Count <= 0 )
-				return;
-
-			if ( !Alive )
-			{
-				SendLocalizedMessage( 1076251 ); // Your pet was unable to join you while you are a ghost.  Please re-login once you have ressurected to claim your pets.
-				return;
-			}
-
-			for ( int i = m_AutoStabled.Count - 1; i >= 0; --i )
-			{
-				BaseCreature pet = m_AutoStabled[i] as BaseCreature;
-
-				if ( pet == null || pet.Deleted )
-				{
-					pet.IsStabled = false;
-					pet.StabledBy = null;
-
-					if ( Stabled.Contains( pet ) )
-						Stabled.Remove( pet );
-
-					continue;
-				}
-
-				if ( (Followers + pet.ControlSlots) <= FollowersMax )
-				{
-					pet.SetControlMaster( this );
-
-					if ( pet.Summoned )
-						pet.SummonMaster = this;
-
-					pet.ControlTarget = this;
-					pet.ControlOrder = OrderType.Follow;
-
-					pet.MoveToWorld( Location, Map );
-
-					pet.IsStabled = false;
-					pet.StabledBy = null;
-
-					pet.Loyalty = BaseCreature.MaxLoyalty; // Wonderfully Happy
-
-					if ( Stabled.Contains( pet ) )
-						Stabled.Remove( pet );
-				}
-				else
-				{
-					SendLocalizedMessage( 1049612, pet.Name ); // ~1_NAME~ remained in the stables because you have too many followers.
-				}
-			}
-
-			m_AutoStabled.Clear();
-		}
 	}
 }

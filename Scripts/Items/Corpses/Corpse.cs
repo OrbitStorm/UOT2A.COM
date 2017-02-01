@@ -95,10 +95,7 @@ namespace Server.Items
 		{
 			get
 			{
-				if ( !Core.SE )
-					return false;
-
-				return ( DateTime.UtcNow < (m_TimeOfDeath + InstancedCorpseTime) );
+				return false;
 			}
 		}
 
@@ -476,26 +473,7 @@ namespace Server.Items
 				for ( int i = 0; i < initialContent.Count; ++i )
 				{
 					Item item = initialContent[i];
-
-					if ( Core.AOS && owner.Player && item.Parent == owner.Backpack )
-						c.AddItem( item );
-					else
-						c.DropItem( item );
-
-					if ( owner.Player && Core.AOS )
-						c.SetRestoreInfo( item, item.Location );
-				}
-
-				if ( Core.SE && !owner.Player )
-				{
-					c.AssignInstancedLoot();
-				}
-				else if ( Core.AOS )
-				{
-					PlayerMobile pm = owner as PlayerMobile;
-
-					if ( pm != null )
-						c.RestoreEquip = pm.EquipSnapshot;
+					c.DropItem( item );
 				}
 			}
 
@@ -1107,7 +1085,7 @@ namespace Server.Items
 
 		public override void OnDoubleClick( Mobile from )
 		{
-			Open( from, Core.AOS );
+			Open( from, false );
 		}
 
 		public override bool CheckContentDisplay( Mobile from )

@@ -7,7 +7,7 @@ namespace Server.Spells.Second
 		private static SpellInfo m_Info = new SpellInfo(
 				"Harm", "An Mani",
 				212,
-				Core.AOS ? 9001 : 9041,
+				9041,
 				Reagent.Nightshade,
 				Reagent.SpidersSilk
 			);
@@ -60,16 +60,8 @@ namespace Server.Spells.Second
 				else if ( !m.InRange( Caster, 1 ) )
 					damage *= 0.50; // 1/2 damage at 2 tile range
 
-				if ( Core.AOS )
-				{
-					m.FixedParticles( 0x374A, 10, 30, 5013, 1153, 2, EffectLayer.Waist );
-					m.PlaySound( 0x0FC );
-				}
-				else
-				{
-					m.FixedParticles( 0x374A, 10, 15, 5013, EffectLayer.Waist );
-					m.PlaySound( 0x1F1 );
-				}
+				m.FixedParticles( 0x374A, 10, 15, 5013, EffectLayer.Waist );
+				m.PlaySound( 0x1F1 );
 
 				SpellHelper.Damage( this, m, damage, 0, 0, 100, 0, 0 );
 			}
@@ -81,7 +73,7 @@ namespace Server.Spells.Second
 		{
 			private HarmSpell m_Owner;
 
-			public InternalTarget( HarmSpell owner ) : base( Core.ML ? 10 : 12, false, TargetFlags.Harmful )
+			public InternalTarget( HarmSpell owner ) : base( 12, false, TargetFlags.Harmful )
 			{
 				m_Owner = owner;
 			}

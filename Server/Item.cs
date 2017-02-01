@@ -980,13 +980,7 @@ namespace Server
 		{
 			get
 			{
-				if ( !Core.ML )
-					return false;
-
-				if ( !Movable && !( IsLockedDown || IsSecure ) && ItemData.Weight == 255 )
-					return false;
-
-				return true;
+				return false;
 			} 
 		}
 

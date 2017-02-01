@@ -99,27 +99,14 @@ namespace Server.Items
 			abyss.Opposition = new SlayerGroup[]{ elemental, fey };
 			abyss.FoundOn = new Type[]{ typeof( BloodElemental ) };
 
-			if( Core.AOS )
-			{
-				abyss.Super = new SlayerEntry( SlayerName.Exorcism, typeof( Balron ), typeof( Daemon ), typeof( Gargoyle ), typeof( IceFiend ), typeof( Imp ), typeof( StoneGargoyle ) );
-	
-				abyss.Entries = new SlayerEntry[]
-					{
-						// Daemon Dismissal & Balron Damnation have been removed and moved up to super slayer on OSI.
-						new SlayerEntry( SlayerName.GargoylesFoe, typeof( Gargoyle ), typeof( StoneGargoyle ) ),
-					};
-			}
-			else
-			{
-				abyss.Super = new SlayerEntry( SlayerName.Exorcism, typeof( Balron ), typeof( Daemon ), typeof( Gargoyle ), typeof( IceFiend ), typeof( Imp ), typeof( StoneGargoyle ) );
+			abyss.Super = new SlayerEntry( SlayerName.Exorcism, typeof( Balron ), typeof( Daemon ), typeof( Gargoyle ), typeof( IceFiend ), typeof( Imp ), typeof( StoneGargoyle ) );
 
-				abyss.Entries = new SlayerEntry[]
-					{
-						new SlayerEntry( SlayerName.DaemonDismissal, typeof( Balron ), typeof( Daemon ), typeof( IceFiend ), typeof( Imp ) ),
-						new SlayerEntry( SlayerName.GargoylesFoe, typeof( Gargoyle ), typeof( StoneGargoyle ) ),
-						new SlayerEntry( SlayerName.BalronDamnation, typeof( Balron ) )
-					};
-			}
+			abyss.Entries = new SlayerEntry[]
+				{
+					new SlayerEntry( SlayerName.DaemonDismissal, typeof( Balron ), typeof( Daemon ), typeof( IceFiend ), typeof( Imp ) ),
+					new SlayerEntry( SlayerName.GargoylesFoe, typeof( Gargoyle ), typeof( StoneGargoyle ) ),
+					new SlayerEntry( SlayerName.BalronDamnation, typeof( Balron ) )
+				};
 
 			arachnid.Opposition = new SlayerGroup[]{ reptilian };
 			arachnid.FoundOn = new Type[]{ typeof( AncientWyrm ), typeof( Dragon ), typeof( OphidianMatriarch ) };

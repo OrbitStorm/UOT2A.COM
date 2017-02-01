@@ -22,9 +22,6 @@ namespace Server.Spells.Fifth
 
 		public override bool CheckCast()
 		{
-			if ( Core.AOS )
-				return true;
-
 			if ( Caster.MagicDamageAbsorb > 0 )
 			{
 				Caster.SendLocalizedMessage( 1005559 ); // This spell is already in effect.

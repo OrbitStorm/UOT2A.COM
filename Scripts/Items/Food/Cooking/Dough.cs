@@ -7,7 +7,7 @@ namespace Server.Items
         [Constructable]
         public Dough() : base( 0x103d )
         {
-            Stackable = Core.ML;
+            Stackable = false;
             Weight = 1.0;
         }
 

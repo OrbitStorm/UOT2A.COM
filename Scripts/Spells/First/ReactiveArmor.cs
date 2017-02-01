@@ -22,9 +22,6 @@ namespace Server.Spells.First
 
 		public override bool CheckCast()
 		{
-			if ( Core.AOS )
-				return true;
-
 			if ( Caster.MeleeDamageAbsorb > 0 )
 			{
 				Caster.SendLocalizedMessage( 1005559 ); // This spell is already in effect.

@@ -9,7 +9,7 @@ namespace Server.Spells.Fourth
 	{
 		private static SpellInfo m_Info = new SpellInfo(
 				"Arch Protection", "Vas Uus Sanct",
-				Core.AOS ? 239 : 215,
+				215,
 				9011,
 				Reagent.Garlic,
 				Reagent.Ginseng,
@@ -46,7 +46,7 @@ namespace Server.Spells.Fourth
 
 				if ( map != null )
 				{
-					IPooledEnumerable eable = map.GetMobilesInRange( new Point3D( p ), Core.AOS ? 2 : 3 );
+					IPooledEnumerable eable = map.GetMobilesInRange( new Point3D( p ), 3 );
 
 					foreach ( Mobile m in eable )
 					{
@@ -129,7 +129,7 @@ namespace Server.Spells.Fourth
 		{
 			private ArchProtectionSpell m_Owner;
 
-			public InternalTarget( ArchProtectionSpell owner ) : base( Core.ML ? 10 : 12, true, TargetFlags.None )
+			public InternalTarget( ArchProtectionSpell owner ) : base( 12, true, TargetFlags.None )
 			{
 				m_Owner = owner;
 			}

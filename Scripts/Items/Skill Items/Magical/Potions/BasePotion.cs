@@ -52,7 +52,7 @@ namespace Server.Items
 		{
 			m_PotionEffect = effect;
 
-			Stackable = Core.ML;
+			Stackable = false;
 			Weight = 1.0;
 		}
 
@@ -143,7 +143,7 @@ namespace Server.Items
 			}
 
 			if( version ==  0 )
-				Stackable = Core.ML;
+				Stackable = false;
 		}
 
 		public abstract void Drink( Mobile from );
